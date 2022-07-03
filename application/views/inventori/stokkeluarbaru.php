@@ -23,7 +23,7 @@
                                         autocomplete="off">
                                 </div>
                             </div>
-                            <div class="col-md-5 col-sm-5">
+                            <div class="col-md-5 col-sm-6">
                                 <div class="row">
                                     <!-- Earnings (Monthly) Card Example -->
                                     <div class=" col-sm col-md col-lg mb-3">
