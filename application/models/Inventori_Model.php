@@ -36,10 +36,10 @@ class Inventori_Model extends CI_Model
     {
         $data = [
             'id_supplier' => $this->input->post('supplier', true),
-            'tanggal_pembelian' => $this->input->post('tgl_beli', true),
-            'status' => $this->input->post('status', true),
+            'tanggal_pembelian' => $this->input->post('tgl_pembelian', true),
+            'status' => $this->input->post('status_pembelian', true),
             'no_pembelian' => $this->input->post('no_pembelian', true),
-            'catatan_pembelian' => $this->input->post('catatan', true),
+            'catatan_pembelian' => $this->input->post('catatan_pembelian', true),
         ];
         // dd($data);
         $this->db->insert('stok_masuk', $data);
@@ -51,8 +51,7 @@ class Inventori_Model extends CI_Model
         $query = "SELECT `stok_masuk`.*, `supplier`.`nama` as nama_supplier
                   FROM stok_masuk JOIN supplier
                   ON `stok_masuk`.`id` = `supplier`.`id`
-                  ORDER BY `stok_masuk`.`no_pembelian` ASC
-         ";
+                  ORDER BY `stok_masuk`.`no_pembelian` ASC";
         return $this->db->query($query)->result_array();
     }
     public function countStokMasuk()
@@ -60,13 +59,8 @@ class Inventori_Model extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $today = date('Y-m-d');
 
-        // dd($today);
-
         $query = "SELECT `stok_masuk`.`created_at`,COUNT(`stok_masuk`.`id`) as jumlah_stokmasuk
                   FROM `stok_masuk`WHERE `stok_masuk`.`created_at` = '$today'";
-
-        // $query = "SELECT `stok_masuk`.`created_at`
-        //           FROM `stok_masuk`";
 
         return $this->db->query($query)->row();
 
@@ -75,6 +69,35 @@ class Inventori_Model extends CI_Model
     public function getStokMasuk($id)
     {
 
+    }
+
+    public function getAllStokKeluar()
+    {
+        $query = "SELECT `stok_keluar`.*
+        FROM stok_keluar ORDER BY `stok_keluar`.`tanggal_keluar` ASC";
+
+        return $this->db->query($query)->result_array();
+    }
+
+    public function countStokKeluar()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $today = date('Y-m-d');
+
+        $query = "SELECT `stok_keluar`.`created_at`,COUNT(`stok_keluar`.`id`) as jumlah_stokkeluar
+                  FROM `stok_keluar`WHERE `stok_keluar`.`created_at` = '$today'";
+
+        return $this->db->query($query)->row();
+    }
+    public function insertStokKeluar()
+    {
+        $data = [
+            'no_keluar' => $this->input->post('no_keluar', true),
+            'tanggal_keluar' => $this->input->post('tgl_keluar', true),
+            'catatan_keluar' => $this->input->post('catatan_keluar', true),
+        ];
+        // ej($data);
+        $this->db->insert('stok_keluar', $data);
     }
 
 }

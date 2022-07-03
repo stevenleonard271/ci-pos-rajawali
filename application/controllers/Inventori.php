@@ -112,6 +112,10 @@ class Inventori extends CI_Controller
             'required' => 'Supplier wajib diisi',
         ]);
 
+        $this->form_validation->set_rules('catatan_pembelian', 'Catatan pembelian', "required", [
+            'required' => 'Catatan pembelian wajib diisi',
+        ]);
+
         $data['countReceipt'] = $this->inventori->countStokMasuk()->jumlah_stokmasuk;
         $this->load->model('Produk_model', 'produk');
         $data['produk'] = $this->produk->getAllProduk();
@@ -125,6 +129,50 @@ class Inventori extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Catatan stok masuk ditambah </div>');
             redirect('inventori/stokmasuk');
+        }
+
+    }
+
+    public function stokkeluar()
+    {
+
+        $data['title'] = 'Stok Keluar';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
+
+        $data['content'] = 'inventori/stokkeluar';
+
+        $data['stokkeluar'] = $this->inventori->getAllStokKeluar();
+
+        $this->load->view('layout', $data);
+    }
+
+    public function stokkeluarBaru()
+    {
+        $data['title'] = 'Stok Keluar';
+        $data['subTitle'] = 'Tambah Catatan Stok Keluar';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
+
+        $data['content'] = 'inventori/stokkeluarbaru';
+        $this->load->model('Produk_model', 'produk');
+        $data['produk'] = $this->produk->getAllProduk();
+
+        $data['countReceipt'] = $this->inventori->countStokKeluar()->jumlah_stokkeluar;
+
+        $this->form_validation->set_rules('catatan_keluar', 'Catatan Keluar', "required", [
+            'required' => 'Catatan keluar wajib diisi',
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('layout', $data);
+        } else {
+            $this->inventori->insertStokKeluar();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Catatan stok keluar ditambah </div>');
+            redirect('inventori/stokkeluar');
         }
 
     }

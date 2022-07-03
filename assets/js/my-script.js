@@ -200,11 +200,18 @@ $(function () {
 
 	//Tambah Produk di Catatan Stok Masuk
 	$("#tambah_produk").on("click", function () {
-		$("#mama").clone().insertAfter("#mama");
-		 var cloneCount = 1;
-   $("button").click(function(){
-      $("#id").clone().attr('id', 'id'+ cloneCount++).insertAfter("#id");
-   }); 
+		// get the last DIV which ID starts with ^= "form_produk_masuk"
+		var $div = $('div[id^="form_produk_masuk"]:last');
+
+		// Read the Number from that DIV's ID (i.e: 3 from "klon3")
+		// And increment that number by 1
+		var num = parseInt($div.prop("id").match(/\d+/g), 10) + 1;
+
+		// Clone it and assign the new ID (i.e: from num 4 to ID "klon4")
+		var $klon = $div.clone().prop("id", "form_produk_masuk" + num);
+
+		// Finally insert $klon wherever you want
+		$div.after($klon);
 	});
 
 	//Change #laba when #harga_beli changed

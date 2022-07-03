@@ -60,30 +60,30 @@
  <!-- Custom scripts for all pages-->
  <script src="<?=base_url('assets/');?>js/sb-admin-2.min.js"></script>
  <script src="<?=base_url('assets/');?>js/my-script.js"></script>
+ <script src="<?=base_url('assets/');?>js/pagination.js"></script>
+ <script src="<?=base_url('assets/');?>js/plugins.js"></script>
  <script src="<?=base_url('assets/');?>js/select2.js"></script>
  <script src="<?=base_url('assets/');?>js/jquery.nicescroll.js"></script>
 
 
 
- <!-- Select 2 js -->
-
 
  <script>
 // mengganti nama file foto yang terkirim
-$('.custom-file-input').on('change', function() {
-    let fileName = $(this).val().split('//').pop();
-    $(this).next('.custom-file-label').addClass("selected").html(fileName);
+$(".custom-file-input").on("change", function() {
+    let fileName = $(this).val().split("//").pop();
+    $(this).next(".custom-file-label").addClass("selected").html(fileName);
 });
 
 //Script checkbox pada hak akses user
-$('#change-access.form-check-input').on('click', function() {
+$("#change-access.form-check-input").on("click", function() {
     //mendapatkan data dari data-menu dan data-role
-    const menuId = $(this).data('menu');
-    const roleId = $(this).data('role');
+    const menuId = $(this).data("menu");
+    const roleId = $(this).data("role");
 
     $.ajax({
         url: "<?=base_url('admin/changeaccess');?>",
-        type: 'post',
+        type: "post",
         data: {
             menuId: menuId,
             roleId: roleId,
@@ -91,98 +91,8 @@ $('#change-access.form-check-input').on('click', function() {
         success: function() {
             //mengarahkan ke method ini
             document.location.href = "<?=base_url('admin/roleaccess/');?>" + roleId;
-        }
+        },
     });
-});
-
-$(document).ready(function() {
-
-
-    //Pagination Data Table
-    $('table.display').DataTable({
-        order: [
-            [0, 'asc']
-        ],
-        // stateSave: true,
-        // "bDestroy": true,
-        searching: false,
-        paging: false,
-        info: false
-    });
-
-    $('.table').DataTable({
-        order: [
-            [0, 'asc']
-        ],
-        stateSave: true,
-        "bDestroy": true,
-        pageLength: 5,
-        lengthMenu: [5, 10, 20, 25],
-    });
-
-
-    //show and hide running out stock
-    $('.close').click(function() {
-        $('#newsHeading').parent().slideUp();
-    });
-
-    $('#lihatData').click(function() {
-        $('#newsHeading').parent().slideDown();
-    });
-
-
-
-});
-
-$(document).ready(function() {
-
-    // $('#myhiddentextfield').show();
-    //Select 2
-    $('#select_kategori.form-control').select2({
-        placeholder: "Pilih Kategori",
-        width: '100%'
-    });
-
-    $('#select_supplier.form-control').select2({
-        placeholder: "Pilih Supplier",
-        width: '100%'
-    });
-    $('#select_produk.form-control').select2({
-        placeholder: "Pilih Produk",
-        width: '100%',
-
-
-    });
-
-
-});
-
-$('#tgl_beli').datepicker({
-    format: "yyyy-mm-dd",
-    autoclose: true,
-    orientation: "top",
-    endDate: "today",
-    // onSelect: function() {
-    //     alert()
-    // },
-
-});
-
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
-
-today = yyyy + '/' + mm + '/' + dd;
-
-$('#tgl_beli').val(today);
-$("#tgl_beli").on("change", function() {
-    var selected = $(this).val();
-    // console.log(selected);
-});
-
-$(function() {
-    $("body").niceScroll();
 });
  </script>
 

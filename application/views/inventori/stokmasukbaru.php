@@ -30,14 +30,14 @@
                                     <?=form_error('supplier', ' <small class="text-danger"> ', '</small>');?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="tgl_beli">Tanggal Pembelian</label>
-                                    <input type="text" class="form-control date" id="tgl_beli" name="tgl_beli"
+                                    <label for="tgl_pembelian">Tanggal Pembelian</label>
+                                    <input type="text" class="form-control date" id="tgl_pembelian" name="tgl_pembelian"
                                         autocomplete="off">
                                     <?=form_error('tanggal_beli', ' <small class="text-danger"> ', '</small>');?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <select name="status" id="select_status" class="form-control">
+                                    <label for="status_pembelian">Status</label>
+                                    <select name="status_pembelian" id="status_pembelian" class="form-control">
                                         <option value="Lunas">Lunas</option>
                                         <option value="Hutang">Hutang</option>
                                     </select>
@@ -92,7 +92,8 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="catatan">Catatan Pembelian</label>
-                                    <textarea class="form-control" name="catatan" id="catatan" rows="3"></textarea>
+                                    <textarea class="form-control" name="catatan_pembelian" id="catatan_pembelian"
+                                        rows="3"></textarea>
                                 </div>
                             </div>
 
@@ -119,9 +120,9 @@
                                     <b>Harga Total</b>
                                 </div>
                             </div>
-                            <div class="row border-bottom p-2 align-items-center" id="mama">
+                            <div class="row border-bottom p-2 align-items-center" id="form_produk_masuk1">
                                 <div class="col-5 pl-0 ">
-                                    <select name="produk" id="select_produk" class="form-control">
+                                    <select id="select_produk" name="select_produk[]" class="form-control">
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p): ?>
                                         <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
@@ -129,15 +130,15 @@
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="jumlah_produk" name="jumlah_produk"
+                                    <input type="number" class="form-control" id="jumlah_produk" name="jumlah_produk[]"
                                         autocomplete="off">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="harga_produk" name="harga_produk"
+                                    <input type="number" class="form-control" id="harga_produk" name="harga_produk[]"
                                         autocomplete="off">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="total_produk" name="total_produk"
+                                    <input type="number" class="form-control" id="total_produk" name="total_produk[]"
                                         autocomplete="off">
                                 </div>
                             </div>
