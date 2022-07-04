@@ -198,6 +198,40 @@ $(function () {
 		});
 	});
 
+	//Add Pelanggan
+	$(".tombolTambahPelanggan").on("click", function () {
+		$("#newPelangganModalLabel").html("Tambah Pelanggan");
+		$(".modal-footer button[type=submit]").html("Tambah");
+		$("#pelanggan").val("");
+		$("#no_pelanggan").val("");
+	});
+
+	//Edit Pelanggan from Add Pelanggan
+	$(".tampilModalUbahPelanggan").on("click", function () {
+		$("#newPelangganModalLabel").html("Edit Pelanggan ");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/pos-rajawali/others/ubahPelanggan"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/pos-rajawali/others/getUbahPelanggan",
+			data: {
+				id: id,
+			},
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				$("#no_pelanggan").val(data.nomor);
+				$("#pelanggan").val(data.nama);
+				$("#id").val(data.id);
+			},
+		});
+	});
+
 	//Tambah Produk di Catatan Stok Masuk
 	$("#tambah_produk").on("click", function () {
 		// get the last DIV which ID starts with ^= "form_produk_masuk"
