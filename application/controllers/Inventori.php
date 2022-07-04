@@ -159,12 +159,18 @@ class Inventori extends CI_Controller
 
         $data['countReceipt'] = $this->inventori->countStokKeluar()->jumlah_stokkeluar;
 
-        $this->load->view('layout', $data);
+        $this->form_validation->set_rules('catatan_keluar', 'Catatan Keluar', "required", [
+            'required' => 'Catatan keluar wajib diisi',
+        ]);
 
-        $this->inventori->insertStokKeluar();
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        if ($this->form_validation->run() == false) {
+            $this->load->view('layout', $data);
+        } else {
+            $this->inventori->insertStokKeluar();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Catatan stok keluar ditambah </div>');
-        redirect('inventori/stokkeluar');
+            redirect('inventori/stokkeluar');
+        }
 
     }
 
