@@ -206,6 +206,30 @@ $(function () {
 		$("#no_pelanggan").val("");
 	});
 
+	//Add Motor for Pelanggan
+	$(".tampilModalTambahMotor").on("click", function () {
+		$("#newPelangganModalLabel").html("Tambah Motor");
+		$(".modal-footer button[type=submit]").html("Tambah");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/pos-rajawali/others/tambahMotor"
+		);
+
+		const id = $(this).data("id");
+		$.ajax({
+			url: "http://localhost/pos-rajawali/others/getUbahPelanggan",
+			data: {
+				id: id,
+			},
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				$("#nama_pelanggan").val(data.nama);
+				$("#id_pelanggan").val(data.id);
+			},
+		});
+	});
+
 	//Edit Pelanggan from Add Pelanggan
 	$(".tampilModalUbahPelanggan").on("click", function () {
 		$("#newPelangganModalLabel").html("Edit Pelanggan ");

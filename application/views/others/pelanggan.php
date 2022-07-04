@@ -36,11 +36,11 @@
                             <th scope="row"><?=$i++;?></th>
                             <td><a href=""><?=$p['nama'];?></a></td>
                             <td><?=$p['nomor'];?></td>
-                            <td>Coba</td>
+                            <td><?=$p['jumlah_motor'];?></td>
                             <td><?=$p['updated_at'];?></td>
                             <td>
                                 <a href="<?=base_url('others/tambahMotor/' . $p['id']);?>"
-                                    class="badge badge-warning tampilModaltambahMotor" data-toggle="modal"
+                                    class="badge badge-warning tampilModalTambahMotor" data-toggle="modal"
                                     data-target="#newMotorModal" data-id="<?=$p['id'];?>">Tambah Motor</a>
                                 <a href="<?=base_url('others/ubahPelanggan/' . $p['id']);?>"
                                     class="badge badge-success tampilModalUbahPelanggan" data-toggle="modal"
@@ -109,17 +109,17 @@
             </div>
             <div class="modal-body">
                 <form action="<?=base_url('others/pelanggan');?>" method="post">
-                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id_pelanggan" id="id_pelanggan">
                     <div class="form-group">
                         <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan"
-                            autocomplete="off" disabled>
+                            autocomplete="off" value="test" disabled>
                     </div>
                     <div class="form-group">
-                        <input type="number" class="form-control" id="jenis_motor" name="jenis_motor"
+                        <input type="text" class="form-control" id="jenis_motor" name="jenis_motor"
                             placeholder="Jenis Motor" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <input type="number" class="form-control" id="plat_motor" name="plat_motor"
+                        <input type="text" class="form-control" id="plat_nomor" name="plat_nomor"
                             placeholder="Plat Motor" autocomplete="off">
                     </div>
                     <div class="modal-footer">

@@ -7,8 +7,14 @@ class Others_Model extends CI_Model
     {
         // $query = "SELECT `pelanggan`.* FROM `pelanggan`";
         // return $this->db->query($query)->result_array;
-
-        return $this->db->get('pelanggan')->result_array();
+        $query = "SELECT `pelanggan`.*,COUNT(`motor_pelanggan`.`id_pelanggan`) as `jumlah_motor`
+      FROM `pelanggan` LEFT JOIN `motor_pelanggan`
+        ON `motor_pelanggan`.`id_pelanggan` = `pelanggan`.`id`
+        GROUP BY `id_pelanggan`
+        ORDER BY `jumlah_motor` DESC
+";
+        return $this->db->query($query)->result_array();
+        // return $this->db->get('pelanggan')->result_array();
     }
 
     public function insertPelanggan()
@@ -44,6 +50,16 @@ class Others_Model extends CI_Model
     {
         $this->db->where('id', $id);
         $this->db->delete('pelanggan');
+    }
+
+    public function insertMotor()
+    {
+        $data = [
+            'id_pelanggan' => $this->input->post('id_pelanggan', true),
+            'jenis' => $this->input->post('jenis_motor', true),
+            'plat_nomor' => $this->input->post('plat_nomor', true),
+        ];
+        $this->db->insert('motor_pelanggan', $data);
     }
 
 }

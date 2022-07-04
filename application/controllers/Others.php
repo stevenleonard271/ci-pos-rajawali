@@ -44,6 +44,15 @@ class Others extends CI_Controller
 
     }
 
+    public function tambahMotor()
+    {
+        $this->others->insertMotor();
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        Data Motor Pelanggan ditambah! </div>');
+        redirect('others/pelanggan');
+
+    }
+
     //UBAH Supplier
     public function getUbahPelanggan()
     {
