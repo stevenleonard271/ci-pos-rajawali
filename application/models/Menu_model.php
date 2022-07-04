@@ -52,19 +52,6 @@ class Menu_model extends CI_Model
         return $this->db->query($query)->num_rows();
     }
 
-    // public function getSubMenuPagination($limit, $start)
-    // {
-
-    //     //  $query = "SELECT `user_sub_menu`.*,`user_menu`.`menu`
-    //     //         FROM `user_sub_menu` JOIN `user_menu`
-    //     //         ON `user_sub_menu`.`menu_id` = `user_menu`.`id`";
-
-    //     $this->db->select('user_sub_menu.*,user_menu.menu');
-    //     $this->db->join('user_menu', 'user_sub_menu.menu_id = user_menu.id');
-    //     $data = $this->db->get('user_sub_menu', $limit, $start);
-    //     return $data->result_array();
-    // }
-
     //GET SUBMENU BY ID TO EDIT
     public function getSubMenuById($id)
     {

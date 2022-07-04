@@ -81,7 +81,8 @@
                             </div>
                             <div class="row border-bottom p-2 align-items-center" id="form_produk_masuk1">
                                 <div class="col-5 pl-0 ">
-                                    <select id="select_produk" name="select_produk[]" class="form-control">
+                                    <select id="select_produk" name="select_produk[]"
+                                        class="select_produk form-control">
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p): ?>
                                         <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
@@ -89,11 +90,12 @@
                                     </select>
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" class="form-control" id="jumlah_produk" name="jumlah_produk[]"
-                                        autocomplete="off">
+                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk"
+                                        name="jumlah_produk[]" autocomplete="off">
                                 </div>
                                 <div class="col-3">
-                                    <select id="select_alasan" name="select_alasan[]" class="form-control">
+                                    <select id="select_alasan" name="select_alasan[]"
+                                        class="select_alasan form-control">
                                         <option value="">Pilih alasan</option>
                                         <option value="Rusak dan dikembalikan">Rusak dan dikembalikan</option>
                                         <option value="Dan lain lain">Dan lain lain</option>

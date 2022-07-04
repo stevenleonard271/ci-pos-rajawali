@@ -9,7 +9,7 @@ $(document).ready(function () {
 		placeholder: "Pilih Supplier",
 		width: "100%",
 	});
-	$("#select_produk.form-control").select2({
+	$(".select_produk").select2({
 		placeholder: "Pilih Produk",
 		width: "100%",
 	});

@@ -98,6 +98,7 @@ class Inventori extends CI_Controller
     //Insert data
     public function stokMasukBaru()
     {
+
         $data['title'] = 'Stok Masuk';
         $data['subTitle'] = 'Tambah Catatan Stok Masuk';
         $data['user'] = $this->db->get_where('user', [
@@ -110,10 +111,6 @@ class Inventori extends CI_Controller
 
         $this->form_validation->set_rules('supplier', 'Supplier', "required", [
             'required' => 'Supplier wajib diisi',
-        ]);
-
-        $this->form_validation->set_rules('catatan_pembelian', 'Catatan pembelian', "required", [
-            'required' => 'Catatan pembelian wajib diisi',
         ]);
 
         $data['countReceipt'] = $this->inventori->countStokMasuk()->jumlah_stokmasuk;
@@ -162,18 +159,12 @@ class Inventori extends CI_Controller
 
         $data['countReceipt'] = $this->inventori->countStokKeluar()->jumlah_stokkeluar;
 
-        $this->form_validation->set_rules('catatan_keluar', 'Catatan Keluar', "required", [
-            'required' => 'Catatan keluar wajib diisi',
-        ]);
+        $this->load->view('layout', $data);
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('layout', $data);
-        } else {
-            $this->inventori->insertStokKeluar();
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        $this->inventori->insertStokKeluar();
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Catatan stok keluar ditambah </div>');
-            redirect('inventori/stokkeluar');
-        }
+        redirect('inventori/stokkeluar');
 
     }
 

@@ -44,6 +44,30 @@ class Inventori_Model extends CI_Model
         // dd($data);
         $this->db->insert('stok_masuk', $data);
 
+        $id_stok_masuk = $this->db->insert_id();
+        $select_produk = $this->input->post('select_produk');
+        $jumlah_produk = $this->input->post('jumlah_produk');
+        $harga_produk = $this->input->post('harga_produk');
+        $total_produk = $this->input->post('total_produk');
+        $grandtotal = 0;
+        for ($i = 0; $i < count($select_produk); $i++) {
+            $grandtotal += $total_produk[$i];
+            $data_detail = [
+                'id_stok_masuk' => $id_stok_masuk,
+                'id_produk' => $select_produk[$i],
+                'jumlah_produk' => $jumlah_produk[$i],
+                'harga_produk' => $harga_produk[$i],
+                'total_produk' => $total_produk[$i],
+
+            ];
+            //insert data ke stok_masuk_produk
+            $this->db->insert('stok_masuk_produk', $data_detail);
+        }
+        //update grand total
+        $this->db->set('grand_total', $grandtotal);
+        $this->db->where('id', $id_stok_masuk);
+        $this->db->update('stok_masuk');
+
     }
 
     public function getAllStokMasuk()
@@ -98,6 +122,22 @@ class Inventori_Model extends CI_Model
         ];
         // ej($data);
         $this->db->insert('stok_keluar', $data);
+
+        $id_stok_keluar = $this->db->insert_id();
+        $select_produk = $this->input->post('select_produk');
+        $jumlah_produk = $this->input->post('jumlah_produk');
+        $alasan_keluar = $this->input->post('select_alasan');
+
+        for ($i = 0; $i < count($select_produk); $i++) {
+            $data_detail = [
+                'id_stok_keluar' => $id_stok_keluar,
+                'id_produk' => $select_produk[$i],
+                'jumlah_produk' => $jumlah_produk[$i],
+                'alasan' => $alasan_keluar[$i],
+            ];
+            //insert data ke stok_masuk_produk
+            $this->db->insert('stok_keluar_produk', $data_detail);
+        }
     }
 
 }

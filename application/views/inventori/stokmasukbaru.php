@@ -122,7 +122,7 @@
                             </div>
                             <div class="row border-bottom p-2 align-items-center" id="form_produk_masuk1">
                                 <div class="col-5 pl-0 ">
-                                    <select id="select_produk" name="select_produk[]" class="form-control">
+                                    <select name="select_produk[]" class="select_produk form-control">
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p): ?>
                                         <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
@@ -130,16 +130,16 @@
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="jumlah_produk" name="jumlah_produk[]"
-                                        autocomplete="off">
+                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk"
+                                        name="jumlah_produk[]" autocomplete="off">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="harga_produk" name="harga_produk[]"
-                                        autocomplete="off">
+                                    <input type="number" class="harga_produk form-control" id="harga_produk"
+                                        name="harga_produk[]" autocomplete="off">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="form-control" id="total_produk" name="total_produk[]"
-                                        autocomplete="off">
+                                    <input type="number" class="total_produk form-control" id="total_produk"
+                                        name="total_produk[]" autocomplete="off">
                                 </div>
                             </div>
                         </div>

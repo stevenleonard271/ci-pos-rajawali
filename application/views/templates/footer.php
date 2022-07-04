@@ -61,9 +61,9 @@
  <script src="<?=base_url('assets/');?>js/sb-admin-2.min.js"></script>
  <script src="<?=base_url('assets/');?>js/my-script.js"></script>
  <script src="<?=base_url('assets/');?>js/pagination.js"></script>
- <script src="<?=base_url('assets/');?>js/plugins.js"></script>
  <script src="<?=base_url('assets/');?>js/select2.js"></script>
  <script src="<?=base_url('assets/');?>js/jquery.nicescroll.js"></script>
+ <script src="<?=base_url('assets/');?>js/plugins.js"></script>
 
 
 
