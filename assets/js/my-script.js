@@ -256,6 +256,44 @@ $(function () {
 		});
 	});
 
+	//Add Mekanik
+	$(".tombolTambahMekanik").on("click", function () {
+		$("#newMekanikModalLabel").html("Tambah Mekanik");
+		$(".modal-footer button[type=submit]").html("Tambah");
+		$("#mekanik").val("");
+		$("#no_mekanik").val("");
+		$("#alamat_mekanik").val("");
+		$("#persentase_ongkos").val("");
+	});
+
+	//Edit Mekanik from Add Mekanik
+	$(".tampilModalUbahMekanik").on("click", function () {
+		$("#newMekanikModalLabel").html("Edit Mekanik ");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/pos-rajawali/others/ubahMekanik"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/pos-rajawali/others/getUbahMekanik",
+			data: {
+				id: id,
+			},
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				$("#mekanik").val(data.nama);
+				$("#no_mekanik").val(data.nomor);
+				$("#alamat_mekanik").val(data.alamat);
+				$("#persentase_ongkos").val(data.persentase_ongkos);
+				$("#id").val(data.id);
+			},
+		});
+	});
+
 	//Tambah Produk di Catatan Stok Masuk
 	$("#tambah_produk").on("click", function () {
 		// get the last DIV which ID starts with ^= "form_produk_masuk"

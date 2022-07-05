@@ -5,8 +5,7 @@ class Others_Model extends CI_Model
 {
     public function getAllPelanggan()
     {
-        // $query = "SELECT `pelanggan`.* FROM `pelanggan`";
-        // return $this->db->query($query)->result_array;
+
         $query = "SELECT `pelanggan`.*,COUNT(`motor_pelanggan`.`id_pelanggan`) as `jumlah_motor`
       FROM `pelanggan` LEFT JOIN `motor_pelanggan`
         ON `motor_pelanggan`.`id_pelanggan` = `pelanggan`.`id`
@@ -61,5 +60,45 @@ class Others_Model extends CI_Model
         ];
         $this->db->insert('motor_pelanggan', $data);
     }
+
+    public function getAllMekanik()
+    {
+        return $this->db->get('mekanik')->result_array();
+    }
+
+    public function insertMekanik()
+    {
+        $data = [
+            'nama' => $this->input->post('mekanik', true),
+            'nomor' => $this->input->post('no_mekanik', true),
+            'alamat' => $this->input->post('alamat_mekanik', true),
+            'persentase_ongkos' => $this->input->post('persentase_ongkos', true),
+        ];
+        $this->db->insert('mekanik', $data);
+    }
+
+    public function getMekanik($id)
+    {
+        return $this->db->get_where('mekanik', ['id' => $id])->row_array();
+    }
+
+    public function editMekanik($id)
+    {
+        $data = [
+            'nama' => $this->input->post('mekanik', true),
+            'nomor' => $this->input->post('no_mekanik', true),
+            'alamat' => $this->input->post('alamat_mekanik', true),
+            'persentase_ongkos' => $this->input->post('persentase_ongkos', true),
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('mekanik', $data);
+    }
+    
+     public function deleteMekanik($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('mekanik');
+    }
+
 
 }
