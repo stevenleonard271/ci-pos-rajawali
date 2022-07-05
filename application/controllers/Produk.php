@@ -92,7 +92,7 @@ class Produk extends CI_Controller
     {
         $data['content'] = 'produk/ubah';
         $data['title'] = 'Daftar Produk';
-        $data['subTitle'] = 'Ubah Produk Baru';
+        $data['subTitle'] = 'Ubah Produk';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email'),
         ])->row_array();

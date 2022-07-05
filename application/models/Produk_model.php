@@ -115,7 +115,7 @@ class Produk_model extends CI_Model
         return $this->db->query($query)->row();
     }
 
-    //EDIT KATEGORI
+    //EDIT Produk
     public function editProduk()
     {
         $data = [

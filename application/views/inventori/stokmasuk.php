@@ -45,8 +45,7 @@
                             <td><?=$s['created_at'];?></td>
                             <td>
                                 <a href="<?=base_url('inventori/ubahStokMasuk/' . $s['id']);?>"
-                                    class="badge badge-success tampilModalUbahStokMasuk" data-toggle="modal"
-                                    data-target="#newStokMasukModal" data-id="<?=$s['id'];?>">Edit</a>
+                                    class="badge badge-success">Edit</a>
                                 <a href="<?=base_url('inventori/hapusStokMasuk/' . $s['id']);?>"
                                     class="badge badge-danger"
                                     onclick="return confirm('Yakin hendak menghapus?');">Hapus</a>

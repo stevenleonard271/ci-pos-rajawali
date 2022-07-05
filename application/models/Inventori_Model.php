@@ -93,6 +93,30 @@ class Inventori_Model extends CI_Model
     public function getStokMasuk($id)
     {
 
+        $query = "SELECT `stok_masuk`.*,`supplier`.`id` as idSupplier,
+                 `supplier`.`nama` as nama_supplier
+                  FROM stok_masuk JOIN supplier
+                  ON `stok_masuk`.`id` = `supplier`.`id`
+                  WHERE `stok_masuk`.`id` = $id";
+
+        return $this->db->query($query)->row();
+    }
+
+    //Edit Stok Masuk
+    public function editStokMasuk()
+    {
+        $data = [
+            'id_supplier' => $this->input->post('supplier', true),
+            'no_pembelian' => $this->input->post('no_pembelian', true),
+            'tanggal_pembelian' => $this->input->post('edit_tgl_pembelian', true),
+            'status' => $this->input->post('status_pembelian', true),
+            'catatan_pembelian' => $this->input->post('catatan_pembelian', true),
+
+        ];
+        // dd($data);
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('stok_masuk', $data);
+
     }
 
     public function getAllStokKeluar()

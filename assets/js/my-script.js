@@ -332,12 +332,12 @@ $(function () {
 	});
 
 	$(".harga_produk").on("keyup", function () {
-		var total = $("#harga_produk").val() * $("#jumlah_produk").val();
+		var total = $(".harga_produk").val() * $(".jumlah_produk").val();
 		$("#total_produk").val(total);
 	});
 
 	$(".jumlah_produk").on("keyup", function () {
-		var total = $("#harga_produk").val() * $("#jumlah_produk").val();
+		var total = $(".harga_produk").val() * $(".jumlah_produk").val();
 		$("#total_produk").val(total);
 	});
 });

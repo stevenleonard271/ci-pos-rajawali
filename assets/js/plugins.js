@@ -27,7 +27,19 @@ $(document).ready(function () {
 		orientation: "top",
 		endDate: "today",
 	});
+	$("#edit_tgl_pembelian").datepicker({
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		orientation: "top",
+		endDate: "today",
+	});
 	$("#tgl_keluar").datepicker({
+		format: "yyyy-mm-dd",
+		autoclose: true,
+		orientation: "top",
+		endDate: "today",
+	});
+	$("#edit_tgl_keluar").datepicker({
 		format: "yyyy-mm-dd",
 		autoclose: true,
 		orientation: "top",
