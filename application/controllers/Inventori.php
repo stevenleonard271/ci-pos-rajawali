@@ -130,7 +130,7 @@ class Inventori extends CI_Controller
 
     }
 
-    //Edit data
+    //Edit data from Ubah Stok Masuk
     public function ubahStokMasuk($id)
     {
 

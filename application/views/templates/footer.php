@@ -45,7 +45,7 @@
 
  <!-- Data Tables -->
  <!-- <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js">
  </script>
@@ -94,6 +94,12 @@ $("#change-access.form-check-input").on("click", function() {
         },
     });
 });
+
+// var i = 1;
+
+// function addSlot() {
+
+// }
  </script>
 
  </body>

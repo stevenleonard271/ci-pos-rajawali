@@ -295,29 +295,28 @@ $(function () {
 	});
 
 	//Tambah Produk di Catatan Stok Masuk
-	$("#tambah_produk").on("click", function () {
-		// get the last DIV which ID starts with ^= "form_produk_masuk"
-		var $div = $('div[id^="form_produk_masuk"]:last');
+	// $("#tambah_produk").on("click", function () {
+	// get the last DIV which ID starts with ^= "form_produk_masuk"
+	// var $div = $('div[id^="form_produk_masuk"]:last');
 
-		// Read the Number from that DIV's ID (i.e: 3 from "form_produk_masuk3")
-		// And increment that number by 1
-		var num = parseInt($div.prop("id").match(/\d+/g), 10) + 1;
-		$(".select_produk").select2("destroy");
-		// $(".harga_produk").unbind();
+	// Read the Number from that DIV's ID (i.e: 3 from "form_produk_masuk3")
+	// And increment that number by 1
+	// var num = parseInt($div.prop("id").match(/\d+/g), 10) + 1;
+	// $(".select_produk").select2("destroy");
+	// $(".harga_produk").unbind();
 
-		// Clone it and assign the new ID (i.e: from num 4 to ID "form_produk_masuk4")
-		var $klon = $div.clone().prop("id", "form_produk_masuk" + num);
+	// Clone it and assign the new ID (i.e: from num 4 to ID "form_produk_masuk4")
+	// var $klon = $div.clone().prop("id", "form_produk_masuk" + num);
 
-		// Finally insert $klon wherever you want
-		$div.after($klon);
+	// Finally insert $klon wherever you want
+	// $div.after($klon);
 
-		$(".select_produk").select2({
-			placeholder: "Pilih Produk",
-			width: "100%",
-		});
+	// $(".select_produk").select2({
+	// 	placeholder: "Pilih Produk",
+	// 	width: "100%",
+	// });
 
-		// $("#form_produk_masuk" + num["name = harga_produk[]"]).val("");
-	});
+	// });
 
 	//Change #laba when #harga_beli changed
 	$("#harga_beli").on("keyup", function () {
@@ -331,13 +330,15 @@ $(function () {
 		$("#laba").val(laba);
 	});
 
-	$(".harga_produk").on("keyup", function () {
-		var total = $(".harga_produk").val() * $(".jumlah_produk").val();
-		$("#total_produk").val(total);
-	});
+	// $(".harga_produk").on("keyup", function () {
+	// 	var total = $(".harga_produk").val() * $(".jumlah_produk").val();
+	// 	$("#total_produk").val(total);
+	// });
 
-	$(".jumlah_produk").on("keyup", function () {
-		var total = $(".harga_produk").val() * $(".jumlah_produk").val();
-		$("#total_produk").val(total);
-	});
+	// $(".jumlah_produk").on("keyup", function () {
+	// 	var total = $(".harga_produk").val() * $(".jumlah_produk").val();
+	// 	$("#total_produk").val(total);
+	// });
+
+	
 });

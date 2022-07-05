@@ -29,6 +29,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css"
         rel="stylesheet" />
 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <!-- Pick Me Up DatePicker -->
     <!-- <link href="<?php //base_url('assets/css/pickmeup.css');?>" rel="stylesheet" /> -->
 

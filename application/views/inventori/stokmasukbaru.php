@@ -54,7 +54,8 @@
                                                         <div
                                                             class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                             Grand Total</div>
-                                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                        <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                            id="grandTotal">
                                                             Rp. 0,00 </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -120,7 +121,7 @@
                                     <b>Harga Total</b>
                                 </div>
                             </div>
-                            <div class="row border-bottom p-2 align-items-center" id="form_produk_masuk1">
+                            <div class="row border-bottom p-2 align-items-center">
                                 <div class="col-5 pl-0 ">
                                     <select name="select_produk[]" class="select_produk form-control">
                                         <option value="">Pilih Produk</option>
@@ -130,22 +131,26 @@
                                     </select>
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk"
-                                        name="jumlah_produk[]" autocomplete="off">
+                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk1"
+                                        name="jumlah_produk[]" autocomplete="off" id-input="1">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="harga_produk form-control" id="harga_produk"
-                                        name="harga_produk[]" autocomplete="off">
+                                    <input type="number" class="harga_produk form-control" id="harga_produk1"
+                                        name="harga_produk[]" autocomplete="off" id-input="1">
                                 </div>
                                 <div class="col-2">
-                                    <input type="number" class="total_produk form-control" id="total_produk"
-                                        name="total_produk[]" autocomplete="off">
+                                    <input type="number" class="total_produk form-control" id="total_produk1"
+                                        name="total_produk[]" autocomplete="off" id-input="1">
                                 </div>
+                            </div>
+                            <div id="slots">
+
                             </div>
                         </div>
 
                         <div class="col-md-12 col-xs-12 col-xl-12 mt-2">
-                            <a id="tambah_produk" class="btn btn-success">Tambah Produk</a>
+                            <button type="button" id="tambah_produk" onclick="addSlot()" class="btn btn-success">Tambah
+                                Produk</button>
                             <a href="<?=base_url('inventori/stokmasuk')?>" class="btn btn-danger float-right ">Batal</a>
                             <button type="submit" class="btn ml-2 mr-3 btn-primary float-right">Simpan Catatan</button>
                         </div>
@@ -187,3 +192,100 @@ function generateCode($order)
 }
 
 ?>
+
+<script>
+var grandTotal = 0;
+
+showGrandTotal();
+
+
+$(".harga_produk").on("keyup", function() {
+    var id = $(this).attr('id-input');
+    // alert(id);
+    var total = $("#harga_produk" + id).val() * $("#jumlah_produk" + id).val();
+    $("#total_produk" + id).val(total);
+    showGrandTotal();
+});
+
+$(".jumlah_produk").on("keyup", function() {
+    var id = $(this).attr('id-input');
+    var total = $("#harga_produk" + id).val() * $("#jumlah_produk" + id).val();
+    $("#total_produk" + id).val(total);
+    showGrandTotal();
+});
+
+var j = 2;
+
+function addSlot() {
+
+    var html =
+        '<div class="row border-bottom p-2 align-items-center" id="slot' +
+        j +
+        '">' +
+        '<div class="col-5 pl-0 ">' +
+        '<select name="select_produk[]" class="select_produk form-control">' +
+        '<option value="">Pilih Produk</option>' +
+        <?php foreach ($produk as $p): ?> '<option value="<?=$p["id"];?>"><?=$p["nama"];?></option>' +
+        <?php endforeach;?> "</select>" +
+        "</div>" +
+        '<div class="col-2">' +
+        '<input type="number" class="jumlah_produk form-control" id="jumlah_produk' + j + '"' +
+        'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        "</div>" +
+        '<div class="col-2">' +
+        '<input type="number" class="harga_produk form-control" id="harga_produk' + j + '"' +
+        'name="harga_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        "</div>" +
+        '<div class="col-2">' +
+        '<input type="number" class="total_produk form-control" id="total_produk' + j + '"' +
+        'name="total_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        "</div>" +
+        '<div class="col-1">' +
+        '<button type="button" onclick="deleteSlot(' +
+        j +
+        ')" class="btn btn-outline-danger">Danger</button>' +
+        "</div>" +
+        "</div>" +
+        "</div>";
+    $("#slots").append(html);
+
+    $(".select_produk").select2({
+        placeholder: "Pilih Produk",
+        width: "100%",
+    });
+
+
+    $(".harga_produk").on("keyup", function() {
+        var id = $(this).attr('id-input');
+        // alert(id);
+        var total = $("#harga_produk" + id).val() * $("#jumlah_produk" + id).val();
+        $("#total_produk" + id).val(total);
+        showGrandTotal();
+    });
+
+    $(".jumlah_produk").on("keyup", function() {
+        var id = $(this).attr('id-input');
+        var total = $("#harga_produk" + id).val() * $("#jumlah_produk" + id).val();
+        $("#total_produk" + id).val(total);
+        showGrandTotal();
+        // grandTotal += total;
+    });
+
+    j++;
+}
+
+function deleteSlot(id) {
+    $("#slot" + id).remove();
+}
+
+function showGrandTotal() {
+    var grandTotal = 0;
+    $('.total_produk').each(function(i, obj) {
+        grandTotal += parseInt($(obj).val());
+    });
+
+    $('#grandTotal').html(grandTotal);
+    $('#grandTotal').html().match(/\$\S+/g);
+
+}
+</script>
