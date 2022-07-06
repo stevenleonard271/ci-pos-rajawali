@@ -16,23 +16,26 @@ $(document).ready(function () {
 
 	//DATE PICKER JQUERY
 
-	var today = new Date();
-	var dd = String(today.getDate()).padStart(2, "0");
-	var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-	var yyyy = today.getFullYear();
+	/* Date Picker pindah ke view stokmasukbaru dan stokkeluarbaru
+	*/
 
-	$("#tgl_pembelian").datepicker({
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		orientation: "top",
-		endDate: "today",
-	});
-	$("#edit_tgl_pembelian").datepicker({
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		orientation: "top",
-		endDate: "today",
-	});
+	// var today = new Date();
+	// var dd = String(today.getDate()).padStart(2, "0");
+	// var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+	// var yyyy = today.getFullYear();
+
+	// $("#tgl_pembelian").datepicker({
+	// 	format: "yyyy-mm-dd",
+	// 	autoclose: true,
+	// 	orientation: "top",
+	// 	endDate: "today",
+	// });
+	// $("#edit_tgl_pembelian").datepicker({
+	// 	format: "yyyy-mm-dd",
+	// 	autoclose: true,
+	// 	orientation: "top",
+	// 	endDate: "today",
+	// });
 	$("#tgl_keluar").datepicker({
 		format: "yyyy-mm-dd",
 		autoclose: true,
@@ -45,14 +48,13 @@ $(document).ready(function () {
 		orientation: "top",
 		endDate: "today",
 	});
-
-	today = yyyy + "-" + mm + "-" + dd;
-	$("#tgl_pembelian").val(today);
+	// today = yyyy + "-" + mm + "-" + dd;
+	// $("#tgl_pembelian").val(today);
+	// $("#tgl_pembelian").on("change", function () {
+	// 	var selected = $(this).val();
+	// 	// console.log(selected);
+	// });
 	$("#tgl_keluar").val(today);
-	$("#tgl_pembelian").on("change", function () {
-		var selected = $(this).val();
-		// console.log(selected);
-	});
 	$("#tgl_keluar").on("change", function () {
 		var selected = $(this).val();
 	});

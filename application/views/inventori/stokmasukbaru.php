@@ -123,7 +123,7 @@
                             </div>
                             <div class="row border-bottom p-2 align-items-center">
                                 <div class="col-5 pl-0 ">
-                                    <select name="select_produk[]" class="select_produk form-control">
+                                    <select name="select_produk[]" class="select_produk form-control" required>
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p): ?>
                                         <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
@@ -132,15 +132,15 @@
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="jumlah_produk form-control" id="jumlah_produk1"
-                                        name="jumlah_produk[]" autocomplete="off" id-input="1">
+                                        name="jumlah_produk[]" autocomplete="off" id-input="1" required>
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="harga_produk form-control" id="harga_produk1"
-                                        name="harga_produk[]" autocomplete="off" id-input="1">
+                                        name="harga_produk[]" autocomplete="off" id-input="1" required>
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="total_produk form-control" id="total_produk1"
-                                        name="total_produk[]" autocomplete="off" id-input="1">
+                                        name="total_produk[]" autocomplete="off" id-input="1" required>
                                 </div>
                             </div>
                             <div id="slots">
@@ -274,7 +274,12 @@ function addSlot() {
 }
 
 function deleteSlot(id) {
+
+    grandTotal = grandTotal - $('#total_produk' + id).val();
+
     $("#slot" + id).remove();
+    showGrandTotal();
+
 }
 
 function showGrandTotal() {
@@ -295,7 +300,34 @@ function showGrandTotal() {
     $('#grandTotal').html(currencyDelimiter);
     // }
     // $('#grandTotal').html((grandTotal).toLocaleString('en'));
-
-
 }
+
+//DATEPICKER
+$(document).ready(function() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    $("#tgl_pembelian").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        orientation: "top",
+        endDate: "today",
+    });
+    $("#edit_tgl_pembelian").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        orientation: "top",
+        endDate: "today",
+    });
+
+    today = yyyy + "-" + mm + "-" + dd;
+    $("#tgl_pembelian").val(today);
+    $("#tgl_pembelian").on("change", function() {
+        var selected = $(this).val();
+        // console.log(selected);
+    });
+
+});
 </script>
