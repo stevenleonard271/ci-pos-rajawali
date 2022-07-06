@@ -144,6 +144,7 @@ class Inventori extends CI_Controller
         $data['supplier'] = $this->db->get('supplier')->result_array();
 
         $data['stok_masuk'] = $this->inventori->getStokMasuk($id);
+        $data['stok_masuk_produk'] = $this->inventori->getStokDetail($id);
 
         $this->form_validation->set_rules('supplier', 'Supplier', "required", [
             'required' => 'Supplier wajib diisi',

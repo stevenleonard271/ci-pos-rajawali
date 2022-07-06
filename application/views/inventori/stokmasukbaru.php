@@ -222,22 +222,22 @@ function addSlot() {
         j +
         '">' +
         '<div class="col-5 pl-0 ">' +
-        '<select name="select_produk[]" class="select_produk form-control">' +
-        '<option value="">Pilih Produk</option>' +
+        '<select name="select_produk[]" class="select_produk form-control" required>' +
+        '<option value="">Pilih Produk</option> ' +
         <?php foreach ($produk as $p): ?> '<option value="<?=$p["id"];?>"><?=$p["nama"];?></option>' +
         <?php endforeach;?> "</select>" +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="jumlah_produk form-control" id="jumlah_produk' + j + '"' +
-        'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" required >' +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="harga_produk form-control" id="harga_produk' + j + '"' +
-        'name="harga_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        'name="harga_produk[]" autocomplete="off" id-input="' + j + '" required >' +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="total_produk form-control" id="total_produk' + j + '"' +
-        'name="total_produk[]" autocomplete="off" id-input="' + j + '" >' +
+        'name="total_produk[]" autocomplete="off" id-input="' + j + '" required >' +
         "</div>" +
         '<div class="col-1">' +
         '<button type="button" onclick="deleteSlot(' +

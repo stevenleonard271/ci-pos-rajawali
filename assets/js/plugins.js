@@ -36,28 +36,28 @@ $(document).ready(function () {
 	// 	orientation: "top",
 	// 	endDate: "today",
 	// });
-	$("#tgl_keluar").datepicker({
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		orientation: "top",
-		endDate: "today",
-	});
-	$("#edit_tgl_keluar").datepicker({
-		format: "yyyy-mm-dd",
-		autoclose: true,
-		orientation: "top",
-		endDate: "today",
-	});
+	// $("#tgl_keluar").datepicker({
+	// 	format: "yyyy-mm-dd",
+	// 	autoclose: true,
+	// 	orientation: "top",
+	// 	endDate: "today",
+	// });
+	// $("#edit_tgl_keluar").datepicker({
+	// 	format: "yyyy-mm-dd",
+	// 	autoclose: true,
+	// 	orientation: "top",
+	// 	endDate: "today",
+	// });
 	// today = yyyy + "-" + mm + "-" + dd;
 	// $("#tgl_pembelian").val(today);
 	// $("#tgl_pembelian").on("change", function () {
 	// 	var selected = $(this).val();
 	// 	// console.log(selected);
 	// });
-	$("#tgl_keluar").val(today);
-	$("#tgl_keluar").on("change", function () {
-		var selected = $(this).val();
-	});
+	// $("#tgl_keluar").val(today);
+	// $("#tgl_keluar").on("change", function () {
+	// 	var selected = $(this).val();
+	// });
 
 	//NICE SCROLL
 	// $(function () {

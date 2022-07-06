@@ -102,6 +102,12 @@ class Inventori_Model extends CI_Model
         return $this->db->query($query)->row();
     }
 
+    public function getStokDetail($id)
+    {   
+        $this->db->where("id_stok_masuk", $id);  
+        return $this->db->get("stok_masuk_produk")->result();
+    }
+
     //Edit Stok Masuk
     public function editStokMasuk()
     {
@@ -113,6 +119,7 @@ class Inventori_Model extends CI_Model
             'catatan_pembelian' => $this->input->post('catatan_pembelian', true),
 
         ];
+
         // dd($data);
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('stok_masuk', $data);
