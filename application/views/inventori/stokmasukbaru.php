@@ -147,7 +147,6 @@
 
                             </div>
                         </div>
-
                         <div class="col-md-12 col-xs-12 col-xl-12 mt-2">
                             <button type="button" id="tambah_produk" onclick="addSlot()" class="btn btn-success">Tambah
                                 Produk</button>
@@ -243,7 +242,7 @@ function addSlot() {
         '<div class="col-1">' +
         '<button type="button" onclick="deleteSlot(' +
         j +
-        ')" class="btn btn-outline-danger">Danger</button>' +
+        ')" class="btn btn-outline-danger">Hapus</button>' +
         "</div>" +
         "</div>" +
         "</div>";
@@ -284,8 +283,19 @@ function showGrandTotal() {
         grandTotal += parseInt($(obj).val());
     });
 
-    $('#grandTotal').html(grandTotal);
-    $('#grandTotal').html().match(/\$\S+/g);
+    // $('#grandTotal').html(grandTotal);
+    currencyDelimiter = Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(grandTotal);
+
+    currencyDelimiter = Number.isNaN(grandTotal) ? 'Rp 0' : currencyDelimiter;
+
+    $('#grandTotal').html(currencyDelimiter);
+    // }
+    // $('#grandTotal').html((grandTotal).toLocaleString('en'));
+
 
 }
 </script>

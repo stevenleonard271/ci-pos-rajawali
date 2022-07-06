@@ -58,7 +58,7 @@ $(document).ready(function () {
 	});
 
 	//NICE SCROLL
-	$(function () {
-		$("body").niceScroll();
-	});
+	// $(function () {
+	// 	$("body").niceScroll();
+	// });
 });
