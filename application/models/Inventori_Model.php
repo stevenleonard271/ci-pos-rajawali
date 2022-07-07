@@ -180,7 +180,6 @@ class Inventori_Model extends CI_Model
             'tanggal_keluar' => $this->input->post('tgl_keluar', true),
             'catatan_keluar' => $this->input->post('catatan_keluar', true),
         ];
-        // ej($data);
         $this->db->insert('stok_keluar', $data);
 
         $id_stok_keluar = $this->db->insert_id();
