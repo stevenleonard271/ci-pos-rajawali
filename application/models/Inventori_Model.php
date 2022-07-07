@@ -181,6 +181,7 @@ class Inventori_Model extends CI_Model
             'catatan_keluar' => $this->input->post('catatan_keluar', true),
         ];
         $this->db->insert('stok_keluar', $data);
+        // gmp_testbit()
 
         $id_stok_keluar = $this->db->insert_id();
         $select_produk = $this->input->post('select_produk');
