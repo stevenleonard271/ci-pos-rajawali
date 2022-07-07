@@ -193,6 +193,34 @@ function generateCode($order)
 ?>
 
 <script>
+//DATEPICKER
+$(document).ready(function() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    $("#tgl_pembelian").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        orientation: "top",
+        endDate: "today",
+    });
+    $("#edit_tgl_pembelian").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        orientation: "top",
+        endDate: "today",
+    });
+
+    today = yyyy + "-" + mm + "-" + dd;
+    $("#tgl_pembelian").val(today);
+    $("#tgl_pembelian").on("change", function() {
+        var selected = $(this).val();
+        // console.log(selected);
+    });
+
+});
 var grandTotal = 0;
 
 showGrandTotal();
@@ -302,32 +330,5 @@ function showGrandTotal() {
     // $('#grandTotal').html((grandTotal).toLocaleString('en'));
 }
 
-//DATEPICKER
-$(document).ready(function() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
 
-    $("#tgl_pembelian").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
-        endDate: "today",
-    });
-    $("#edit_tgl_pembelian").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
-        endDate: "today",
-    });
-
-    today = yyyy + "-" + mm + "-" + dd;
-    $("#tgl_pembelian").val(today);
-    $("#tgl_pembelian").on("change", function() {
-        var selected = $(this).val();
-        // console.log(selected);
-    });
-
-});
 </script>

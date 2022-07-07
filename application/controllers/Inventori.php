@@ -9,7 +9,7 @@ class Inventori extends CI_Controller
 
         is_logged_in();
 
-        $this->load->model('Inventori_model', 'inventori');
+        $this->load->model('Inventori_Model', 'inventori');
     }
 
     //Get and Insert Supplier
@@ -106,6 +106,7 @@ class Inventori extends CI_Controller
         ])->row_array();
 
         $data['content'] = 'inventori/stokmasukbaru';
+    
 
         $data['supplier'] = $this->db->get('supplier')->result_array();
 
