@@ -119,15 +119,15 @@ class Inventori_Model extends CI_Model
             'status' => $this->input->post('status_pembelian', true),
             'catatan_pembelian' => $this->input->post('catatan_pembelian', true),
         ];
-        // dd($data);
+        
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('stok_masuk', $data);
 
-        // delete
+        // delete all data where id_stok_masuk = id_produk
         $this->db->where('id_stok_masuk',$this->input->post('id'));
         $this->db->delete('stok_masuk_produk');
 
-        //insert  db 
+        //insert all produk into db stok_masuk_produk
         $id_stok_masuk = $this->input->post('id');
         $select_produk = $this->input->post('select_produk');
         $jumlah_produk = $this->input->post('jumlah_produk');
@@ -181,7 +181,7 @@ class Inventori_Model extends CI_Model
             'catatan_keluar' => $this->input->post('catatan_keluar', true),
         ];
         $this->db->insert('stok_keluar', $data);
-        // gmp_testbit()
+        
 
         $id_stok_keluar = $this->db->insert_id();
         $select_produk = $this->input->post('select_produk');
