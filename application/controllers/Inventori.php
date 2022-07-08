@@ -211,4 +211,37 @@ class Inventori extends CI_Controller
 
     }
 
+    public function ubahStokKeluar($id)
+    {
+        $data['content'] = 'inventori/ubah_stokkeluar';
+        $data['title'] = 'Stok Keluar';
+        $data['subTitle'] = 'Ubah Catatan Stok Keluar';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
+
+        
+
+        $this->load->model('Produk_model', 'produk');
+        $data['produk'] = $this->produk->getAllProduk();
+        $data['stok_keluar'] = $this->inventori->getStokKeluar($id);
+        $data['stok_keluar_produk'] = $this->inventori->getStokKeluarDetail($id);
+
+
+        $this->form_validation->set_rules('catatan_keluar', 'Catatan Keluar', "required", [
+            'required' => 'Catatan keluar wajib diisi',
+        ]);
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('layout', $data);
+        } else {
+            $this->inventori->editStokKeluar();
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Catatan stok keluar diubah </div>');
+            redirect('inventori/stokkeluar');
+        }
+
+    }
+
+
 }

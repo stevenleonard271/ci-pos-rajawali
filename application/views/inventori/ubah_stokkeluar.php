@@ -15,12 +15,14 @@
                     <form method="post" action="">
                         <div class="row">
                             <div class="col-md-5 col-sm-5">
+                            <input type="hidden" name="id" id="id"
+                                    value="<?= $stok_keluar->id;?>" />
                                 <input type="hidden" name="no_keluar" id="no_keluar"
-                                    value="<?php generateCodeStockOut($countReceipt);?>" />
+                                    value="<?= $stok_keluar->no_keluar;?>" />
                                 <div class="form-group">
-                                    <label for="tgl_keluar">Tanggal Barang Keluar</label>
-                                    <input type="text" class="form-control date" id="tgl_keluar" name="tgl_keluar"
-                                        autocomplete="off">
+                                    <label for="edit_tgl_keluar">Tanggal Barang Keluar</label>
+                                    <input type="text" class="form-control date" id="edit_tgl_keluar" name="edit_tgl_keluar"
+                                        autocomplete="off" value="<?= $stok_keluar->tanggal_keluar;?>">
                                 </div>
                             </div>
                             <div class="col-md-5 col-sm-6">
@@ -35,7 +37,7 @@
                                                             class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                             Nomor Barang Keluar</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <?php generateCodeStockOut($countReceipt);?>
+                                                        <?= $stok_keluar->no_keluar;?>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -54,7 +56,7 @@
                                 <div class="form-group">
                                     <label for="catatan_keluar">Catatan Keluar</label>
                                     <textarea class="form-control" name="catatan_keluar" id="catatan_keluar"
-                                        rows="3"></textarea>
+                                        rows="3"><?= $stok_keluar->catatan_keluar;?></textarea>
                                 </div>
                             </div>
 
@@ -79,29 +81,43 @@
                                 </div>
 
                             </div>
-                            <div class="row border-bottom p-2 align-items-center" id="form_produk_masuk1">
+                            <?php $co = 1; foreach($stok_keluar_produk as $skp):?>
+                            <div class="row border-bottom p-2 align-items-center" id="slot<?php echo $co;?>">
                                 <div class="col-5 pl-0 ">
-                                    <select id="select_produk" name="select_produk[]"
-                                        class="select_produk form-control" required>
+                                    <select name="select_produk[]" class="select_produk form-control" required>
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p): ?>
-                                        <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
+                                            <option value="<?=$p['id'];?>"
+                                        <?php if ($p['id'] == $skp->id_produk): ?>selected <?php endif;?>>
+                                        <?=$p['nama'];?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk"
-                                        name="jumlah_produk[]" autocomplete="off" id-input="1" required>
+                                    <input type="number" class="jumlah_produk form-control" id="jumlah_produk<?= $co;?>"
+                                        name="jumlah_produk[]" autocomplete="off" id-input="<?= $co;?>" value="<?= $skp->jumlah_produk;?>" required>
                                 </div>
                                 <div class="col-3">
                                     <select id="select_alasan" name="select_alasan[]"
                                         class="select_alasan form-control" required>
                                         <option value="">Pilih alasan</option>
-                                        <option value="Rusak dan dikembalikan">Rusak dan dikembalikan</option>
+                                        <?php if ($skp->alasan == "Rusak dan dikembalikan"): ?>
+                                        <option value="Rusak dan dikembalikan" selected>Rusak dan dikembalikan</option>
                                         <option value="Dan lain lain">Dan lain lain</option>
+                                        <?php elseif ($skp->alasan == "Dan lain lain"): ?>
+                                            <option value="Dan lain lain" selected>Dan lain lain</option>
+                                            <option value="Rusak dan dikembalikan">Rusak dan dikembalikan</option>
+                                        <?php endif;?>
                                     </select>
                                 </div>
+                                <?php if($co > 1):?>
+                                <div class="col-1">
+                                    <button type="button" onclick="deleteSlot(<?= $co;?>)"
+                                        class="btn btn-outline-danger">Hapus</button>
+                                </div>
+                                <?php endif;?>
                             </div>
+                            <?php $co++; endforeach;?>
                             <div id="slots">
 
                             </div>
@@ -131,48 +147,18 @@
 
 </div>
 <!-- End of Main Content -->
-<?php
 
-//generate Code Pembelian
-function generateCodeStockOut($order)
-{
-
-    date_default_timezone_set('Asia/Jakarta');
-    $name = "#SORWJ";
-    $today = date('dmy');
-    $order = $order + 1;
-
-    $order = sprintf('%04d', $order);
-
-    $code = $name . $today . $order;
-
-    echo $code;
-
-}?>
 <script>
 //DATEPICKER
 $(document).ready(function() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    var yyyy = today.getFullYear();
-
-    $("#tgl_keluar").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
-        endDate: "today",
-    });
     $("#edit_tgl_keluar").datepicker({
         format: "yyyy-mm-dd",
         autoclose: true,
         orientation: "top",
         endDate: "today",
-    });
-
-    today = yyyy + "-" + mm + "-" + dd;
-    $("#tgl_keluar").val(today);
-    $("#tgl_keluar").on("change", function() {
+    });    
+    
+    $("#edit_tgl_keluar").on("change", function() {
         var selected = $(this).val();
         // console.log(selected);
     });
@@ -181,7 +167,7 @@ $(document).ready(function() {
 
 
 
-var j = 2;
+var j = <?php echo $co; ?>;
 
 function addSlot() {
 
@@ -200,11 +186,16 @@ function addSlot() {
         'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" required >' +
         "</div>" +
         '<div class="col-3">'+
-        '<select name="select_alasan[]"'+
+        '<select id="select_alasan" name="select_alasan[]"'+
         'class="select_alasan form-control" required>'+
         '<option value="">Pilih alasan</option>'+
-        '<option value="Rusak dan dikembalikan">Rusak dan dikembalikan</option>'+
+        <?php if ($skp->alasan == "Rusak dan dikembalikan"): ?>+
+        '<option value="Rusak dan dikembalikan" selected>Rusak dan dikembalikan</option>'+
         '<option value="Dan lain lain">Dan lain lain</option>'+
+        <?php elseif ($skp->alasan == "Dan lain lain"): ?>+
+        '<option value="Dan lain lain" selected>Dan lain lain</option>'
+        '<option value="Rusak dan dikembalikan">Rusak dan dikembalikan</option>'
+        <?php endif;?>+
         '</select>'+
         '</div>'+
         '<div class="col-1">' +
@@ -220,19 +211,13 @@ function addSlot() {
         placeholder: "Pilih Produk",
         width: "100%",
     });
-
-
     j++;
 }
 
 function deleteSlot(id) {
-
-   
-
-    $("#slot" + id).remove();
-   
-
+    $("#slot" + id).remove();   
 }
+
 
 
 

@@ -146,22 +146,22 @@
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="jumlah_produk form-control"
-                                        id="jumlah_produk<?php echo $co?>" name="jumlah_produk[]" autocomplete="off"
-                                        id-input="<?php echo $co?>" value="<?php echo $smp->jumlah_produk?>" required>
+                                        id="jumlah_produk<?= $co;?>" name="jumlah_produk[]" autocomplete="off"
+                                        id-input="<?= $co;?>" value="<?= $smp->jumlah_produk;?>" required>
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="harga_produk form-control"
-                                        id="harga_produk1<?php echo $co?>" name="harga_produk[]" autocomplete="off"
-                                        id-input="<?php echo $co?>" value="<?php echo $smp->harga_produk?>" required>
+                                        id="harga_produk1<?= $co;?>" name="harga_produk[]" autocomplete="off"
+                                        id-input="<?= $co;?>" value="<?= $smp->harga_produk;?>" required>
                                 </div>
                                 <div class="col-2">
                                     <input type="number" class="total_produk form-control"
-                                        id="total_produk<?php echo $co?>" name="total_produk[]" autocomplete="off"
-                                        id-input="<?php echo $co?>" value="<?php echo $smp->total_produk?>" required>
+                                        id="total_produk<?= $co;?>" name="total_produk[]" autocomplete="off"
+                                        id-input="<?= $co;?>" value="<?= $smp->total_produk;?>" required>
                                 </div>
                                 <?php if($co > 1):?>
                                 <div class="col-1">
-                                    <button type="button" onclick="deleteSlot(<?php echo $co?>)"
+                                    <button type="button" onclick="deleteSlot(<?= $co;?>)"
                                         class="btn btn-outline-danger">Hapus</button>
                                 </div>
                                 <?php endif;?>
@@ -198,6 +198,24 @@
 <!-- End of Main Content -->
 
 <script>
+
+//DATEPICKER
+$(document).ready(function() {
+    $("#edit_tgl_pembelian").datepicker({
+        format: "yyyy-mm-dd",
+        autoclose: true,
+        orientation: "top",
+        endDate: "today",
+    });
+
+    $("#edit_tgl_pembelian").on("change", function() {
+        var selected = $(this).val();
+        console.log(selected);
+    });
+
+
+});
+
 var grandTotal = <?=$stok_masuk->grand_total;?>;
 
 showGrandTotal();
@@ -307,20 +325,5 @@ function showGrandTotal() {
     // $('#grandTotal').html((grandTotal).toLocaleString('en'));
 }
 
-//DATEPICKER
-$(document).ready(function() {
-    $("#edit_tgl_pembelian").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
-        endDate: "today",
-    });
 
-    $("#edit_tgl_pembelian").on("change", function() {
-        var selected = $(this).val();
-        console.log(selected);
-    });
-
-
-});
 </script>

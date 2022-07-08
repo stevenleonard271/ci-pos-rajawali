@@ -163,6 +163,18 @@ class Inventori_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function getStokKeluar($id)
+    {
+        return $this->db->get_where('stok_keluar',['id' => $id])->row();   
+        
+    }
+
+    public function getStokKeluarDetail($id)
+    {   
+        $this->db->where("id_stok_keluar", $id);  
+        return $this->db->get("stok_keluar_produk")->result();
+    }
+
     public function countStokKeluar()
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -173,6 +185,7 @@ class Inventori_Model extends CI_Model
 
         return $this->db->query($query)->row();
     }
+
     public function insertStokKeluar()
     {
         $data = [
@@ -181,7 +194,6 @@ class Inventori_Model extends CI_Model
             'catatan_keluar' => $this->input->post('catatan_keluar', true),
         ];
         $this->db->insert('stok_keluar', $data);
-        
 
         $id_stok_keluar = $this->db->insert_id();
         $select_produk = $this->input->post('select_produk');
@@ -195,9 +207,42 @@ class Inventori_Model extends CI_Model
                 'jumlah_produk' => $jumlah_produk[$i],
                 'alasan' => $alasan_keluar[$i],
             ];
-            //insert data ke stok_masuk_produk
+            //insert data ke stok_keluar_produk
             $this->db->insert('stok_keluar_produk', $data_detail);
         }
+    }
+
+    public function editStokKeluar(){
+        $data = [
+            'no_keluar' => $this->input->post('no_keluar', true),
+            'tanggal_keluar' => $this->input->post('edit_tgl_keluar', true),
+            'catatan_keluar' => $this->input->post('catatan_keluar', true),
+        ];
+        $this->db->where('id', $this->input->post('id'));
+        $this->db->update('stok_keluar', $data);
+
+        // delete all data where id_stok_keluar = id_produk
+        $this->db->where('id_stok_keluar',$this->input->post('id'));
+        $this->db->delete('stok_keluar_produk');
+
+        //insert all produk into db stok_keluar_produk
+        $id_stok_keluar = $this->input->post('id');
+        $select_produk = $this->input->post('select_produk');
+        $jumlah_produk = $this->input->post('jumlah_produk');
+        $alasan_keluar = $this->input->post('select_alasan');
+
+        for ($i = 0; $i < count($select_produk); $i++) {
+            $data_detail = [
+                'id_stok_keluar' => $id_stok_keluar,
+                'id_produk' => $select_produk[$i],
+                'jumlah_produk' => $jumlah_produk[$i],
+                'alasan' => $alasan_keluar[$i],
+            ];
+            //insert data ke stok_keluar_produk
+            $this->db->insert('stok_keluar_produk', $data_detail);
+        }
+
+
     }
 
 }
