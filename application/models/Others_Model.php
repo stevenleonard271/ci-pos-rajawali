@@ -60,6 +60,16 @@ class Others_Model extends CI_Model
         ];
         $this->db->insert('motor_pelanggan', $data);
     }
+    public function deleteMotor($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('motor');
+    }
+
+    public function getAllMotor($id)
+    {
+        return $this->db->get_where('motor_pelanggan', ['id_pelanggan' => $id])->row();
+    }
 
     public function getAllMekanik()
     {
@@ -93,12 +103,10 @@ class Others_Model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update('mekanik', $data);
     }
-    
-     public function deleteMekanik($id)
+
+    public function deleteMekanik($id)
     {
         $this->db->where('id', $id);
         $this->db->delete('mekanik');
     }
-
-
 }

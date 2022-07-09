@@ -26,6 +26,7 @@ class Others extends CI_Controller
         // $id = $_POST['id'];
         // $data['current_pelanggan'] = $this->others->getPelanggan($id);
 
+
         $this->form_validation->set_rules('pelanggan', 'Pelanggan', "required", [
             'required' => 'Nama pelanggan wajib diisi',
         ]);
@@ -41,7 +42,6 @@ class Others extends CI_Controller
             Pelanggan baru ditambah </div>');
             redirect('others/pelanggan');
         }
-
     }
 
     public function tambahMotor()
@@ -50,8 +50,22 @@ class Others extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         Data Motor Pelanggan ditambah! </div>');
         redirect('others/pelanggan');
-
     }
+
+    public function lihatMotor()
+    {
+        $id = $_POST['id'];
+        echo json_encode($this->others->getAllMotor($id));
+    }
+
+    public function hapusMotor($id)
+    {
+        $this->others->deleteMotor($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+        Motor pelanggan dihapus </div>');
+        redirect('others/pelanggan');
+    }
+
 
     //UBAH Supplier
     public function getUbahPelanggan()
@@ -135,5 +149,4 @@ class Others extends CI_Controller
         Data Mekanik terhapus </div>');
         redirect('others/mekanik');
     }
-
 }
