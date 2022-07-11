@@ -63,12 +63,12 @@ class Others_Model extends CI_Model
     public function deleteMotor($id)
     {
         $this->db->where('id', $id);
-        $this->db->delete('motor');
+        $this->db->delete('motor_pelanggan');
     }
 
     public function getAllMotor($id)
     {
-        return $this->db->get_where('motor_pelanggan', ['id_pelanggan' => $id])->row();
+        return $this->db->get_where('motor_pelanggan', ['id_pelanggan' => $id])->result();
     }
 
     public function getAllMekanik()

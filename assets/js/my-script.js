@@ -257,30 +257,29 @@ $(function () {
 	});
 
 	//View Motor
-	$(".tampilLihatMotor").on("click", function () {
-		//$("#newPelangganModalLabel").html("Edit Pelanggan ");
-		//$(".modal-footer button[type=submit]").html("Edit");
-		// $(".modal-body form").attr(
-		// 	"action",
-		// 	"http://localhost/pos-rajawali/others/lihatMotor"
-		// );
+	// $(".tampilLihatMotor").on("click", function () {
+		
+	// 	// $(".modal-body form").attr(
+	// 	// 	"action",
+	// 	// 	"http://localhost/pos-rajawali/others/hapusMotor"
+	// 	// );
 
-		const id = $(this).data("id");
+	// 	const id = $(this).data("id");
 
-		$.ajax({
-			url: "http://localhost/pos-rajawali/others/lihatMotor",
-			data: {
-				id: id,
-			},
-			method: "post",
-			dataType: "json",
-			success: function (data) {
-				$("#jenis").html("Jenis : "+ data.jenis);
-				$("#plat").html("Plat Nomor : "+ data.plat_nomor);
-				$("#id").val(data.id);
-			},
-		});
-	});
+		// $.ajax({
+		// 	url: "http://localhost/pos-rajawali/others/lihatMotor",
+		// 	data: {
+		// 		id: id,
+		// 	},
+		// 	method: "post",
+		// 	dataType: "json",
+		// 	success: function (data) {
+		// 		$("#jenis").html("Jenis : "+ data.jenis);
+		// 		$("#plat").html("Plat Nomor : "+ data.plat_nomor);
+		// 		$("#id").val(data.id);
+		// 	},
+		// });
+	// });
 
 	//Add Mekanik
 	$(".tombolTambahMekanik").on("click", function () {

@@ -11,20 +11,31 @@
           <div class="form-group row">
             <label for="tanggal_penjualan" class="col-sm-4 col-form-label">Tanggal</label>
             <div class="col-sm-8 ">
-              <input type="text" class="form-control date" id="tgl_penjualan" name="tgl_penjualan" readonly>
+              <input type="text" class="form-control" id="tgl_penjualan" name="tgl_penjualan" readonly>
             </div>
           </div>
           <div class="form-group row">
             <label for="kasir" class="col-sm-4 col-form-label">Kasir</label>
             <div class="col-sm-8 ">
-              <input type="text" class="form-control date" id="kasir" name="kasir" readonly>
+              <input type="text" class="form-control date" id="kasir" name="kasir" value="<?= $user['nama']; ?>" readonly>
             </div>
           </div>
           <div class="form-group row">
             <label for="pelanggan" class="col-sm-4 col-form-label">Pelanggan</label>
             <div class="col-sm-8 ">
-              <select name="pelanggan" id="pelanggan" class="select form-control" required>
+              <select name="pelanggan" id="pelanggan" class="select_pelanggan form-control" required>
                 <option value="">Pilih Pelanggan</option>
+                <?php foreach ($pelanggan as $pel) : ?>
+                  <option value="<?= $pel['id']; ?>"><?= $pel['nama']; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row select_mtr" style="display: none;">
+            <label for="motor" class="col-sm-4 col-form-label">Motor</label>
+            <div class="col-sm-8 ">
+              <select name="motor" id="motor" class="select_motor form-control" required>
+                <option value="">Pilih Motor</option>
               </select>
             </div>
           </div>
@@ -37,8 +48,11 @@
           <div class="form-group row">
             <label for="sparepart" class="col-sm-4 col-form-label">Sparepart</label>
             <div class="col-sm-8 ">
-              <select name="sparepart" id="sparepart" class="select form-control" required>
+              <select name="sparepart" id="sparepart" class="select_produk form-control" required>
                 <option value="">Masukkan nama sparepart</option>
+                <?php foreach ($produk as $pro) : ?>
+                  <option value="<?= $pro['id']; ?>"><?= $pro['nama']; ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -91,8 +105,11 @@
           <div class="form-group row">
             <label for="mekanik" class="col-sm-4 col-form-label">Mekanik</label>
             <div class="col-sm-8">
-              <select name="mekanik" id="mekanik" class="select form-control" required>
+              <select name="mekanik" id="mekanik" class="select_mekanik form-control" required>
                 <option value="">Masukkan nama mekanik</option>
+                <?php foreach ($mekanik as $mek) : ?>
+                  <option value="<?= $mek['id']; ?>"><?= $mek['nama']; ?></option>
+                <?php endforeach; ?>
               </select>
             </div>
           </div>
@@ -184,5 +201,20 @@ function generateCode($order)
       // console.log(selected);
     });
 
+    $(".select_pelanggan").change(function() {
+      $(".select_mtr").show();
+      var selected = $(this).val();
+      $.ajax({
+        url: "<?php echo base_url('penjualan/getMotor') ?>",
+        data: {
+          id: selected,
+        },
+        method: "post",
+        success: function(data) {
+          $(".select_motor").html(data);
+
+        },
+      });
+    })
   });
 </script>

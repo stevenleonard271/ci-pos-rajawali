@@ -32,8 +32,8 @@
                         <?php $i = 1; ?>
                         <?php foreach ($pelanggan as $p) : ?>
                             <tr>
-                                <th scope="row"><?= $i++; ?></th>
-                                <td><a class="tampilLihatMotor" data-toggle="modal" data-target="#viewMotorModal" data-id="<?= $p['id']; ?>">
+                                <th scope="row"><?= $i; ?></th>
+                                <td><a class="tampilLihatMotor" data-toggle="modal" data-target="#viewMotorModal<?php echo $i ?>">
                                         <?= $p['nama']; ?>
                                     </a></td>
                                 <td><?= $p['nomor']; ?></td>
@@ -45,7 +45,8 @@
                                     <a href="<?= base_url('others/hapusPelanggan/' . $p['id']); ?>" class="badge badge-danger" onclick="return confirm('Yakin hendak menghapus?');">Hapus</a>
                                 </td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php $i++;
+                        endforeach; ?>
 
                     </tbody>
                 </table>
@@ -121,42 +122,47 @@
     </div>
 </div>
 <!-- Menu Modal -->
-<div class="modal fade" id="viewMotorModal" tabindex="-1" role="dialog" aria-labelledby="viewMotorModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width:40%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="viewMotorModalLabel">Daftar Motor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <form action="<?= base_url('others/pelanggan'); ?>" method="post">
-                        <div class="card mb-3 col shadow">
-                            <div class="row no-gutters">
-                                <div class="col-md-5 col-xs-5-12">
-                                    <img src="<?= base_url('assets/img/logo-rajawali.png'); ?>" class="card-img">
-                                </div>
-                                <div class="col-md-6 col-sm">
-                                    <div class="card-body">
-                                        <b>
-                                            <p id="jenis" class="card-title">Jenis motor : </p>
-                                        </b>
-                                        <b>
-                                            <p id="plat" class="card-text">Plat nomor : </p>
-                                        </b>
+<?php $k = 1;
+foreach ($pelanggan as $p) : $motor = $this->others->getAllMotor($p['id']); ?>
+    <div class="modal fade" id="viewMotorModal<?php echo $k ?>" tabindex="-1" role="dialog" aria-labelledby="viewMotorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width:40%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewMotorModalLabel">Daftar Motor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <?php foreach ($motor as $mtr) : ?>
+                            <form action="<?= base_url('others/hapusMotor/' . $mtr->id); ?>" method="post">
+                                <div class="card mb-3 col shadow">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-5 col-xs-5-12">
+                                            <img src="<?= base_url('assets/img/logo-rajawali.png'); ?>" class="card-img">
+                                        </div>
+                                        <div class="col-md-6 col-sm">
+                                            <div class="card-body">
+                                                <b>
+                                                    <p class="card-title">Jenis motor : <?php echo $mtr->jenis ?></p>
+                                                </b>
+                                                <b>
+                                                    <p class="card-text">Plat nomor : <?php echo $mtr->plat_nomor ?></p>
+                                                </b>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 col-sm-12">
+                                            <button class="badge badge-danger float-right mb-2 py-1" type="submit" onclick="return confirm('Yakin hendak menghapus?');" id="hapusData">Hapus</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-sm-12">
-                                    <a class="badge badge-danger float-right mb-2 py-1" id="hapusData">Hapus</a>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                            </form>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
-</div>
+<?php $k++;
+endforeach; ?>

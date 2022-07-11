@@ -9,17 +9,35 @@ class Penjualan extends CI_Controller
 
         is_logged_in();
 
-        $this->load->model('Penjualan_Model','penjualan');
+        $this->load->model('Penjualan_Model', 'penjualan');
+        $this->load->model('Others_Model', 'others');
+        $this->load->model('Produk_model', 'produk');
     }
 
 
-    public function kasir(){
+    public function kasir()
+    {
         $data['title'] = 'Kasir';
         $data['user'] = $this->db->get_where('user', [
-            'email' => $this->session->userdata('email'),
+            'email' => $this->session->userdata('email')
         ])->row_array();
 
         $data['content'] = 'penjualan/kasir';
+        $data['pelanggan'] = $this->others->getAllPelanggan();
+        $data['produk'] = $this->produk->getAllProduk();
+        $data['mekanik'] = $this->others->getAllMekanik();
+
         $this->load->view('layout', $data);
+    }
+
+    public function getMotor()
+    {
+        $post = $this->input->post();
+        $motor = $this->others->getAllMotor($post['id']);
+        $str = '<option value="">Pilih Motor</option>';
+        foreach ($motor as $mtr) {
+            $str .= '<option value="' . $mtr->id . '">' . $mtr->jenis . ' (' . $mtr->plat_nomor . ')</option>';
+        }
+        echo $str;
     }
 }

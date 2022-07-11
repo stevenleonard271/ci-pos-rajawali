@@ -13,6 +13,18 @@ $(document).ready(function () {
 		placeholder: "Pilih Produk",
 		width: "100%",
 	});
+	$(".select_pelanggan").select2({
+		placeholder: "Pilih Pelanggan",
+		width: "100%",
+	});
+	$(".select_motor").select2({
+		// placeholder: "Pilih Motor",
+		width: "100%",
+	});
+	$(".select_mekanik").select2({
+		placeholder: "Pilih Mekanik",
+		width: "100%",
+	});
 
 	//DATE PICKER JQUERY
 
