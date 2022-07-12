@@ -32,7 +32,6 @@ class Produk extends CI_Controller
         $data['hitungProdukKritis'] = $this->produk->countRunningOutProduk();
 
         $this->load->view('layout', $data);
-
     }
     //INSERT PRODUK
     public function baru()
@@ -134,7 +133,6 @@ class Produk extends CI_Controller
             Produk diubah! </div>');
             redirect('produk');
         }
-
     }
 
     //DELETE PRODUK
@@ -201,5 +199,4 @@ class Produk extends CI_Controller
         Kategori terhapus </div>');
         redirect('produk/kategori');
     }
-
 }

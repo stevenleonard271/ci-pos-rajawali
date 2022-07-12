@@ -9,6 +9,8 @@
       <div class="card shadow">
         <div class="card-body">
           <div class="form-group row">
+            <input type="hidden" name="no_penjualan" id="no_penjualan" value="<?php //generateCode($countReceipt); 
+                                                                              ?>" />
             <label for="tanggal_penjualan" class="col-sm-4 col-form-label">Tanggal</label>
             <div class="col-sm-8 ">
               <input type="text" class="form-control" id="tgl_penjualan" name="tgl_penjualan" readonly>
@@ -54,6 +56,19 @@
                   <option value="<?= $pro['id']; ?>"><?= $pro['nama']; ?></option>
                 <?php endforeach; ?>
               </select>
+            </div>
+          </div>
+          <div class="form-group row detail_pro" style="display: none;">
+            <label for="motor" class="col-sm-4 col-form-label">Harga</label>
+            <div class="col-sm-8 ">
+              <input type="number" class="form-control" id="harga_pro" name="harga_pro" readonly>
+            </div>
+          </div>
+          <div class="form-group row detail_pro" style="display: none;">
+            <label for="jumlah_pro" class="col-sm-4 col-form-label">Jumlah</label>
+            <div class="col-sm-8 ">
+              <input type="number" class="form-control" id="jumlahPro" hidden>
+              <input type="number" class="form-control" id="jumlah_pro" name="jumlah_pro">
             </div>
           </div>
           <button type="button" id="tambah_produk" onclick="addSlot()" class="btn btn-success">Tambah Sparepart</button>
@@ -205,7 +220,7 @@ function generateCode($order)
       $(".select_mtr").show();
       var selected = $(this).val();
       $.ajax({
-        url: "<?php echo base_url('penjualan/getMotor') ?>",
+        url: "<?= base_url('penjualan/getMotor'); ?>",
         data: {
           id: selected,
         },
@@ -215,6 +230,38 @@ function generateCode($order)
 
         },
       });
-    })
+    });
+
+    $('.select_produk').change(function() {
+      $(".detail_pro").show();
+      var selected = $(this).val();
+      $.ajax({
+        url: "<?= base_url('penjualan/getDetailPro'); ?>",
+        data: {
+          id: selected,
+        },
+        method: "post",
+        dataType: "json",
+        success: function(data) {
+          $("#harga_pro").val(data.harga_jual);
+          $('#jumlahPro').val(data.jumlah);
+          // alert(data.jumlah);
+        }
+      });
+    });
+
+    //jumlah_pro limit
+    $('#jumlah_pro').change(function() {
+      var jumlah_produk = $("#jumlah_pro").val();
+      var jumlahPro = $('#jumlahPro').val();
+
+      if (jumlah_produk > jumlahPro) {
+        $('#jumlah_pro').val(jumlahPro);
+      }
+
+
+
+    });
+
   });
 </script>

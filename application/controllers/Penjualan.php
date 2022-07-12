@@ -40,4 +40,19 @@ class Penjualan extends CI_Controller
         }
         echo $str;
     }
+
+    public function getDetailPro()
+    {
+        $post = $this->input->post();
+        $produk = $this->produk->getProduk($post['id']);
+
+        ej($produk);
+
+        // $harga_pro = $produk->harga_jual;
+        // $jumlah_pro = $produk->jumlah;
+
+        // dd($produk);
+        // echo $harga_pro;
+        // echo $jumlah_pro;
+    }
 }
