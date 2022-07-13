@@ -8,9 +8,26 @@ class Penjualan_Model extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $today = date('Y-m-d');
 
-        $query = "SELECT `stok_masuk`.`created_at`,COUNT(`stok_masuk`.`id`) as jumlah_stokmasuk
-                  FROM `stok_masuk`WHERE `stok_masuk`.`created_at` = '$today'";
+        $query = "SELECT `penjualan`.`created_at`,COUNT(`penjualan`.`id`) as jumlah_penjualan
+                  FROM `penjualan`WHERE `penjualan`.`created_at` = '$today'";
 
         return $this->db->query($query)->row();
+    }
+
+    public function insertCart()
+    {
+        $data = [
+            'id_produk' => $this->input->post('sparepart', true),
+            'jumlah' => $this->input->post('jumlah', true),
+            'id_pelanggan' => $this->input->post('pelanggan', true)
+        ];
+
+        $this->db->insert('cart_penjualan', $data);
+    }
+
+    public function viewCart($id_pelanggan)
+    {
+        $this->db->where("id_pelanggan", $id_pelanggan);
+        return $this->db->get("view_cart");
     }
 }

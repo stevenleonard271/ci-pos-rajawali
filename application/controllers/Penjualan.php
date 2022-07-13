@@ -26,6 +26,7 @@ class Penjualan extends CI_Controller
         $data['pelanggan'] = $this->others->getAllPelanggan();
         $data['produk'] = $this->produk->getAllProduk();
         $data['mekanik'] = $this->others->getAllMekanik();
+        $data['countReceipt'] = $this->penjualan->countPenjualan()->jumlah_penjualan;
 
         $this->load->view('layout', $data);
     }
@@ -54,5 +55,55 @@ class Penjualan extends CI_Controller
         // dd($produk);
         // echo $harga_pro;
         // echo $jumlah_pro;
+    }
+
+    public function tambahCart()
+    {
+        $this->penjualan->insertCart();
+    }
+
+    public function grandTotal()
+    {
+        $id_pelanggan = $this->input->post("pelanggan");
+        // $biaya_service = $this->input->post("serv_biaya");
+        $cart = $this->penjualan->viewCart($id_pelanggan)->result();
+        $ttl = 0;
+        foreach ($cart as $crt) {
+            $ttl += $crt->harga_total;
+        }
+        // $ttl += $biaya_service;
+        echo $ttl;
+    }
+
+    public function cartlist()
+    {
+        $id_pelanggan = $this->input->post("pelanggan");
+        $cart = $this->penjualan->viewCart($id_pelanggan);
+        $str = '';
+        if ($cart->num_rows() > 0) {
+            $cartdata = $cart->result();
+            $i = 1;
+            foreach ($cartdata as $crt) {
+                $str .= '
+                    <tr>
+                        <td>' . $i . '</td>
+                        <td>' . $crt->nama . '</td>
+                        <td> <input type="text" class="form-control shadow-none" value="' . $crt->jumlah . '"></td>
+                        <td>' . $crt->harga_jual . '</td>
+                        <td>' . $crt->harga_total . '</td>
+                        <td></td>
+                    </tr>
+                ';
+                $i++;
+            }
+        } else {
+            $str .= '
+            <tr>
+                <td colspan="6" class="text-center"><b>Masukkan item yang dibeli</b></td>
+            </tr>
+            ';
+        }
+
+        echo $str;
     }
 }

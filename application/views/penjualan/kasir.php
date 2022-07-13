@@ -3,14 +3,12 @@
 
   <!-- Page Heading -->
   <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
-
   <div class="row">
     <div class="col-6">
       <div class="card shadow">
         <div class="card-body">
           <div class="form-group row">
-            <input type="hidden" name="no_penjualan" id="no_penjualan" value="<?php //generateCode($countReceipt); 
-                                                                              ?>" />
+            <input type="hidden" name="no_penjualan" id="no_penjualan" value="<?php generateCode($countReceipt); ?>" />
             <label for="tanggal_penjualan" class="col-sm-4 col-form-label">Tanggal</label>
             <div class="col-sm-8 ">
               <input type="text" class="form-control" id="tgl_penjualan" name="tgl_penjualan" readonly>
@@ -36,7 +34,7 @@
           <div class="form-group row select_mtr" style="display: none;">
             <label for="motor" class="col-sm-4 col-form-label">Motor</label>
             <div class="col-sm-8 ">
-              <select name="motor" id="motor" class="select_motor form-control" required>
+              <select name="motor" id="motor" class="select_motor form-control">
                 <option value="">Pilih Motor</option>
               </select>
             </div>
@@ -59,7 +57,7 @@
             </div>
           </div>
           <div class="form-group row detail_pro" style="display: none;">
-            <label for="motor" class="col-sm-4 col-form-label">Harga</label>
+            <label for="harga_pro" class="col-sm-4 col-form-label">Harga</label>
             <div class="col-sm-8 ">
               <input type="number" class="form-control" id="harga_pro" name="harga_pro" readonly>
             </div>
@@ -71,7 +69,7 @@
               <input type="number" class="form-control" id="jumlah_pro" name="jumlah_pro">
             </div>
           </div>
-          <button type="button" id="tambah_produk" onclick="addSlot()" class="btn btn-success">Tambah Sparepart</button>
+          <button type="submit" class="btn btn-success addsparepart">Tambah Sparepart</button>
         </div>
       </div>
     </div>
@@ -82,12 +80,14 @@
             <h3><strong>Grand Total</strong> | #</h3>
           </div>
           <div class="col-6 float-right">
-            <h3>Rp,0.0</h3>
+            <h3>Rp, <span id="grandttl">0.0</span>
+            </h3>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="row mt-2">
     <div class="col-12">
       <div class="card shadow">
@@ -103,10 +103,8 @@
                 <th scope="col" width="200px">Aksi</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td colspan="6" class="text-center"><b>Masukkan item yang dibeli</b></td>
-              </tr>
+            <tbody class="data-cart">
+
             </tbody>
           </table>
         </div>
@@ -202,6 +200,32 @@ function generateCode($order)
 ?>
 
 <script>
+  function grandttl(idpelanggan) {
+    $.ajax({
+      url: "<?= base_url('penjualan/grandTotal'); ?>",
+      data: {
+        pelanggan: idpelanggan,
+      },
+      method: "post",
+      success: function(data) {
+        $("#grandttl").html(data);
+      },
+    });
+  }
+
+  function cartList(idpelanggan) {
+    $.ajax({
+      url: "<?= base_url('penjualan/cartlist'); ?>",
+      data: {
+        pelanggan: idpelanggan,
+      },
+      method: "post",
+      success: function(data) {
+        $(".data-cart").html(data);
+      },
+    });
+    grandttl(idpelanggan);
+  }
   //DATEPICKER
   $(document).ready(function() {
     var today = new Date();
@@ -216,6 +240,8 @@ function generateCode($order)
       // console.log(selected);
     });
 
+
+
     $(".select_pelanggan").change(function() {
       $(".select_mtr").show();
       var selected = $(this).val();
@@ -227,9 +253,9 @@ function generateCode($order)
         method: "post",
         success: function(data) {
           $(".select_motor").html(data);
-
         },
       });
+      cartList(selected);
     });
 
     $('.select_produk').change(function() {
@@ -258,10 +284,25 @@ function generateCode($order)
       if (jumlah_produk > jumlahPro) {
         $('#jumlah_pro').val(jumlahPro);
       }
-
-
-
     });
 
+    $(".addsparepart").click(function() {
+      var pelanggan = $("#pelanggan").val();
+      var sparepart = $("#sparepart").val();
+      var jumlah = $("#jumlah_pro").val();
+      $.ajax({
+        url: "<?= base_url('penjualan/tambahCart'); ?>",
+        data: {
+          pelanggan: pelanggan,
+          sparepart: sparepart,
+          jumlah: jumlah,
+        },
+        method: "post",
+        success: function(data) {
+
+        },
+      });
+      cartList(pelanggan);
+    });
   });
 </script>
