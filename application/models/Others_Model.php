@@ -16,6 +16,12 @@ class Others_Model extends CI_Model
         // return $this->db->get('pelanggan')->result_array();
     }
 
+    public function countAllpelanggan()
+    {
+        $query = "SELECT COUNT(`pelanggan`.`id`) AS `jumlah_pelanggan` FROM pelanggan";
+        return $this->db->query($query)->row();
+    }
+
     public function insertPelanggan()
     {
         $data = [

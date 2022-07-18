@@ -8,6 +8,8 @@ class Admin extends CI_Controller
         parent::__construct();
 
         is_logged_in();
+        $this->load->model('Produk_model', 'produk');
+        $this->load->model('Others_Model', 'others');
     }
 
     public function index()
@@ -18,8 +20,10 @@ class Admin extends CI_Controller
         ])->row_array();
 
         $data['content'] = 'admin/index';
-        $this->load->view('layout', $data);
+        $data['produkKritis'] = $this->produk->runningOutProduk();
+        $data['pelanggan'] = $this->others->countAllPelanggan();
 
+        $this->load->view('layout', $data);
     }
 
     //GET AND INSERT TO MANAJEMEN USER
@@ -47,9 +51,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             User baru ditambah </div>');
             redirect('admin/role');
-
         }
-
     }
     //HAPUS SUBMENU BY MODEL
     public function hapusRole($id)
@@ -94,7 +96,6 @@ class Admin extends CI_Controller
         $data['menu'] = $this->db->get('user_menu')->result_array();
 
         $this->load->view('layout', $data);
-
     }
 
     public function changeAccess()
