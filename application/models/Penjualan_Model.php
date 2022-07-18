@@ -25,6 +25,17 @@ class Penjualan_Model extends CI_Model
         $this->db->insert('cart_penjualan', $data);
     }
 
+    public function deleteCart($id_produk, $id_pelanggan)
+    {
+        $data = [
+            'id_produk' => $id_produk,
+            'id_pelanggan' => $id_pelanggan
+        ];
+
+        $this->db->where($data);
+        $this->db->delete('cart_penjualan');
+    }
+
     public function viewCart($id_pelanggan)
     {
         $this->db->where("id_pelanggan", $id_pelanggan);

@@ -2,6 +2,8 @@
 
 $(document).ready(function () {
 	//Pagination Data Table
+
+	
 	$("table.display").DataTable({
 		order: [[0, "asc"]],
 		// stateSave: true,
@@ -18,6 +20,14 @@ $(document).ready(function () {
 		pageLength: 10,
 		lengthMenu: [5, 10, 20, 25],
 	});
+
+	$("#tableBarang").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+
+      });
 
 	//show and hide running out stock
 	$(".close").click(function () {

@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <div class="col-6">
+    <div class="col-6" id="sparepartForm" style="display: none;">
       <div class="card shadow">
         <div class="card-body">
           <div class="form-group row">
@@ -80,7 +80,7 @@
             <h3><strong>Grand Total</strong> | #</h3>
           </div>
           <div class="col-6 float-right">
-            <h3>Rp, <span id="grandttl">0.0</span>
+            <h3><span id="grandttl">Rp.0</span>
             </h3>
           </div>
         </div>
@@ -92,7 +92,7 @@
     <div class="col-12">
       <div class="card shadow">
         <div class="card-body p-2">
-          <table class="table table-stripped table-bordered">
+          <table class="table table-stripped table-bordered" id="tableBarang">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -104,7 +104,6 @@
               </tr>
             </thead>
             <tbody class="data-cart">
-
             </tbody>
           </table>
         </div>
@@ -126,8 +125,8 @@
               </select>
             </div>
           </div>
-          <div class="form-group row"><label for="servis" class="col-sm-4 col-form-label">Biaya Service</label>
-            <div class="col-sm-8"><input type="text" id="servis" name="servis" class="form-control shadow-none"></div>
+          <div class="form-group row"><label for="servis_biaya" class="col-sm-4 col-form-label">Biaya Service</label>
+            <div class="col-sm-8"><input type="text" id="servis_biaya" name="servis_biaya" class="form-control shadow-none"></div>
           </div>
         </div>
       </div>
@@ -135,19 +134,19 @@
     <div class="col-4">
       <div class="card">
         <div class="card-body">
-          <div class="form-group row"><label for="" class="col-sm-4 col-form-label">Sub total</label>
+          <div class="form-group row"><label for="subtotal" class="col-sm-4 col-form-label">Sub total</label>
             <div class="col-sm-8">
-              <div disabled="disabled" readonly="readonly" class="form-control shadow-none">
+              <div disabled="disabled" id="subtotal" readonly="readonly" class="form-control shadow-none">
                 Rp 0,00
               </div>
             </div>
           </div>
-          <div class="form-group row"><label for="" class="col-sm-4 col-form-label">Discount</label>
-            <div class="col-sm-8"><input type="text" class="form-control shadow-none"></div>
+          <div class="form-group row"><label for="diskon" class="col-sm-4 col-form-label">Discount</label>
+            <div class="col-sm-8"><input type="text" id="diskon" class="form-control shadow-none"></div>
           </div>
-          <div class="form-group row"><label for="" class="col-sm-4 col-form-label">Harga Total</label>
+          <div class="form-group row"><label for="hargatotal" class="col-sm-4 col-form-label">Harga Total</label>
             <div class="col-sm-8">
-              <div disabled="disabled" readonly="readonly" class="form-control shadow-none">
+              <div disabled="disabled" readonly="readonly" id="hargatotal" class="form-control shadow-none">
                 Rp 0,00
               </div>
             </div>
@@ -200,19 +199,46 @@ function generateCode($order)
 ?>
 
 <script>
+  //menampilkan grand total
   function grandttl(idpelanggan) {
+    // var biaya_servis = $('#biaya_servis').val();
     $.ajax({
       url: "<?= base_url('penjualan/grandTotal'); ?>",
       data: {
         pelanggan: idpelanggan,
+        // biaya_servis: biaya_servis
       },
       method: "post",
       success: function(data) {
-        $("#grandttl").html(data);
+        //delimiter format
+        currencyDelimiter = Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0,
+        }).format(data);
+
+        currencyDelimiter = Number.isNaN(data) ? 'Rp 0' : currencyDelimiter;
+        $("#grandttl").html(currencyDelimiter);
+        $("#subtotal").html(currencyDelimiter);
+
+        //Diskon applied
+        $("#diskon").keyup(function() {
+          var test = data - $(this).val();
+          currencyFix = Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+          }).format(test);
+          currencyFix = Number.isNaN(data) ? 'Rp 0' : currencyFix;
+          $("#hargatotal").html(currencyFix);
+          $("#grandttl").html(currencyFix);
+        });
+
       },
     });
   }
 
+  //menampilkan cart list
   function cartList(idpelanggan) {
     $.ajax({
       url: "<?= base_url('penjualan/cartlist'); ?>",
@@ -240,6 +266,10 @@ function generateCode($order)
       // console.log(selected);
     });
 
+    //show #sparepartForm when pelanggan has a value
+    $("#pelanggan").change(function() {
+      $('#sparepartForm').show();
+    });
 
 
     $(".select_pelanggan").change(function() {
@@ -258,6 +288,10 @@ function generateCode($order)
       cartList(selected);
     });
 
+    // $('#')
+
+
+    //show detail produk when produk selected 
     $('.select_produk').change(function() {
       $(".detail_pro").show();
       var selected = $(this).val();
@@ -274,22 +308,33 @@ function generateCode($order)
           // alert(data.jumlah);
         }
       });
+
     });
 
-    //jumlah_pro limit
-    $('#jumlah_pro').change(function() {
-      var jumlah_produk = $("#jumlah_pro").val();
-      var jumlahPro = $('#jumlahPro').val();
 
-      if (jumlah_produk > jumlahPro) {
-        $('#jumlah_pro').val(jumlahPro);
-      }
-    });
 
+    //jumlah_pro limit still bug
+    // $('#jumlah_pro').change(function() {
+    //   var jumlah_produk = $("#jumlah_pro").val();
+    //   var jumlahPro = $('#jumlahPro').val();
+
+    //   if (jumlah_produk > jumlahPro) {
+    //     $('#jumlah_pro').val(jumlahPro);
+    //   } else {
+    //     // $('#jumlah_pro').val(jumlahPro)
+    //     // $('#jumlah_pro').val($(this).val());
+    //     $('#jumlah_pro').val(jumlah_produk);
+    //   }
+
+    // });
+
+
+    //add sparepart when clicked
     $(".addsparepart").click(function() {
       var pelanggan = $("#pelanggan").val();
       var sparepart = $("#sparepart").val();
       var jumlah = $("#jumlah_pro").val();
+      //send data input using ajax to controller
       $.ajax({
         url: "<?= base_url('penjualan/tambahCart'); ?>",
         data: {
@@ -298,11 +343,17 @@ function generateCode($order)
           jumlah: jumlah,
         },
         method: "post",
-        success: function(data) {
-
-        },
+        success: function(data) {},
       });
+      //method cardList pelanggan
       cartList(pelanggan);
     });
+
+    //delete sparepart when clicked 
+    // $(".data-cart").children('.deletesparepart').click(function() {
+    //   // alert('test');
+    //   console.log('test dulu gan');
+    // });
+
   });
 </script>

@@ -14,7 +14,9 @@ class Penjualan extends CI_Controller
         $this->load->model('Produk_model', 'produk');
     }
 
-
+    /* MENU UNTUK KASIR
+      Controller kasir 
+    */
     public function kasir()
     {
         $data['title'] = 'Kasir';
@@ -46,15 +48,7 @@ class Penjualan extends CI_Controller
     {
         $post = $this->input->post();
         $produk = $this->produk->getProduk($post['id']);
-
         ej($produk);
-
-        // $harga_pro = $produk->harga_jual;
-        // $jumlah_pro = $produk->jumlah;
-
-        // dd($produk);
-        // echo $harga_pro;
-        // echo $jumlah_pro;
     }
 
     public function tambahCart()
@@ -65,20 +59,30 @@ class Penjualan extends CI_Controller
     public function grandTotal()
     {
         $id_pelanggan = $this->input->post("pelanggan");
-        // $biaya_service = $this->input->post("serv_biaya");
+        $biaya_service = $this->input->post("servis_biaya");
         $cart = $this->penjualan->viewCart($id_pelanggan)->result();
         $ttl = 0;
         foreach ($cart as $crt) {
             $ttl += $crt->harga_total;
         }
-        // $ttl += $biaya_service;
+        $ttl += $biaya_service;
         echo $ttl;
     }
+
+    // public function hapusCart($id)
+    // {
+    //     $id_pelanggan = $this->input->post("pelanggan");
+    //     $id_produk = $id;
+    //     // $id_produk = $this->input->post("sparepart");
+    //     $this->penjualan->deleteCart($id_produk, $id_pelanggan);
+    // }
 
     public function cartlist()
     {
         $id_pelanggan = $this->input->post("pelanggan");
         $cart = $this->penjualan->viewCart($id_pelanggan);
+        $onclick = "return confirm('Yakin hendak menghapus?');";
+        // <button href="http://localhost/pos-rajawali/penjualan/hapusCart/' . $crt->id_produk . 
         $str = '';
         if ($cart->num_rows() > 0) {
             $cartdata = $cart->result();
@@ -91,7 +95,8 @@ class Penjualan extends CI_Controller
                         <td> <input type="text" class="form-control shadow-none" value="' . $crt->jumlah . '"></td>
                         <td>' . $crt->harga_jual . '</td>
                         <td>' . $crt->harga_total . '</td>
-                        <td></td>
+                        <td> <button type="submit" class="badge badge-danger deletesparepart">Hapus</button>
+                        </td>
                     </tr>
                 ';
                 $i++;
