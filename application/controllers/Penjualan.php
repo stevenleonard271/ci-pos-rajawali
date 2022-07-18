@@ -56,6 +56,8 @@ class Penjualan extends CI_Controller
         $this->penjualan->insertCart();
     }
 
+
+
     public function grandTotal()
     {
         $id_pelanggan = $this->input->post("pelanggan");
@@ -69,19 +71,17 @@ class Penjualan extends CI_Controller
         echo $ttl;
     }
 
-    // public function hapusCart($id)
-    // {
-    //     $id_pelanggan = $this->input->post("pelanggan");
-    //     $id_produk = $id;
-    //     // $id_produk = $this->input->post("sparepart");
-    //     $this->penjualan->deleteCart($id_produk, $id_pelanggan);
-    // }
+    public function hapusCart()
+    {
+        $id = $this->input->post('id');
+        $this->penjualan->deleteCart($id);
+    }
 
     public function cartlist()
     {
         $id_pelanggan = $this->input->post("pelanggan");
         $cart = $this->penjualan->viewCart($id_pelanggan);
-        $onclick = "return confirm('Yakin hendak menghapus?');";
+        // $onclick = "return confirm('Yakin hendak menghapus?');";
         // <button href="http://localhost/pos-rajawali/penjualan/hapusCart/' . $crt->id_produk . 
         $str = '';
         if ($cart->num_rows() > 0) {
@@ -92,10 +92,10 @@ class Penjualan extends CI_Controller
                     <tr>
                         <td>' . $i . '</td>
                         <td>' . $crt->nama . '</td>
-                        <td> <input type="text" class="form-control shadow-none" value="' . $crt->jumlah . '"></td>
+                        <td>' . $crt->jumlah . '</td>
                         <td>' . $crt->harga_jual . '</td>
                         <td>' . $crt->harga_total . '</td>
-                        <td> <button type="submit" class="badge badge-danger deletesparepart">Hapus</button>
+                        <td> <button type="submit" class="badge badge-danger deletesparepart" data-id="' . $crt->id_cart . '">Hapus</button>
                         </td>
                     </tr>
                 ';

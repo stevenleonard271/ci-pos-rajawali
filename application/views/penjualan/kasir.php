@@ -69,7 +69,7 @@
               <input type="number" class="form-control" id="jumlah_pro" name="jumlah_pro">
             </div>
           </div>
-          <button type="submit" class="btn btn-success addsparepart">Tambah Sparepart</button>
+          <button type="submit" class="btn btn-success addsparepart" disabled>Tambah Sparepart</button>
         </div>
       </div>
     </div>
@@ -103,7 +103,7 @@
                 <th scope="col" width="200px">Aksi</th>
               </tr>
             </thead>
-            <tbody class="data-cart">
+            <tbody class="data-cart" id="data">
             </tbody>
           </table>
         </div>
@@ -288,9 +288,6 @@ function generateCode($order)
       cartList(selected);
     });
 
-    // $('#')
-
-
     //show detail produk when produk selected 
     $('.select_produk').change(function() {
       $(".detail_pro").show();
@@ -305,29 +302,27 @@ function generateCode($order)
         success: function(data) {
           $("#harga_pro").val(data.harga_jual);
           $('#jumlahPro').val(data.jumlah);
-          // alert(data.jumlah);
+          $('.addsparepart').removeAttr('disabled');
+
         }
       });
 
     });
 
+    //jumlah_pro limit
+    $('#jumlah_pro').change(function() {
+      var jumlah_produk = $("#jumlah_pro").val();
+      var jumlahPro = $('#jumlahPro').val();
 
+      if (parseInt(jumlah_produk) > parseInt(jumlahPro)) {
+        $('#jumlah_pro').val(jumlahPro);
+      } else {
+        // $('#jumlah_pro').val(jumlahPro)
+        // $('#jumlah_pro').val($(this).val());
+        $('#jumlah_pro').val(jumlah_produk);
+      }
 
-    //jumlah_pro limit still bug
-    // $('#jumlah_pro').change(function() {
-    //   var jumlah_produk = $("#jumlah_pro").val();
-    //   var jumlahPro = $('#jumlahPro').val();
-
-    //   if (jumlah_produk > jumlahPro) {
-    //     $('#jumlah_pro').val(jumlahPro);
-    //   } else {
-    //     // $('#jumlah_pro').val(jumlahPro)
-    //     // $('#jumlah_pro').val($(this).val());
-    //     $('#jumlah_pro').val(jumlah_produk);
-    //   }
-
-    // });
-
+    });
 
     //add sparepart when clicked
     $(".addsparepart").click(function() {
@@ -349,11 +344,22 @@ function generateCode($order)
       cartList(pelanggan);
     });
 
-    //delete sparepart when clicked 
-    // $(".data-cart").children('.deletesparepart').click(function() {
-    //   // alert('test');
-    //   console.log('test dulu gan');
-    // });
+    //delete sparepart when clicked
+    $('#data').on("click", '.deletesparepart', function() {
+      var id = $(this).data('id');
+      $.ajax({
+        url: "<?= base_url('penjualan/hapusCart/'); ?>",
+        data: {
+          id: id,
+        },
+        method: "post",
+        success: function(data) {
+
+        },
+      });
+      $(this).closest('tr').remove();
+    });
+
 
   });
 </script>
