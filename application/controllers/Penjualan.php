@@ -56,18 +56,20 @@ class Penjualan extends CI_Controller
         $this->penjualan->insertCart();
     }
 
-
-
     public function grandTotal()
     {
         $id_pelanggan = $this->input->post("pelanggan");
-        $biaya_service = $this->input->post("servis_biaya");
+        $biaya_servis = $this->input->post("biayaservis");
+        $diskon = $this->input->post("diskon");
         $cart = $this->penjualan->viewCart($id_pelanggan)->result();
         $ttl = 0;
         foreach ($cart as $crt) {
             $ttl += $crt->harga_total;
         }
-        $ttl += $biaya_service;
+        $subtotal = $ttl;
+        // echo $subtotal;
+        $ttl += $biaya_servis;
+        $ttl -= $diskon;
         echo $ttl;
     }
 

@@ -125,8 +125,8 @@
               </select>
             </div>
           </div>
-          <div class="form-group row"><label for="servis_biaya" class="col-sm-4 col-form-label">Biaya Service</label>
-            <div class="col-sm-8"><input type="text" id="servis_biaya" name="servis_biaya" class="form-control shadow-none"></div>
+          <div class="form-group row"><label for="biaya_servis" class="col-sm-4 col-form-label">Biaya Service</label>
+            <div class="col-sm-8"><input type="number" id="biaya_servis" name="biaya_servis" class="form-control shadow-none" value=0></div>
           </div>
         </div>
       </div>
@@ -142,7 +142,7 @@
             </div>
           </div>
           <div class="form-group row"><label for="diskon" class="col-sm-4 col-form-label">Discount</label>
-            <div class="col-sm-8"><input type="text" id="diskon" class="form-control shadow-none"></div>
+            <div class="col-sm-8"><input type="number" id="diskon" class="form-control shadow-none" value=0></div>
           </div>
           <div class="form-group row"><label for="hargatotal" class="col-sm-4 col-form-label">Harga Total</label>
             <div class="col-sm-8">
@@ -200,13 +200,14 @@ function generateCode($order)
 
 <script>
   //menampilkan grand total
-  function grandttl(idpelanggan) {
-    // var biaya_servis = $('#biaya_servis').val();
+  function grandttl(idpelanggan, biayaservis, diskon) {
+
     $.ajax({
       url: "<?= base_url('penjualan/grandTotal'); ?>",
       data: {
         pelanggan: idpelanggan,
-        // biaya_servis: biaya_servis
+        biayaservis: biayaservis,
+        diskon: diskon
       },
       method: "post",
       success: function(data) {
@@ -219,24 +220,19 @@ function generateCode($order)
 
         currencyDelimiter = Number.isNaN(data) ? 'Rp 0' : currencyDelimiter;
         $("#grandttl").html(currencyDelimiter);
-        $("#subtotal").html(currencyDelimiter);
-
-        //Diskon applied
-        $("#diskon").keyup(function() {
-          var test = data - $(this).val();
-          currencyFix = Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0,
-          }).format(test);
-          currencyFix = Number.isNaN(data) ? 'Rp 0' : currencyFix;
-          $("#hargatotal").html(currencyFix);
-          $("#grandttl").html(currencyFix);
-        });
-
+        $("#hargatotal").html(currencyDelimiter);
+        var subtotal = parseInt(data - $('#biaya_servis').val()) + parseInt($('#diskon').val());
+        currencySubtotal = Intl.NumberFormat('id-ID', {
+          style: 'currency',
+          currency: 'IDR',
+          minimumFractionDigits: 0,
+        }).format(subtotal);
+        $("#subtotal").html(currencySubtotal);
       },
     });
+
   }
+
 
   //menampilkan cart list
   function cartList(idpelanggan) {
@@ -283,6 +279,9 @@ function generateCode($order)
         method: "post",
         success: function(data) {
           $(".select_motor").html(data);
+          $('#biaya_servis').val(0);
+          $('#diskon').val(0);
+          $('#subtotal').val(0);
         },
       });
       cartList(selected);
@@ -359,6 +358,31 @@ function generateCode($order)
       });
       $(this).closest('tr').remove();
     });
+  });
+
+  $('#biaya_servis').change(function() {
+    var biaya_servis = $("#biaya_servis").val();
+    var pelanggan = $("#pelanggan").val();
+
+
+    if ($(this).val().trim() == "") {
+      parseInt($(this).val(0));
+      biaya_servis = parseInt(0);
+    }
+    grandttl(pelanggan, biaya_servis);
+  });
+
+  $("#diskon").change(function() {
+    var biaya_servis = $("#biaya_servis").val();
+    var pelanggan = $("#pelanggan").val();
+    var diskon = $("#diskon").val();
+
+
+    if ($(this).val().trim() == "") {
+      parseInt($(this).val(0));
+      diskon = parseInt(0);
+    }
+    grandttl(pelanggan, biaya_servis, diskon);
 
 
   });
