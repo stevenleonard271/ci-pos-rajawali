@@ -113,4 +113,11 @@ class Penjualan extends CI_Controller
 
         echo $str;
     }
+
+    //Memasukkan data dari form kasir ke tabel penjualan
+    public function tambahPenjualan()
+    {
+        $this->penjualan->insertPenjualan();
+        redirect('penjualan/kasir');
+    }
 }
