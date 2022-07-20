@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 12, 2022 at 06:56 AM
+-- Generation Time: Jul 20, 2022 at 01:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `pos_rajawali`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_penjualan`
+--
+
+CREATE TABLE `cart_penjualan` (
+  `id` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart_penjualan`
+--
+
+INSERT INTO `cart_penjualan` (`id`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
+(26, 2, 1, 2),
+(27, 6, 1, 1),
+(28, 4, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +137,7 @@ CREATE TABLE `penjualan` (
   `id` int(11) NOT NULL,
   `no_penjualan` varchar(128) NOT NULL,
   `tanggal_penjualan` date NOT NULL,
-  `id_user` int(11) NOT NULL,
+  `kasir` varchar(128) NOT NULL,
   `keterangan` varchar(256) NOT NULL,
   `diskon` int(11) NOT NULL,
   `id_mekanik` int(11) NOT NULL,
@@ -123,8 +145,40 @@ CREATE TABLE `penjualan` (
   `id_motor` int(11) DEFAULT NULL,
   `ongkos` int(11) NOT NULL,
   `sub_total` int(11) NOT NULL,
-  `grand_total` int(11) NOT NULL
+  `grand_total` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id`, `no_penjualan`, `tanggal_penjualan`, `kasir`, `keterangan`, `diskon`, `id_mekanik`, `id_pelanggan`, `id_motor`, `ongkos`, `sub_total`, `grand_total`, `created_at`) VALUES
+(1, 'ORD2007220003', '2022-07-20', 'Rajawali Owner', 'gak ada diskon buat ayang', 0, 2, 3, 2, 25000, 105000, 130000, '2022-07-20'),
+(2, 'ORD2007220002', '2022-07-20', 'Rajawali Owner', '-', 0, 2, 1, 1, 25000, 105000, 130000, '2022-07-20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penjualan_produk`
+--
+
+CREATE TABLE `penjualan_produk` (
+  `id` int(11) NOT NULL,
+  `id_penjualan` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjualan_produk`
+--
+
+INSERT INTO `penjualan_produk` (`id`, `id_penjualan`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
+(1, 1, 6, 3, 1),
+(2, 1, 6, 3, 2),
+(3, 2, 1, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -405,9 +459,40 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `judul`, `url`, `icon`, `is_active
 (18, 7, 'Mekanik', 'others/mekanik', 'fas fa-fw fa-wrench', 1),
 (19, 8, 'Kasir', 'penjualan/kasir', 'fas fa-fw fa-calculator', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_cart`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_cart` (
+`id_cart` int(11)
+,`id_pelanggan` int(11)
+,`id_produk` int(11)
+,`nama` varchar(128)
+,`jumlah` int(11)
+,`harga_jual` int(11)
+,`harga_total` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_cart`
+--
+DROP TABLE IF EXISTS `view_cart`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_cart`  AS SELECT `cart`.`id` AS `id_cart`, `cart`.`id_pelanggan` AS `id_pelanggan`, `cart`.`id_produk` AS `id_produk`, `prd`.`nama` AS `nama`, `cart`.`jumlah` AS `jumlah`, `prd`.`harga_jual` AS `harga_jual`, `cart`.`jumlah`* `prd`.`harga_jual` AS `harga_total` FROM (`cart_penjualan` `cart` join `produk` `prd` on(`prd`.`id` = `cart`.`id_produk`))  ;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `cart_penjualan`
+--
+ALTER TABLE `cart_penjualan`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `kategori_produk`
@@ -437,6 +522,12 @@ ALTER TABLE `pelanggan`
 -- Indexes for table `penjualan`
 --
 ALTER TABLE `penjualan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `penjualan_produk`
+--
+ALTER TABLE `penjualan_produk`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -510,6 +601,12 @@ ALTER TABLE `user_sub_menu`
 --
 
 --
+-- AUTO_INCREMENT for table `cart_penjualan`
+--
+ALTER TABLE `cart_penjualan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- AUTO_INCREMENT for table `kategori_produk`
 --
 ALTER TABLE `kategori_produk`
@@ -537,7 +634,13 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `penjualan_produk`
+--
+ALTER TABLE `penjualan_produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `produk`
