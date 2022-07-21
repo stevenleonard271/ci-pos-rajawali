@@ -29,6 +29,15 @@ $(document).ready(function () {
 		searching:false
 
       });
+	
+	  $("#tableStokKeluar").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+
+      });
 
 	//show and hide running out stock
 	$(".close").click(function () {

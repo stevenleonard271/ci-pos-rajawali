@@ -48,9 +48,7 @@ class Inventori extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Supplier baru ditambah </div>');
             redirect('inventori/supplier');
-
         }
-
     }
 
     //UBAH Supplier
@@ -106,7 +104,7 @@ class Inventori extends CI_Controller
         ])->row_array();
 
         $data['content'] = 'inventori/stokmasukbaru';
-    
+
 
         $data['supplier'] = $this->db->get('supplier')->result_array();
 
@@ -128,13 +126,11 @@ class Inventori extends CI_Controller
             Catatan stok masuk ditambah </div>');
             redirect('inventori/stokmasuk');
         }
-
     }
 
     //Edit data from Ubah Stok Masuk
     public function ubahStokMasuk($id)
     {
-
         $data['content'] = 'inventori/ubah_stokmasuk';
         $data['title'] = 'Stok Masuk';
         $data['subTitle'] = 'Ubah Catatan Stok Masuk';
@@ -161,10 +157,28 @@ class Inventori extends CI_Controller
         } else {
             $this->inventori->editStokMasuk();
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-              Catatan stok masuk diubah </div>');
+            Catatan stok masuk diubah </div>');
             redirect('inventori/stokmasuk');
         }
+    }
 
+    //Detail Stok Masuk
+    public function detailStokMasuk($id)
+    {
+        $data['content'] = 'inventori/detail_stokmasuk';
+        $data['title'] = 'Stok Masuk';
+        $data['subTitle'] = 'Detail Catatan Stok Masuk';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
+        $data['stok_masuk'] = $this->inventori->getStokMasuk($id);
+        $data['stok_masuk_produk'] = $this->inventori->getStokDetail($id);
+        $data['supplier'] = $this->db->get('supplier')->result_array();
+        $this->load->model('Produk_model', 'produk');
+        $data['produk'] = $this->produk->getAllProduk();
+
+
+        $this->load->view('layout', $data);
     }
 
     public function stokkeluar()
@@ -208,7 +222,6 @@ class Inventori extends CI_Controller
             Catatan stok keluar ditambah </div>');
             redirect('inventori/stokkeluar');
         }
-
     }
 
     public function ubahStokKeluar($id)
@@ -220,7 +233,7 @@ class Inventori extends CI_Controller
             'email' => $this->session->userdata('email'),
         ])->row_array();
 
-        
+
 
         $this->load->model('Produk_model', 'produk');
         $data['produk'] = $this->produk->getAllProduk();
@@ -240,8 +253,22 @@ class Inventori extends CI_Controller
             Catatan stok keluar diubah </div>');
             redirect('inventori/stokkeluar');
         }
-
     }
 
+    public function detailStokKeluar($id)
+    {
+        $data['content'] = 'inventori/detail_stokkeluar';
+        $data['title'] = 'Stok Keluar';
+        $data['subTitle'] = 'Detail Catatan Stok Keluar';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
 
+        $this->load->model('Produk_model', 'produk');
+        $data['produk'] = $this->produk->getAllProduk();
+        $data['stok_keluar'] = $this->inventori->getStokKeluar($id);
+        $data['stok_keluar_produk'] = $this->inventori->getStokKeluarDetail($id);
+
+        $this->load->view('layout', $data);
+    }
 }

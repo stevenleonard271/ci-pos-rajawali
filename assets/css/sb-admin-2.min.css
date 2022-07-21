@@ -2222,7 +2222,8 @@ select.form-control:focus::-ms-value {
     padding-bottom: calc(.375rem + 1px);
     margin-bottom: 0;
     font-size: inherit;
-    line-height: 1.5
+    line-height: 1.5;
+    font-weight:bold
 }
 
 .col-form-label-lg {
@@ -12620,3 +12621,4 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
     width: 100%
 }
+

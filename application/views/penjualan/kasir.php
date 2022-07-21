@@ -190,7 +190,7 @@ function generateCode($order)
 {
 
   date_default_timezone_set('Asia/Jakarta');
-  $name = "ORD";
+  $name = "#ORD";
   $today = date('dmy');
   $order = $order + 1;
 
