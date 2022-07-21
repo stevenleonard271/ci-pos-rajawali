@@ -53,7 +53,7 @@
                             <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Motor</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
-                                        <?= $detailPenjualan->motor; ?>
+                                        <?= $detailPenjualan->motor; ?> || <?= $detailPenjualan->plat; ?>
                                     </div>
                                 </div>
                             </div>

@@ -44,4 +44,19 @@ class Laporan extends CI_Controller
 
         $this->load->view('layout', $data);
     }
+
+    public function ongkos()
+    {
+        $data['title'] = 'Ongkos';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email')
+        ])->row_array();
+
+        $data['content'] = 'laporan/ongkos';
+        // $data['mekanik'] = $this->others->getAllMekanik();
+        // $data['totalOngkos'] = $this->laporan->totalOngkos(2);
+        // $data['totalServis'] = $this->laporan->totalService(2);
+        $data['mekanik'] = $this->laporan->ongkosMekanik();
+        $this->load->view('layout', $data);
+    }
 }
