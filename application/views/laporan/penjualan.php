@@ -20,7 +20,7 @@
                     <?php foreach ($penjualan as $p) : ?>
                         <tr>
                             <td><?= $p->tanggal_penjualan; ?></td>
-                            <td><a href="<?= base_url('laporan/penjualan/' . $p->no_penjualan); ?> "><?= $p->no_penjualan; ?></a></td>
+                            <td><a href="<?= base_url('laporan/detailPenjualan/' . $p->id); ?> "><?= $p->no_penjualan; ?></a></td>
                             <td><?= $p->kasir; ?></td>
                             <td><?= $p->pelanggan; ?></td>
                             <td><?= $p->created_at; ?></td>

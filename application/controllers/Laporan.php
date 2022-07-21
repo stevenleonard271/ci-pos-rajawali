@@ -28,7 +28,20 @@ class Laporan extends CI_Controller
         $this->load->view('layout', $data);
     }
 
-    public function detailPenjualan()
+    public function detailPenjualan($id)
     {
+
+        $data['title'] = 'Penjualan';
+        $data['subtitle'] = "Detail Penjualan";
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email')
+        ])->row_array();
+
+        $data['content'] = 'laporan/detail_penjualan';
+        $data['detailPenjualan'] = $this->laporan->detailPenjualan($id);
+        $data['penjualan_produk'] = $this->laporan->detailPenjualanProduk($id);
+        $data['produk'] = $this->produk->getAllProduk();
+
+        $this->load->view('layout', $data);
     }
 }
