@@ -27,4 +27,8 @@ class Laporan extends CI_Controller
         $data['penjualan'] = $this->laporan->tampilPenjualan();
         $this->load->view('layout', $data);
     }
+
+    public function detailPenjualan()
+    {
+    }
 }
