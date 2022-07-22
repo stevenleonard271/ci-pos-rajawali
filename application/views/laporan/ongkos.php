@@ -12,8 +12,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total Ongkos Bulan Ini</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.0
+                                Total Ongkos</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <?= rupiah($totalOngkos); ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -31,8 +31,8 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Service Bulan ini</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                                Total Service</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $totalService; ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fas fa-archive fa-2x text-gray-300"></i>
@@ -51,7 +51,7 @@
                                 Mekanik paling produktif
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                Mekanik
+                                <?= $mekanikProduktif; ?>
                             </div>
                         </div>
                         <div class="col-auto">

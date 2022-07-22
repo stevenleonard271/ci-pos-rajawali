@@ -30,18 +30,6 @@ class Laporan_Model extends CI_Model
         return $this->db->get('penjualan_produk')->result();
     }
 
-    public function totalOngkos($id_mekanik)
-    {
-        $query = "SELECT SUM(ongkos) as total_ongkos from penjualan WHERE id_mekanik = $id_mekanik;";
-        return $this->db->query($query)->row();
-    }
-
-    public function totalService($id_mekanik)
-    {
-        $query = "SELECT COUNT(id_mekanik) as total_service from penjualan WHERE id_mekanik = $id_mekanik";
-        return $this->db->query($query)->row();
-    }
-
     public function ongkosMekanik()
     {
         $query = "SELECT `mekanik`.*, SUM(`penjualan`.`ongkos`) as total_ongkos, COUNT(`penjualan`.`id_mekanik`) as total_service from mekanik RIGHT JOIN penjualan
@@ -52,5 +40,20 @@ class Laporan_Model extends CI_Model
 
     public function mekanikProduktif()
     {
+        $query = "SELECT `mekanik`.`nama` as mekanik_produktif, `mekanik`.`id`, MAX(`penjualan`.`id_mekanik`) as mekanik from mekanik join penjualan 
+                ON `penjualan`.`id_mekanik` = `mekanik`.`id`";
+        return $this->db->query($query)->row();
+    }
+
+    public function totalOngkos()
+    {
+        $query = "SELECT SUM(`penjualan`.`ongkos`) as total_ongkos FROM penjualan";
+        return $this->db->query($query)->row();
+    }
+
+    public function totalService()
+    {
+        $query = "SELECT COUNT(`penjualan`.`id_mekanik`) as total_service FROM penjualan";
+        return $this->db->query($query)->row();
     }
 }

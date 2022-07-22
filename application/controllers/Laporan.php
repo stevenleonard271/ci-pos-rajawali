@@ -57,6 +57,9 @@ class Laporan extends CI_Controller
         // $data['totalOngkos'] = $this->laporan->totalOngkos(2);
         // $data['totalServis'] = $this->laporan->totalService(2);
         $data['mekanik'] = $this->laporan->ongkosMekanik();
+        $data['totalOngkos'] = $this->laporan->totalOngkos()->total_ongkos;
+        $data['totalService'] = $this->laporan->totalService()->total_service;
+        $data['mekanikProduktif'] = $this->laporan->mekanikProduktif()->mekanik_produktif;
         $this->load->view('layout', $data);
     }
 }
