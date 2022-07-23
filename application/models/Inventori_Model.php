@@ -67,7 +67,6 @@ class Inventori_Model extends CI_Model
         $this->db->set('grand_total', $grandtotal);
         $this->db->where('id', $id_stok_masuk);
         $this->db->update('stok_masuk');
-
     }
 
     public function getAllStokMasuk()
@@ -87,7 +86,6 @@ class Inventori_Model extends CI_Model
                   FROM `stok_masuk`WHERE `stok_masuk`.`created_at` = '$today'";
 
         return $this->db->query($query)->row();
-
     }
 
     public function getStokMasuk($id)
@@ -103,8 +101,8 @@ class Inventori_Model extends CI_Model
     }
 
     public function getStokDetail($id)
-    {   
-        $this->db->where("id_stok_masuk", $id);  
+    {
+        $this->db->where("id_stok_masuk", $id);
         return $this->db->get("stok_masuk_produk")->result();
     }
 
@@ -119,12 +117,12 @@ class Inventori_Model extends CI_Model
             'status' => $this->input->post('status_pembelian', true),
             'catatan_pembelian' => $this->input->post('catatan_pembelian', true),
         ];
-        
+
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('stok_masuk', $data);
 
         // delete all data where id_stok_masuk = id_produk
-        $this->db->where('id_stok_masuk',$this->input->post('id'));
+        $this->db->where('id_stok_masuk', $this->input->post('id'));
         $this->db->delete('stok_masuk_produk');
 
         //insert all produk into db stok_masuk_produk
@@ -151,8 +149,6 @@ class Inventori_Model extends CI_Model
         $this->db->set('grand_total', $grandtotal);
         $this->db->where('id', $id_stok_masuk);
         $this->db->update('stok_masuk');
-
-       
     }
 
     public function getAllStokKeluar()
@@ -165,13 +161,12 @@ class Inventori_Model extends CI_Model
 
     public function getStokKeluar($id)
     {
-        return $this->db->get_where('stok_keluar',['id' => $id])->row();   
-        
+        return $this->db->get_where('stok_keluar', ['id' => $id])->row();
     }
 
     public function getStokKeluarDetail($id)
-    {   
-        $this->db->where("id_stok_keluar", $id);  
+    {
+        $this->db->where("id_stok_keluar", $id);
         return $this->db->get("stok_keluar_produk")->result();
     }
 
@@ -212,7 +207,8 @@ class Inventori_Model extends CI_Model
         }
     }
 
-    public function editStokKeluar(){
+    public function editStokKeluar()
+    {
         $data = [
             'no_keluar' => $this->input->post('no_keluar', true),
             'tanggal_keluar' => $this->input->post('edit_tgl_keluar', true),
@@ -222,7 +218,7 @@ class Inventori_Model extends CI_Model
         $this->db->update('stok_keluar', $data);
 
         // delete all data where id_stok_keluar = id_produk
-        $this->db->where('id_stok_keluar',$this->input->post('id'));
+        $this->db->where('id_stok_keluar', $this->input->post('id'));
         $this->db->delete('stok_keluar_produk');
 
         //insert all produk into db stok_keluar_produk
@@ -241,8 +237,5 @@ class Inventori_Model extends CI_Model
             //insert data ke stok_keluar_produk
             $this->db->insert('stok_keluar_produk', $data_detail);
         }
-
-
     }
-
 }

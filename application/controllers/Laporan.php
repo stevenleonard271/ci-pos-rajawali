@@ -62,4 +62,15 @@ class Laporan extends CI_Controller
         $data['mekanikProduktif'] = $this->laporan->mekanikProduktif()->mekanik_produktif;
         $this->load->view('layout', $data);
     }
+
+    public function peramalan()
+    {
+        $data['title'] = 'Peramalan Penjualan';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email')
+        ])->row_array();
+        $data['content'] = 'laporan/peramalan';
+        $data['produk'] = $this->produk->getAllProduk();
+        $this->load->view('layout', $data);
+    }
 }
