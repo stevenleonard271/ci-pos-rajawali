@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 20, 2022 at 01:35 PM
+-- Generation Time: Jul 23, 2022 at 06:01 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -33,15 +33,6 @@ CREATE TABLE `cart_penjualan` (
   `id_pelanggan` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `cart_penjualan`
---
-
-INSERT INTO `cart_penjualan` (`id`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
-(26, 2, 1, 2),
-(27, 6, 1, 1),
-(28, 4, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -81,7 +72,8 @@ CREATE TABLE `mekanik` (
 --
 
 INSERT INTO `mekanik` (`id`, `nama`, `nomor`, `alamat`, `persentase_ongkos`) VALUES
-(2, 'Petra', '0812345679', 'Jalan Bandulan 1347', 30);
+(2, 'Petra', '0812345679', 'Jalan Bandulan 137', 30),
+(3, 'Steven', '08952145678', 'Jalan Bandulan 249', 20);
 
 -- --------------------------------------------------------
 
@@ -103,7 +95,8 @@ CREATE TABLE `motor_pelanggan` (
 INSERT INTO `motor_pelanggan` (`id`, `id_pelanggan`, `jenis`, `plat_nomor`) VALUES
 (1, 1, 'Jupiter MX', 'N12345'),
 (2, 3, 'Kharisma', 'N2456'),
-(3, 1, 'Beat Matic', 'N12345');
+(3, 1, 'Beat Matic', 'N12345'),
+(5, 4, 'Beat Matic', 'N294');
 
 -- --------------------------------------------------------
 
@@ -154,8 +147,11 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id`, `no_penjualan`, `tanggal_penjualan`, `kasir`, `keterangan`, `diskon`, `id_mekanik`, `id_pelanggan`, `id_motor`, `ongkos`, `sub_total`, `grand_total`, `created_at`) VALUES
-(1, 'ORD2007220003', '2022-07-20', 'Rajawali Owner', 'gak ada diskon buat ayang', 0, 2, 3, 2, 25000, 105000, 130000, '2022-07-20'),
-(2, 'ORD2007220002', '2022-07-20', 'Rajawali Owner', '-', 0, 2, 1, 1, 25000, 105000, 130000, '2022-07-20');
+(1, '#ORD2007220003', '2022-07-20', 'Rajawali Owner', 'gak ada diskon buat ayang', 0, 2, 3, 2, 25000, 105000, 130000, '2022-07-20'),
+(2, '#ORD2007220002', '2022-07-20', 'Rajawali Owner', '-', 0, 2, 1, 1, 25000, 105000, 130000, '2022-07-20'),
+(3, '#ORD2107220001', '2022-07-21', 'Rajawali Owner', '-', 5000, 2, 4, 5, 26000, 85000, 106000, '2022-07-21'),
+(4, '#ORD2107220002', '2022-07-21', 'Rajawali Owner', '-', 0, 3, 4, 5, 25000, 25000, 50000, '2022-07-21'),
+(5, '#ORD2307220001', '2022-07-23', 'Rajawali Owner', '-', 0, 2, 1, 1, 15000, 90000, 105000, '2022-07-23');
 
 -- --------------------------------------------------------
 
@@ -178,7 +174,22 @@ CREATE TABLE `penjualan_produk` (
 INSERT INTO `penjualan_produk` (`id`, `id_penjualan`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
 (1, 1, 6, 3, 1),
 (2, 1, 6, 3, 2),
-(3, 2, 1, 1, 3);
+(3, 2, 1, 1, 3),
+(4, 3, 1, 4, 1),
+(5, 3, 2, 4, 1),
+(6, 4, 2, 4, 1),
+(7, 5, 4, 1, 3);
+
+--
+-- Triggers `penjualan_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `penjualan` AFTER INSERT ON `penjualan_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah - new.jumlah
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -202,12 +213,13 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`id`, `id_kategori`, `kode`, `nama`, `jumlah`, `harga_jual`, `harga_beli`, `batas_bawah`) VALUES
-(1, 2, 'FX', 'Jumbo Veloz 0,8L Matic', 25, 35000, 30000, 10),
+(1, 2, 'FX', 'Jumbo Veloz 0,8L Matic', 23, 35000, 30000, 10),
 (2, 2, 'KJ.I', 'Jumbo Veloz 1L', 10, 50000, 45000, 5),
 (4, 1, 'asdas', 'Sparepart FU', 10, 30000, 21000, 10),
 (5, 1, 'O.X', 'Sparepart Test', 8, 30000, 20000, 10),
 (6, 1, 'OX.L', 'Oli Yamalube 0.8L', 20, 35000, 20000, 10),
-(7, 2, 'OX.C', 'Oli Yamalube 1L', 10, 30000, 20000, 2);
+(7, 2, 'OX.C', 'Oli Yamalube 1L', 1, 30000, 20000, 2),
+(8, 1, 'O.J.K', 'Test Coba', 15, 30000, 25000, 2);
 
 -- --------------------------------------------------------
 
@@ -229,7 +241,8 @@ CREATE TABLE `stok_keluar` (
 
 INSERT INTO `stok_keluar` (`id`, `no_keluar`, `tanggal_keluar`, `catatan_keluar`, `created_at`) VALUES
 (1, '#SORWJ0807220001', '2022-07-08', '-', '2022-07-08'),
-(2, '#SORWJ0807220002', '2022-07-01', 'Test', '2022-07-08');
+(2, '#SORWJ0807220002', '2022-07-01', 'Test', '2022-07-08'),
+(3, '#SORWJ2307220001', '2022-07-23', '-', '2022-07-23');
 
 -- --------------------------------------------------------
 
@@ -253,7 +266,20 @@ INSERT INTO `stok_keluar_produk` (`id`, `id_stok_keluar`, `id_produk`, `jumlah_p
 (1, 1, 2, 2, 'Rusak dan dikembalikan'),
 (2, 1, 6, 3, 'Rusak dan dikembalikan'),
 (6, 2, 6, 3, 'Rusak dan dikembalikan'),
-(7, 2, 1, 2, 'Dan lain lain');
+(7, 2, 1, 2, 'Dan lain lain'),
+(8, 3, 4, 2, 'Rusak dan dikembalikan'),
+(9, 3, 1, 2, 'Rusak dan dikembalikan');
+
+--
+-- Triggers `stok_keluar_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `stok_keluar` AFTER INSERT ON `stok_keluar_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah - new.jumlah_produk
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -277,7 +303,11 @@ CREATE TABLE `stok_masuk` (
 --
 
 INSERT INTO `stok_masuk` (`id`, `no_pembelian`, `tanggal_pembelian`, `created_at`, `id_supplier`, `status`, `catatan_pembelian`, `grand_total`) VALUES
-(1, '#PORWJ0707220001', '2022-07-07', '2022-07-07', 1, 'Lunas', 'Test', 122000);
+(1, '#PORWJ0707220001', '2022-07-07', '2022-07-07', 1, 'Lunas', 'Test', 122000),
+(2, '#PORWJ2107220001', '2022-07-01', '2022-07-21', 1, 'Hutang', '-', 500000),
+(3, '#PORWJ2307220001', '2022-07-14', '2022-07-23', 2, 'Lunas', '-', 125000),
+(4, '#PORWJ2307220002', '0000-00-00', '2022-07-23', 1, 'Lunas', '-', 250000),
+(5, '#PORWJ2307220003', '2022-07-23', '2022-07-23', 1, 'Lunas', '-', 250000);
 
 -- --------------------------------------------------------
 
@@ -300,7 +330,22 @@ CREATE TABLE `stok_masuk_produk` (
 
 INSERT INTO `stok_masuk_produk` (`id`, `id_stok_masuk`, `id_produk`, `jumlah_produk`, `harga_produk`, `total_produk`) VALUES
 (11, 1, 6, 2, 25000, 50000),
-(12, 1, 5, 3, 24000, 72000);
+(12, 1, 5, 3, 24000, 72000),
+(13, 2, 2, 20, 25000, 500000),
+(14, 3, 4, 5, 25000, 125000),
+(15, 4, 4, 10, 25000, 250000),
+(16, 5, 8, 10, 25000, 250000);
+
+--
+-- Triggers `stok_masuk_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `tambah_stok_produk` AFTER INSERT ON `stok_masuk_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah + new.jumlah_produk
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -377,7 +422,8 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (32, 2, 7),
 (33, 1, 7),
 (34, 1, 8),
-(35, 2, 8);
+(35, 2, 8),
+(36, 1, 9);
 
 -- --------------------------------------------------------
 
@@ -397,12 +443,13 @@ CREATE TABLE `user_menu` (
 
 INSERT INTO `user_menu` (`id`, `menu`, `urutan`) VALUES
 (1, 'Admin', 1),
-(2, 'User', 4),
-(3, 'Menu', 6),
+(2, 'User', 5),
+(3, 'Menu', 7),
 (5, 'Produk', 3),
-(6, 'Inventori', 5),
-(7, 'Others', 7),
-(8, 'Penjualan', 2);
+(6, 'Inventori', 4),
+(7, 'Others', 8),
+(8, 'Penjualan', 2),
+(9, 'Laporan', 6);
 
 -- --------------------------------------------------------
 
@@ -457,7 +504,10 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `judul`, `url`, `icon`, `is_active
 (13, 6, 'Supplier', 'inventori/supplier', 'fas fa-fw fa-truck', 1),
 (17, 7, 'Pelanggan', 'others/pelanggan', 'fas fa-fw fa-user-friends', 1),
 (18, 7, 'Mekanik', 'others/mekanik', 'fas fa-fw fa-wrench', 1),
-(19, 8, 'Kasir', 'penjualan/kasir', 'fas fa-fw fa-calculator', 1);
+(19, 8, 'Kasir', 'penjualan/kasir', 'fas fa-fw fa-calculator', 1),
+(20, 9, 'Penjualan', 'laporan/penjualan', 'fas fa-fw fa-shopping-cart', 1),
+(21, 9, 'Ongkos', 'laporan/ongkos', 'fas fa-fw fa-percent', 1),
+(22, 9, 'Peramalan', 'laporan/peramalan', 'fas fa-fw fa-chart-line', 1);
 
 -- --------------------------------------------------------
 
@@ -604,7 +654,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `cart_penjualan`
 --
 ALTER TABLE `cart_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `kategori_produk`
@@ -616,13 +666,13 @@ ALTER TABLE `kategori_produk`
 -- AUTO_INCREMENT for table `mekanik`
 --
 ALTER TABLE `mekanik`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `motor_pelanggan`
 --
 ALTER TABLE `motor_pelanggan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
@@ -634,43 +684,43 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `penjualan_produk`
 --
 ALTER TABLE `penjualan_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `produk`
 --
 ALTER TABLE `produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `stok_keluar`
 --
 ALTER TABLE `stok_keluar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `stok_keluar_produk`
 --
 ALTER TABLE `stok_keluar_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `stok_masuk`
 --
 ALTER TABLE `stok_masuk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `stok_masuk_produk`
 --
 ALTER TABLE `stok_masuk_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `supplier`
@@ -688,13 +738,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
 --
 ALTER TABLE `user_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user_role`
@@ -706,7 +756,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT for table `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
