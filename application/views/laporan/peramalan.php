@@ -8,7 +8,6 @@
         <div class="col-7">
             <div class="card shadow">
                 <div class="card-body">
-
                     <div class="form-group row">
                         <label for="sparepart" class="col-sm-4 col-form-label">Sparepart</label>
                         <div class="col-sm-8 ">

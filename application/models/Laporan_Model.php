@@ -14,11 +14,11 @@ class Laporan_Model extends CI_Model
 
     public function detailPenjualan($id)
     {
-        $query = "SELECT `penjualan`.*, `pelanggan`.`nama` as pelanggan, `mekanik`.`nama` as mekanik, `motor_pelanggan`.`jenis` as motor,  
-                  `motor_pelanggan`.`plat_nomor` as plat
-                  FROM `penjualan`JOIN `pelanggan` ON `penjualan`.`id_pelanggan` = `pelanggan`.`id` 
-                  JOIN `mekanik` ON `penjualan`.`id_mekanik` = `mekanik`.`id`
-                  JOIN `motor_pelanggan` ON `penjualan`.`id_motor` = `motor_pelanggan`.`id`
+        $query = "SELECT `penjualan`.*, `pelanggan`.`nama` as pelanggan, `mekanik`.`nama` as mekanik,
+                 `motor_pelanggan`.`jenis` as motor,`motor_pelanggan`.`plat_nomor` as plat
+                  FROM penjualan JOIN pelanggan ON `penjualan`.`id_pelanggan` = `pelanggan`.`id`
+                  JOIN mekanik ON `penjualan`.`id_mekanik` = `mekanik`.`id`
+                  JOIN motor_pelanggan ON `penjualan`.`id_motor` = `motor_pelanggan`.`id`
                   WHERE `penjualan`.`id` = $id
                   ";
         return $this->db->query($query)->row();

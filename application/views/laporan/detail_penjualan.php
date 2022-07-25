@@ -90,13 +90,14 @@
                                                     <td>
                                                         <?= $p['nama']; ?>
                                                     </td>
+                                                    <td><?= $smp->jumlah; ?></td>
+                                                    <td>
+                                                        <?= rupiah($p['harga_jual']); ?>
+                                                    </td>
+                                                    <td><?= rupiah($smp->jumlah * $p['harga_jual']);  ?></td>
                                                 <?php endif; ?>
                                             <? endforeach; ?>
-                                            <td><?= $smp->jumlah; ?></td>
-                                            <td>
-                                                <?= rupiah($p['harga_jual']); ?>
-                                            </td>
-                                            <td><?= rupiah($smp->jumlah * $p['harga_jual']);  ?></td>
+
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr>

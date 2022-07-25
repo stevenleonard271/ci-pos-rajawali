@@ -66,7 +66,6 @@ class Penjualan extends CI_Controller
         foreach ($cart as $crt) {
             $ttl += $crt->harga_total;
         }
-        $subtotal = $ttl;
         // echo $subtotal;
         $ttl += $biaya_servis;
         $ttl -= $diskon;
