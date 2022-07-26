@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 23, 2022 at 06:01 AM
+-- Generation Time: Jul 26, 2022 at 04:18 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -142,17 +142,6 @@ CREATE TABLE `penjualan` (
   `created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `penjualan`
---
-
-INSERT INTO `penjualan` (`id`, `no_penjualan`, `tanggal_penjualan`, `kasir`, `keterangan`, `diskon`, `id_mekanik`, `id_pelanggan`, `id_motor`, `ongkos`, `sub_total`, `grand_total`, `created_at`) VALUES
-(1, '#ORD2007220003', '2022-07-20', 'Rajawali Owner', 'gak ada diskon buat ayang', 0, 2, 3, 2, 25000, 105000, 130000, '2022-07-20'),
-(2, '#ORD2007220002', '2022-07-20', 'Rajawali Owner', '-', 0, 2, 1, 1, 25000, 105000, 130000, '2022-07-20'),
-(3, '#ORD2107220001', '2022-07-21', 'Rajawali Owner', '-', 5000, 2, 4, 5, 26000, 85000, 106000, '2022-07-21'),
-(4, '#ORD2107220002', '2022-07-21', 'Rajawali Owner', '-', 0, 3, 4, 5, 25000, 25000, 50000, '2022-07-21'),
-(5, '#ORD2307220001', '2022-07-23', 'Rajawali Owner', '-', 0, 2, 1, 1, 15000, 90000, 105000, '2022-07-23');
-
 -- --------------------------------------------------------
 
 --
@@ -166,19 +155,6 @@ CREATE TABLE `penjualan_produk` (
   `id_pelanggan` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `penjualan_produk`
---
-
-INSERT INTO `penjualan_produk` (`id`, `id_penjualan`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
-(1, 1, 6, 3, 1),
-(2, 1, 6, 3, 2),
-(3, 2, 1, 1, 3),
-(4, 3, 1, 4, 1),
-(5, 3, 2, 4, 1),
-(6, 4, 2, 4, 1),
-(7, 5, 4, 1, 3);
 
 --
 -- Triggers `penjualan_produk`
@@ -213,13 +189,13 @@ CREATE TABLE `produk` (
 --
 
 INSERT INTO `produk` (`id`, `id_kategori`, `kode`, `nama`, `jumlah`, `harga_jual`, `harga_beli`, `batas_bawah`) VALUES
-(1, 2, 'FX', 'Jumbo Veloz 0,8L Matic', 23, 35000, 30000, 10),
-(2, 2, 'KJ.I', 'Jumbo Veloz 1L', 10, 50000, 45000, 5),
-(4, 1, 'asdas', 'Sparepart FU', 10, 30000, 21000, 10),
-(5, 1, 'O.X', 'Sparepart Test', 8, 30000, 20000, 10),
-(6, 1, 'OX.L', 'Oli Yamalube 0.8L', 20, 35000, 20000, 10),
-(7, 2, 'OX.C', 'Oli Yamalube 1L', 1, 30000, 20000, 2),
-(8, 1, 'O.J.K', 'Test Coba', 15, 30000, 25000, 2);
+(1, 2, 'FX', 'Jumbo Veloz 0,8L Matic', 18, 35000, 30000, 10),
+(2, 2, 'KJ.I', 'Jumbo Veloz 1L', 2, 50000, 45000, 5),
+(4, 1, 'asdas', 'Sparepart FU', 19, 30000, 21000, 10),
+(5, 1, 'O.X', 'Sparepart Test', 7, 30000, 20000, 10),
+(6, 1, 'OX.L', 'Oli Yamalube 0.8L', 13, 35000, 20000, 10),
+(7, 2, 'OX.C', 'Oli Yamalube 1L', 0, 30000, 20000, 2),
+(8, 1, 'O.J.K', 'Test Coba', 14, 30000, 25000, 2);
 
 -- --------------------------------------------------------
 
@@ -306,7 +282,7 @@ INSERT INTO `stok_masuk` (`id`, `no_pembelian`, `tanggal_pembelian`, `created_at
 (1, '#PORWJ0707220001', '2022-07-07', '2022-07-07', 1, 'Lunas', 'Test', 122000),
 (2, '#PORWJ2107220001', '2022-07-01', '2022-07-21', 1, 'Hutang', '-', 500000),
 (3, '#PORWJ2307220001', '2022-07-14', '2022-07-23', 2, 'Lunas', '-', 125000),
-(4, '#PORWJ2307220002', '0000-00-00', '2022-07-23', 1, 'Lunas', '-', 250000),
+(4, '#PORWJ2307220002', '2022-07-03', '2022-07-23', 4, 'Lunas', '-', 250000),
 (5, '#PORWJ2307220003', '2022-07-23', '2022-07-23', 1, 'Lunas', '-', 250000);
 
 -- --------------------------------------------------------
@@ -333,8 +309,8 @@ INSERT INTO `stok_masuk_produk` (`id`, `id_stok_masuk`, `id_produk`, `jumlah_pro
 (12, 1, 5, 3, 24000, 72000),
 (13, 2, 2, 20, 25000, 500000),
 (14, 3, 4, 5, 25000, 125000),
-(15, 4, 4, 10, 25000, 250000),
-(16, 5, 8, 10, 25000, 250000);
+(16, 5, 8, 10, 25000, 250000),
+(17, 4, 4, 10, 25000, 250000);
 
 --
 -- Triggers `stok_masuk_produk`
@@ -443,13 +419,13 @@ CREATE TABLE `user_menu` (
 
 INSERT INTO `user_menu` (`id`, `menu`, `urutan`) VALUES
 (1, 'Admin', 1),
-(2, 'User', 5),
+(2, 'User', 6),
 (3, 'Menu', 7),
 (5, 'Produk', 3),
 (6, 'Inventori', 4),
 (7, 'Others', 8),
 (8, 'Penjualan', 2),
-(9, 'Laporan', 6);
+(9, 'Laporan', 5);
 
 -- --------------------------------------------------------
 
@@ -507,7 +483,7 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `judul`, `url`, `icon`, `is_active
 (19, 8, 'Kasir', 'penjualan/kasir', 'fas fa-fw fa-calculator', 1),
 (20, 9, 'Penjualan', 'laporan/penjualan', 'fas fa-fw fa-shopping-cart', 1),
 (21, 9, 'Ongkos', 'laporan/ongkos', 'fas fa-fw fa-percent', 1),
-(22, 9, 'Peramalan', 'laporan/peramalan', 'fas fa-fw fa-chart-line', 1);
+(22, 9, 'Peramalan Penjualan', 'laporan/peramalan', 'fas fa-fw fa-chart-line', 1);
 
 -- --------------------------------------------------------
 
@@ -654,7 +630,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `cart_penjualan`
 --
 ALTER TABLE `cart_penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `kategori_produk`
@@ -684,13 +660,13 @@ ALTER TABLE `pelanggan`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `penjualan_produk`
 --
 ALTER TABLE `penjualan_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `produk`
@@ -720,7 +696,7 @@ ALTER TABLE `stok_masuk`
 -- AUTO_INCREMENT for table `stok_masuk_produk`
 --
 ALTER TABLE `stok_masuk_produk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `supplier`
