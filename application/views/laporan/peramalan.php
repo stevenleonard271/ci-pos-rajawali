@@ -14,7 +14,9 @@
                             <select name="sparepart" id="sparepart" class="select_produk form-control">
                                 <option value="">Masukkan nama sparepart</option>
                                 <?php foreach ($produk as $pro) : ?>
-                                    <option value="<?= $pro['id']; ?>"><?= $pro['nama'] . ' || ' ?> <strong><?= 'Kategori ' . $pro['nama_kategori'] ?></strong></option>
+                                <option value="<?= $pro['id']; ?>"><?= $pro['nama'] . ' || ' ?>
+                                    <strong><?= 'Kategori ' . $pro['nama_kategori'] ?></strong>
+                                </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -22,7 +24,8 @@
                     <div class="form-group row">
                         <label for="tanggal_peramalan" class="col-sm-4 col-form-label">Bulan Peramalan</label>
                         <div class="col-sm-8 ">
-                            <input type="text" class="form-control date-picker" id="tgl_peramalan" name="tgl_peramalan" placeholder="Masukkan bulan yang hendak diramalkan ">
+                            <input type="text" class="form-control date-picker" id="tgl_peramalan" name="tgl_peramalan"
+                                placeholder="Masukkan bulan yang hendak diramalkan ">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -35,7 +38,8 @@
                                 <option value=5>5</option>
                             </select>
                         </div>
-                        <small class="col-sm-12 mt-3 text-primary">**Metode peramalan yang digunakan adalah metode Single Moving Average</small>
+                        <small class="col-sm-12 mt-3 text-primary">**Metode peramalan yang digunakan adalah metode
+                            Single Moving Average</small>
                     </div>
                     <div class="row float-right">
                         <button type="submit" class="btn ml-2 mr-3 btn-primary">Hitung Peramalan</button>
@@ -53,16 +57,17 @@
 <!-- End of Main Content -->
 
 <script>
-    $(document).ready(function() {
+$(document).ready(function() {
 
 
-        $("#tgl_peramalan").datepicker({
-            format: "yyyy-mm",
-            autoclose: true,
-            orientation: "top",
-            endDate: "today",
-        });
-
-
+    $("#tgl_peramalan").datepicker({
+        format: "yyyy-mm",
+        autoclose: true,
+        orientation: "top",
+        startView: "months",
+        minViewMode: "months"
     });
+
+
+});
 </script>
