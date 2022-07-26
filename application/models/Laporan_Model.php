@@ -30,6 +30,12 @@ class Laporan_Model extends CI_Model
         return $this->db->get('penjualan_produk')->result();
     }
 
+    public function historyPenjualanProduk()
+    {
+        $query = "SELECT p.`id_penjualan`,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk from penjualan_produk p group by id_produk & id_penjualan ";
+        return $this->db->query($query)->result();
+    }
+
     public function ongkosMekanik()
     {
         $query = "SELECT `mekanik`.*, SUM(`penjualan`.`ongkos`) as total_ongkos, COUNT(`penjualan`.`id_mekanik`) as total_service from mekanik RIGHT JOIN penjualan
