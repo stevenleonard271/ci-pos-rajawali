@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-7">
-            <form action="<?= base_url('laporan/hitungPeramalan') ?>" method="post">
+            <form action="<?= base_url('laporan/hasilPeramalan/') ?>" method="post">
                 <div class="card shadow">
                     <div class="card-body">
                         <!-- <small class="col-sm-12 mt-3 text-primary">**Metode peramalan yang digunakan adalah metode
@@ -55,8 +55,9 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row float-right" hidden>
-                            <button type="button" class="btn ml-2 mr-3 btn-primary">Cek Data Peramalan</button>
+                        <div class="row float-right" style="display:none ;" id="buttonAksi">
+                            <button type="submit" class="btn ml-2 mr-3 btn-primary hitungPeramalan">Hitung
+                                Peramalan</button>
                             <a href="<?= base_url('laporan/peramalan') ?>" class="btn btn-danger mr-3">Batal </a>
                         </div>
                     </div>
@@ -123,6 +124,46 @@ $(document).ready(function() {
         // alert('hehe');
         $('.tanggal_awal').show();
         $('#riwayatPenjualan').show();
+        $('#buttonAksi').show();
+
+    });
+
+    $('.select_produk').change(function() {
+        var _sparepart = $('#sparepart').val();
+        var _tgl_ramal = $('#tgl_peramalan').val();
+        $.ajax({
+            url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
+            data: {
+                sparepart: _sparepart,
+                tgl_ramal: _tgl_ramal,
+            },
+            method: "post",
+            success: function(data) {
+                $('#dtRiwayat').html(data)
+            },
+        });
+        // alert('hehe');
+        $('.tanggal_awal').show();
+        $('#riwayatPenjualan').show();
+        $('#buttonAksi').show();
+
+    });
+
+    $('.hitungPeramalan').submit(function() {
+        var _sparepart = $('#sparepart').val();
+        var _tgl_ramal = $('#tgl_peramalan').val();
+        $.ajax({
+            url: "<?= base_url('laporan/hasilPeramalan'); ?>",
+            data: {
+                sparepart: _sparepart,
+                tgl_ramal: _tgl_ramal,
+            },
+            method: "post",
+            success: function(data) {
+                // $('#dtRiwayat').html(data)
+            },
+        });
+
     });
 
 });

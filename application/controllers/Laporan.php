@@ -78,33 +78,45 @@ class Laporan extends CI_Controller
     {
         $post = $this->input->post();
         $histo = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_ramal']);
+
+        //aku niru dari sini mas tak pikir sama :), kok bisa beda kenapa mas?
         $str = "";
-        foreach($histo as $hs){
+        if($histo->num_rows() > 0){
+            $histo = $histo->result();
+            foreach($histo as $hs){
+                $str .= '
+                <tr>
+                    <th scope="row">'.$hs->bulan.'</th>
+                    <td>'.$hs->jumlah_produk.'</td>
+                </tr>
+            ';
+            }
+        } else{
             $str .= '
             <tr>
-                <th scope="row">'.$hs->bulan.'</th>
-                <td>'.$hs->jumlah_produk.'</td>
+                <td colspan="6" class="text-center"><b>Data Penjualan tidak ditemukan</b></td>
             </tr>
-        ';
+            ';
         }
         echo $str;
     }
 
     public function hasilPeramalan(){
+        $post = $this->input->post();
+        
         $data['title'] = "Peramalan Penjualan";
-        $data['subtitle'] = "Perhitungan Peramalan";
+        $data['subtitle'] = "Perhitungan Peramalan Penjualan";
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
         ])->row_array();
-        $data['histo'] = $this->laporan->historyPenjualanProduk("1", "2022-07-30");
-        $data['forcast'] = $this->laporan->forecastMonth("2022-07-30");
+        $data['histo'] = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_peramalan'])->result();
+        $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
+        $data['produk'] = $this->produk->getProduk($post['sparepart'])->nama;
         // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
         $data['content'] = 'laporan/hasil_peramalan';
         $this->load->view('layout', $data);
-
-
-        
     }
 
-    
+    // :) maafkan saya wkwkw
+
 }

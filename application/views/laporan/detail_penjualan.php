@@ -57,7 +57,11 @@
                             <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Motor</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
+                                        <?php if($detailPenjualan->id_motor==0) :  ?>
+                                        <?= "Tidak ada motor"?>
+                                        <?php else :?>
                                         <?= $detailPenjualan->motor; ?> || <?= $detailPenjualan->plat; ?>
+                                        <?php endif;?>
                                     </div>
                                 </div>
                             </div>

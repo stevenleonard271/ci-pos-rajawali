@@ -11,7 +11,7 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body" id="riwayatPenjualan">
-                        <h5><b>Hasil Peramalan</b></h5>
+                        <h5><b> <?=$produk;?> </b></h5>
                         <div class="table-responsive">
                             <table class="table table-hover display" id="tableRiwayatPenjualan">
                                 <thead>
@@ -27,7 +27,7 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    $ma = 2;
+                                    $ma = 3;
                                     $count = 1;
                                     $jumJual = [];
                                     $ap = [];
@@ -80,16 +80,68 @@
                                     </tr>
                                     <tr>
                                         <th scope="row"></th>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
                                         <td></td>
-                                        <td><?php echo (array_sum($ap)/count($ap))*100?></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>MAPE<b></td>
+                                        <td><?php echo round(array_sum($ap)/count($ap),2)*100?>%</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <h5>Jumlah Peramalan</h5>
+                            <h5><b>Kesimpulan</b></h5>
+                            <h6>Hasil peramalan penjualan bulan <b><?= $forcast->forecast?></b> sebanyak
+                                <b><?=$ttl?></b> buah dan
+                                MAPE sebesar <b><?php echo (array_sum($ap)/count($ap))*100?>%.
+                            </h6>
+                            <h6></b>Hasil peramalan dapat
+                                dikatakan <b>"<?php
+                                $mapeFinal = (array_sum($ap)/count($ap))*100;
+                                $hasil = "SANGAT BAIK";
+                                if($mapeFinal<10){
+                                    $hasil = "SANGAT BAIK";
+                                } elseif($mapeFinal>10 &&$mapeFinal<20 ){
+
+                                    $hasil = "BAIK";
+                                }
+                                elseif($mapeFinal>20 &&$mapeFinal<50 ){
+                                    $hasil = "LAYAK";
+                                } else{
+                                    $hasil = "BURUK";
+                                }
+
+                                echo $hasil;
+
+                                ?>"</b></h6>
+                            <div class="col-6 mt-3">
+                                <table id="kriteriaMAPE" class="table table-hover display">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">MAPE</th>
+                                            <th scope="col">Kriteria</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>&#60;10%</td>
+                                            <td>Sangat Baik</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10%-20%</td>
+                                            <td>Baik</td>
+                                        </tr>
+                                        <tr>
+                                            <td>20%-50%</td>
+                                            <td>Layak</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>&#32;50%</td>
+                                            <td>Buruk</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 
@@ -102,3 +154,8 @@
 
 </div>
 <!-- End of Main Content -->
+
+<script>
+
+
+</script>

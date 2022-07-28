@@ -38,6 +38,26 @@ $(document).ready(function () {
 		searching:false
 
       });
+
+	  $("#kriteriaMAPE").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+
+      });
+
+	  $("#keteranganPeramalan").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+
+      });
+
+	  
 	
 	  $("#tableStokKeluar").DataTable({
 		bDestroy: true,
@@ -47,6 +67,7 @@ $(document).ready(function () {
 		searching:false
 
       });
+	  
 
 	//show and hide running out stock
 	$(".close").click(function () {

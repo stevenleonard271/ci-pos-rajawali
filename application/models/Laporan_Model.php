@@ -38,7 +38,7 @@ class Laporan_Model extends CI_Model
                   WHERE month(tanggal_penjualan) <  month('$tglPeramalan') AND p.`id_produk` = $idProduk
                   GROUP BY month(tanggal_penjualan)";
                   
-        return $this->db->query($query)->result();
+        return $this->db->query($query);
     }
 
     public function forecastMonth($tglPeramalan)
