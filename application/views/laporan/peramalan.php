@@ -70,14 +70,8 @@
                                         <th scope="col">Jumlah Terjual</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <?php foreach($riwayatPenjualan as $rP):?>
-                                    <tr>
-                                        <th scope="row"><?=$rP->bulan;?>
-                                        </th>
-                                        <td><?=$rP->jumlah_produk;?></td>
-                                    </tr>
-                                    <?php endforeach;?>
+                                <tbody id="dtRiwayat">
+
                                 </tbody>
                             </table>
                         </div>
@@ -113,6 +107,19 @@ $(document).ready(function() {
     });
 
     $('#tgl_peramalan').change(function() {
+        var _sparepart = $('#sparepart').val();
+        var _tgl_ramal = $('#tgl_peramalan').val();
+        $.ajax({
+            url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
+            data: {
+                sparepart: _sparepart,
+                tgl_ramal: _tgl_ramal,
+            },
+            method: "post",
+            success: function(data) {
+                $('#dtRiwayat').html(data)
+            },
+        });
         // alert('hehe');
         $('.tanggal_awal').show();
         $('#riwayatPenjualan').show();

@@ -71,8 +71,23 @@ class Laporan extends CI_Controller
         ])->row_array();
         $data['content'] = 'laporan/peramalan';
         $data['produk'] = $this->produk->getAllProduk();
-        $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk();
         $this->load->view('layout', $data);
+    }
+
+    public function riwayatPenjualan()
+    {
+        $post = $this->input->post();
+        $histo = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_ramal']);
+        $str = "";
+        foreach($histo as $hs){
+            $str .= '
+            <tr>
+                <th scope="row">'.$hs->bulan.'</th>
+                <td>'.$hs->jumlah_produk.'</td>
+            </tr>
+        ';
+        }
+        echo $str;
     }
 
     public function hasilPeramalan(){
@@ -81,6 +96,8 @@ class Laporan extends CI_Controller
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
         ])->row_array();
+        $data['histo'] = $this->laporan->historyPenjualanProduk("1", "2022-07-30");
+        $data['forcast'] = $this->laporan->forecastMonth("2022-07-30");
         // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
         $data['content'] = 'laporan/hasil_peramalan';
         $this->load->view('layout', $data);

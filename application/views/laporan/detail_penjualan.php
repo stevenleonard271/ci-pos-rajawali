@@ -102,7 +102,6 @@
                                         <td><?= rupiah($smp->jumlah * $p['harga_jual']);  ?></td>
                                         <?php endif; ?>
                                         <?php endforeach; ?>
-
                                     </tr>
                                     <?php endforeach; ?>
                                     <tr>

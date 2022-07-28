@@ -18,7 +18,7 @@ class Laporan_Model extends CI_Model
                  `motor_pelanggan`.`jenis` as motor,`motor_pelanggan`.`plat_nomor` as plat
                   FROM penjualan JOIN pelanggan ON `penjualan`.`id_pelanggan` = `pelanggan`.`id`
                   JOIN mekanik ON `penjualan`.`id_mekanik` = `mekanik`.`id`
-                  JOIN motor_pelanggan ON `penjualan`.`id_motor` = `motor_pelanggan`.`id`
+                  LEFT JOIN motor_pelanggan ON `penjualan`.`id_motor` = `motor_pelanggan`.`id`
                   WHERE `penjualan`.`id` = $id
                   ";
         return $this->db->query($query)->row();
@@ -30,15 +30,21 @@ class Laporan_Model extends CI_Model
         return $this->db->get('penjualan_produk')->result();
     }
 
-    public function historyPenjualanProduk($tanggalPeramalan)
+    public function historyPenjualanProduk($idProduk, $tglPeramalan)
     {
         $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
                   FROM penjualan_produk p join penjualan pj 
                   ON p.id_penjualan = pj.id
-                  WHERE month(tanggal_penjualan) <  month('.$tanggalPeramalan.')
+                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan') AND p.`id_produk` = $idProduk
                   GROUP BY month(tanggal_penjualan)";
                   
         return $this->db->query($query)->result();
+    }
+
+    public function forecastMonth($tglPeramalan)
+    {
+        $query = "SELECT monthname('$tglPeramalan') as forecast";
+        return $this->db->query($query)->row();
     }
 
     public function ongkosMekanik()
