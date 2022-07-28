@@ -29,6 +29,15 @@ $(document).ready(function () {
 		searching:false
 
       });
+
+	  $("#tableRiwayatPenjualan").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+
+      });
 	
 	  $("#tableStokKeluar").DataTable({
 		bDestroy: true,

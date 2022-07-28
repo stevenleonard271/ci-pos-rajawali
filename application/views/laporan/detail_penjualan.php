@@ -13,7 +13,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nomor Penjualan</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nomor
+                                    Penjualan</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
                                         <b> <?= $detailPenjualan->no_penjualan; ?> </b>
@@ -27,7 +28,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nama Mekanik</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nama
+                                    Mekanik</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext status">
                                         <?= $detailPenjualan->mekanik; ?>
@@ -36,14 +38,16 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Tanggal Stok Masuk</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Tanggal Stok
+                                    Masuk</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
                                         <?= $detailPenjualan->tanggal_penjualan; ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nama Pelanggan</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nama
+                                    Pelanggan</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
                                         <?= $detailPenjualan->pelanggan; ?>
@@ -62,7 +66,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group"><label for=""><b>Catatan Penjualan</b></label>
-                                <textarea name="" id="" rows="3" readonly="readonly" disabled="disabled" class="form-control bg-white"><?= $detailPenjualan->keterangan; ?>
+                                <textarea name="" id="" rows="3" readonly="readonly" disabled="disabled"
+                                    class="form-control bg-white"><?= $detailPenjualan->keterangan; ?>
                                 </textarea>
                             </div>
                         </div>
@@ -84,21 +89,21 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($penjualan_produk as $smp) : ?>
-                                        <tr>
-                                            <?php foreach ($produk as $p) : ?>
-                                                <?php if ($smp->id_produk == $p['id']) : ?>
-                                                    <td>
-                                                        <?= $p['nama']; ?>
-                                                    </td>
-                                                    <td><?= $smp->jumlah; ?></td>
-                                                    <td>
-                                                        <?= rupiah($p['harga_jual']); ?>
-                                                    </td>
-                                                    <td><?= rupiah($smp->jumlah * $p['harga_jual']);  ?></td>
-                                                <?php endif; ?>
-                                            <? endforeach; ?>
+                                    <tr>
+                                        <?php foreach ($produk as $p) : ?>
+                                        <?php if ($smp->id_produk == $p['id']) : ?>
+                                        <td>
+                                            <?= $p['nama']; ?>
+                                        </td>
+                                        <td><?= $smp->jumlah; ?></td>
+                                        <td>
+                                            <?= rupiah($p['harga_jual']); ?>
+                                        </td>
+                                        <td><?= rupiah($smp->jumlah * $p['harga_jual']);  ?></td>
+                                        <?php endif; ?>
+                                        <?php endforeach; ?>
 
-                                        </tr>
+                                    </tr>
                                     <?php endforeach; ?>
                                     <tr>
                                         <td colspan="3">

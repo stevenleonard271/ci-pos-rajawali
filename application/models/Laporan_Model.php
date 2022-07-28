@@ -30,9 +30,14 @@ class Laporan_Model extends CI_Model
         return $this->db->get('penjualan_produk')->result();
     }
 
-    public function historyPenjualanProduk()
+    public function historyPenjualanProduk($tanggalPeramalan)
     {
-        $query = "SELECT p.`id_penjualan`,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk from penjualan_produk p group by id_produk & id_penjualan ";
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+                  FROM penjualan_produk p join penjualan pj 
+                  ON p.id_penjualan = pj.id
+                  WHERE month(tanggal_penjualan) <  month('.$tanggalPeramalan.')
+                  GROUP BY month(tanggal_penjualan)";
+                  
         return $this->db->query($query)->result();
     }
 

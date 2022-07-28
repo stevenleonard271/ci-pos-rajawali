@@ -88,6 +88,16 @@ class Produk_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function getAllProdukMin1()
+    {
+        $query = "SELECT `produk`.*,`kategori_produk`.`nama` as nama_kategori
+        FROM `produk` JOIN `kategori_produk`
+        ON `produk`.`id_kategori` = `kategori_produk`.`id`
+        WHERE `produk`.jumlah > 1
+        ORDER BY `produk`.`nama` ASC ";
+        return $this->db->query($query)->result_array();
+    }
+
     public function insertProduk()
     {
         $data = [

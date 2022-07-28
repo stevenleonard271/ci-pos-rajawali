@@ -26,7 +26,7 @@ class Penjualan extends CI_Controller
 
         $data['content'] = 'penjualan/kasir';
         $data['pelanggan'] = $this->others->getAllPelanggan();
-        $data['produk'] = $this->produk->getAllProduk();
+        $data['produk'] = $this->produk->getAllProdukMin1();
         $data['mekanik'] = $this->others->getAllMekanik();
         $data['countReceipt'] = $this->penjualan->countPenjualan()->jumlah_penjualan;
 

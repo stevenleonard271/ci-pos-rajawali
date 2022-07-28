@@ -71,6 +71,23 @@ class Laporan extends CI_Controller
         ])->row_array();
         $data['content'] = 'laporan/peramalan';
         $data['produk'] = $this->produk->getAllProduk();
+        $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk();
         $this->load->view('layout', $data);
     }
+
+    public function hasilPeramalan(){
+        $data['title'] = "Peramalan Penjualan";
+        $data['subtitle'] = "Perhitungan Peramalan";
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email')
+        ])->row_array();
+        // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
+        $data['content'] = 'laporan/hasil_peramalan';
+        $this->load->view('layout', $data);
+
+
+        
+    }
+
+    
 }

@@ -83,18 +83,17 @@
                     </thead>
                     <tbody>
                         <?php foreach ($mekanik as $m) : ?>
-                            <tr>
-                                <th scope="row"><?= $m['nama']; ?></th>
-                                <td><?= $m['nomor'] ?></td>
-                                <td><?= rupiah($m['total_ongkos']); ?></td>
-                                <td><?= $m['total_service'] ?></td>
-                                <td><?= $m['persentase_ongkos']; ?></td>
-                            </tr>
+                        <tr>
+                            <th scope="row"><?= $m['nama']; ?></th>
+                            <td><?= $m['nomor'] ?></td>
+                            <td><?= rupiah($m['total_ongkos']); ?></td>
+                            <td><?= $m['total_service'] ?></td>
+                            <td><?= $m['persentase_ongkos']; ?></td>
+                        </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
-            <?php /*  <?=$this->pagination->create_links();?> */ ?>
         </div>
     </div>
 
