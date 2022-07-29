@@ -79,7 +79,6 @@ class Laporan extends CI_Controller
         $post = $this->input->post();
         $histo = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_ramal']);
 
-        //aku niru dari sini mas tak pikir sama :), kok bisa beda kenapa mas?
         $str = "";
         if($histo->num_rows() > 0){
             $histo = $histo->result();
@@ -111,12 +110,12 @@ class Laporan extends CI_Controller
         ])->row_array();
         $data['histo'] = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_peramalan'])->result();
         $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
+        $data['moving_average'] = $post['moving_average'];
         $data['produk'] = $this->produk->getProduk($post['sparepart'])->nama;
         // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
         $data['content'] = 'laporan/hasil_peramalan';
         $this->load->view('layout', $data);
     }
 
-    // :) maafkan saya wkwkw
 
 }

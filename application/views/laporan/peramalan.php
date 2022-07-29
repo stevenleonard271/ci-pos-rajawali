@@ -44,10 +44,10 @@
                             </div>
 
                         </div>
-                        <div class="form-group row" hidden>
-                            <label for="moving_average" class="col-sm-4 col-form-label">Moving average</label>
+                        <div class="form-group row" style="display:none" id="moving_average_form">
+                            <label for="moving_average" class="col-sm-4 col-form-label">Moving average (MA)</label>
                             <div class="col-sm-8 ">
-                                <select name="moving_average" id="moving_average" class="form-control">
+                                <select name="moving_average" id="moving_average" class="form-control" required>
                                     <option value="">Masukkan Moving Average</option>
                                     <option value=3>3</option>
                                     <option value=4>4</option>
@@ -110,11 +110,13 @@ $(document).ready(function() {
     $('#tgl_peramalan').change(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
+        var _moving_average = $('#moving_average').val();
         $.ajax({
             url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
+                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {
@@ -122,8 +124,9 @@ $(document).ready(function() {
             },
         });
         // alert('hehe');
-        $('.tanggal_awal').show();
+        // $('.tanggal_awal').show();
         $('#riwayatPenjualan').show();
+        $('#moving_average_form').show();
         $('#buttonAksi').show();
 
     });
@@ -131,11 +134,13 @@ $(document).ready(function() {
     $('.select_produk').change(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
+        var _moving_average = $('#moving_average').val();
         $.ajax({
             url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
+                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {
@@ -143,20 +148,25 @@ $(document).ready(function() {
             },
         });
         // alert('hehe');
-        $('.tanggal_awal').show();
+        // $('.tanggal_awal').show();
         $('#riwayatPenjualan').show();
+        $('#moving_average_form').show();
         $('#buttonAksi').show();
-
     });
 
-    $('.hitungPeramalan').submit(function() {
+
+
+    $('.hitungPeramalan').click(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
+        var _moving_average = $('#moving_average').val();
+        // _moving_average<
         $.ajax({
             url: "<?= base_url('laporan/hasilPeramalan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
+                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {

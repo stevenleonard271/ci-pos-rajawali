@@ -27,35 +27,24 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    $ma = 3;
+                                    $ma = $moving_average;
                                     $count = 1;
                                     $jumJual = [];
                                     $ap = [];
-                                    foreach($histo as $hs): 
-                                        $ramal = "";
-                                        $error = "";
-                                        $abserror = "";
-                                        array_push($jumJual, $hs->jumlah_produk);
-                                        if($count <= $ma) : 
-                                            $ramal = "0"; 
-                                            $error = "0";
-                                            $abserror = "0";
-                                            $errorkuadrat = "0";
-                                            $ape = "0";
-                                        else:
-                                            $ttl = 0;
-                                            for ($i=($count - $ma) - 1; $i < count($jumJual) - 1; $i++) { 
-                                                $ttl += $jumJual[$i];
-                                            }
-                                            $ttl = $ttl / $ma;
-                                            $ramal = "".$ttl;
-                                            $error = "".($jumJual[count($jumJual) - 1] - $ttl);
-                                            $abserror = "".abs(($jumJual[count($jumJual) - 1] - $ttl));
-                                            $errorkuadrat = "".pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2);
-                                            $ape = "".(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
-                                            array_push($ap, (abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1]);
-                                        endif;
-                                    ?>
+                                    foreach($histo as $hs):
+                                    $ramal = "";
+                                    $error = "";
+                                    $abserror = "";
+                                    array_push($jumJual, $hs->jumlah_produk);
+                                    if($count <= $ma) : $ramal="0" ; $error="0" ; $abserror="0" ; $errorkuadrat="0" ;
+                                        $ape="0" ; else: $ttl=0; for ($i=($count - $ma) - 1; $i < count($jumJual) - 1;
+                                        $i++) { $ttl +=$jumJual[$i]; } $ttl=$ttl / $ma; $ramal="" .$ttl; $error=""
+                                        .($jumJual[count($jumJual) - 1] - $ttl); $abserror=""
+                                        .abs(($jumJual[count($jumJual) - 1] - $ttl)); $errorkuadrat=""
+                                        .pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2); $ape=""
+                                        .(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
+                                        array_push($ap, (abs(($jumJual[count($jumJual) - 1] -
+                                        $ttl)))/$jumJual[count($jumJual) - 1]); endif; ?>
                                     <tr>
                                         <th scope="row"><?= $hs->bulan?></th>
                                         <td><?= $hs->jumlah_produk?></td>
@@ -91,7 +80,7 @@
                             </table>
                             <h5><b>Kesimpulan</b></h5>
                             <h6>Hasil peramalan penjualan bulan <b><?= $forcast->forecast?></b> sebanyak
-                                <b><?=$ttl?></b> buah dan
+                                <b><?=$ttl?></b> buah dengan MA = <b><?=$moving_average;?></b> dan
                                 MAPE sebesar <b><?php echo (array_sum($ap)/count($ap))*100?>%.
                             </h6>
                             <h6></b>Hasil peramalan dapat
