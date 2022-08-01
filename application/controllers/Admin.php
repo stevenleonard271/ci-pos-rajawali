@@ -10,6 +10,7 @@ class Admin extends CI_Controller
         is_logged_in();
         $this->load->model('Produk_model', 'produk');
         $this->load->model('Others_Model', 'others');
+        $this->load->model('Role_Model', 'role');
     }
 
     public function index()
@@ -29,7 +30,7 @@ class Admin extends CI_Controller
     //GET AND INSERT TO MANAJEMEN USER
     public function role()
     {
-        $data['title'] = 'Manajemen User';
+        $data['title'] = 'Manajemen Role';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email'),
         ])->row_array();
@@ -52,6 +53,19 @@ class Admin extends CI_Controller
             User baru ditambah </div>');
             redirect('admin/role');
         }
+    }
+
+    public function users(){
+        $data['title'] = 'Manajemen User';
+        $data['user'] = $this->db->get_where('user', [
+            'email' => $this->session->userdata('email'),
+        ])->row_array();
+        $data['users'] = $this->role->usersList();
+        $data['role'] = $this->db->get('user_role')->result_array();
+        $data['content'] = 'admin/users';
+        $this->load->view('layout', $data);
+        
+
     }
     //HAPUS SUBMENU BY MODEL
     public function hapusRole($id)

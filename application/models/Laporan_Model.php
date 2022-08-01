@@ -35,7 +35,7 @@ class Laporan_Model extends CI_Model
         $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
                   FROM penjualan_produk p join penjualan pj 
                   ON p.id_penjualan = pj.id
-                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan') AND p.`id_produk` = $idProduk
+                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan') AND p.`id_produk` = $idProduk OR year(tanggal_penjualan) <  year('$tglPeramalan')
                   GROUP BY month(tanggal_penjualan)";
                   
         return $this->db->query($query);
