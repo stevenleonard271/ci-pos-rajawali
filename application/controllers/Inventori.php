@@ -176,8 +176,7 @@ class Inventori extends CI_Controller
         $data['supplier'] = $this->db->get('supplier')->result_array();
         $this->load->model('Produk_model', 'produk');
         $data['produk'] = $this->produk->getAllProduk();
-
-
+        
         $this->load->view('layout', $data);
     }
 
@@ -268,6 +267,8 @@ class Inventori extends CI_Controller
         $data['produk'] = $this->produk->getAllProduk();
         $data['stok_keluar'] = $this->inventori->getStokKeluar($id);
         $data['stok_keluar_produk'] = $this->inventori->getStokKeluarDetail($id);
+        // var_dump($data['stok_keluar_produk']);
+        // die;
 
         $this->load->view('layout', $data);
     }

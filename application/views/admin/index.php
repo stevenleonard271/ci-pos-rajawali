@@ -31,7 +31,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Order</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$totalOrder;?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-cart-arrow-down fa-2x text-gray-300"></i>
@@ -65,7 +65,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                 Total Ongkos</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= rupiah($totalOngkos); ?></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-percentage fa-2x text-gray-300"></i>
@@ -95,11 +95,11 @@
                         </thead>
                         <tbody>
                             <?php foreach ($produkKritis as $pk) : ?>
-                                <tr>
-                                    <td><?= $pk->nama; ?></td>
-                                    <td><?= $pk->jumlah; ?></td>
-                                    <td><?= $pk->batas_bawah; ?></td>
-                                </tr>
+                            <tr>
+                                <td><?= $pk->nama; ?></td>
+                                <td><?= $pk->jumlah; ?></td>
+                                <td><?= $pk->batas_bawah; ?></td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -114,3 +114,9 @@
 
 </div>
 <!-- End of Main Content -->
+
+<?php function rupiah($angka)
+{
+    $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
+    return $hasil_rupiah;
+}

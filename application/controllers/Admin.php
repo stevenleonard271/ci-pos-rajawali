@@ -11,6 +11,8 @@ class Admin extends CI_Controller
         $this->load->model('Produk_model', 'produk');
         $this->load->model('Others_Model', 'others');
         $this->load->model('Role_Model', 'role');
+        $this->load->model('Inventori_Model', 'inventori');
+        $this->load->model('Laporan_Model', 'laporan');
     }
 
     public function index()
@@ -23,6 +25,8 @@ class Admin extends CI_Controller
         $data['content'] = 'admin/index';
         $data['produkKritis'] = $this->produk->runningOutProduk();
         $data['pelanggan'] = $this->others->countAllPelanggan();
+        $data['totalOngkos'] = $this->laporan->totalOngkos()->total_ongkos;
+        $data['totalOrder'] = $this->inventori->countOrder()->jumlah_stokmasuk;
 
         $this->load->view('layout', $data);
     }

@@ -73,9 +73,16 @@ class Inventori_Model extends CI_Model
     {
         $query = "SELECT `stok_masuk`.*, `supplier`.`nama` as nama_supplier
                   FROM stok_masuk JOIN supplier
-                  ON `stok_masuk`.`id` = `supplier`.`id`
+                  ON `stok_masuk`.`id_supplier` = `supplier`.`id`
                   ORDER BY `stok_masuk`.`no_pembelian` ASC";
         return $this->db->query($query)->result_array();
+    }
+
+    public function countOrder(){
+        $query = "SELECT `stok_masuk`.`created_at`,COUNT(`stok_masuk`.`id`) as jumlah_stokmasuk
+                  FROM `stok_masuk`";
+        return $this->db->query($query)->row();
+
     }
     public function countStokMasuk()
     {
@@ -90,11 +97,10 @@ class Inventori_Model extends CI_Model
 
     public function getStokMasuk($id)
     {
-
         $query = "SELECT `stok_masuk`.*,`supplier`.`id` as idSupplier,
                  `supplier`.`nama` as nama_supplier
                   FROM stok_masuk JOIN supplier
-                  ON `stok_masuk`.`id` = `supplier`.`id`
+                  ON `stok_masuk`.`id_supplier` = `supplier`.`id`
                   WHERE `stok_masuk`.`id` = $id";
 
         return $this->db->query($query)->row();

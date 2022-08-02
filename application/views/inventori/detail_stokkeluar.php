@@ -13,7 +13,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nomor Stok Keluar</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Nomor Stok
+                                    Keluar</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
                                         <b> <?= $stok_keluar->no_keluar; ?> </b>
@@ -23,7 +24,8 @@
 
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Tanggal Stok Keluar</label>
+                            <div class="form-group row"><label for="" class="col-sm-6 col-form-label">Tanggal Stok
+                                    Keluar</label>
                                 <div class="col-sm-6">
                                     <div type="text" readonly="readonly" id="" class="form-control-plaintext">
                                         <?= $stok_keluar->tanggal_keluar; ?>
@@ -35,7 +37,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group"><label for=""><b>Catatan Barang Keluar</b></label>
-                                <textarea name="" id="" rows="3" readonly="readonly" disabled="disabled" class="form-control bg-white"><?= $stok_keluar->catatan_keluar; ?>
+                                <textarea name="" id="" rows="3" readonly="readonly" disabled="disabled"
+                                    class="form-control bg-white"><?= $stok_keluar->catatan_keluar; ?>
                                 </textarea>
                             </div>
                         </div>
@@ -57,20 +60,19 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($stok_keluar_produk as $skp) : ?>
-                                        <tr>
-                                            <?php foreach ($produk as $p) : ?>
-                                                <?php if ($skp->id_produk == $p['id']) : ?>
-                                                    <td>
-                                                        <?= $p['nama']; ?>
-                                                    </td>
-                                                <?php endif; ?>
-                                            <? endforeach; ?>
-                                            <td><?= $skp->jumlah_produk; ?></td>
-                                            <td>
-                                                <?= $skp->alasan;  ?>
-                                            </td>
-
-                                        </tr>
+                                    <tr>
+                                        <?php foreach ($produk as $p) : ?>
+                                        <?php if ($skp->id_produk == $p['id']) : ?>
+                                        <td>
+                                            <?= $p['nama']; ?>
+                                        </td>
+                                        <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        <td><?= $skp->jumlah_produk; ?></td>
+                                        <td>
+                                            <?= $skp->alasan;  ?>
+                                        </td>
+                                    </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -87,10 +89,3 @@
 
 </div>
 <!-- End of Main Content -->
-
-
-<script>
-
-
-
-</script>
