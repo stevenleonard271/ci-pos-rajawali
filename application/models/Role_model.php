@@ -32,4 +32,25 @@ class Role_model extends CI_Model
         return $this->db->query($query)->result_array();
         
     }
+
+    public function getUser($id){
+        return $this->db->get_where('user', ['id' => $id])->row_array();
+    }
+
+     //EDIT MENU
+     public function editUser()
+     {
+         $data = [
+            'nama' => htmlspecialchars($this->input->post('nama', true)),
+            'email' => htmlspecialchars($this->input->post('email', true)),
+            'role_id' => htmlspecialchars($this->input->post('role', true)),
+         ];
+         $this->db->where('id', $this->input->post('id'));
+         $this->db->update('user', $data);
+     }
+
+    public function deleteUser($id){
+        $this->db->where('id', $id);
+        $this->db->delete('user');
+    }
 }

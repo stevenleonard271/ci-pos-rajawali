@@ -9,7 +9,13 @@
         <div class="col">
 
             <!-- Error Flash Data -->
-            <?=form_error('role', '<div class="alert alert-danger" role="alert">', '</div>');?>
+            <?php //echo form_error('users', '<div class="alert alert-danger" role="alert">', '</div>');?>
+
+            <?php if (validation_errors()): ?>
+            <div class="alert alert-danger" role="alert">
+                <?=validation_errors();?>
+            </div>
+            <?php endif;?>
 
             <!-- Success Flash Data -->
             <?=$this->session->flashdata('message');?>
@@ -21,7 +27,7 @@
                 <thead>
                     <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">User</th>
+                        <th scope="col">Nama</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
                         <th scope="col">Aksi</th>
@@ -36,10 +42,10 @@
                         <td><?=$r['email'];?></td>
                         <td><?=$r['role'];?></td>
                         <td>
-                            <a href="<?=base_url('admin/ubahRole/' . $r['id']);?>"
-                                class="badge badge-success tampilModalUbahRole" data-toggle="modal"
-                                data-target="#newRoleModal" data-id="<?=$r['id'];?>">Edit</a>
-                            <a href="<?=base_url('admin/hapusRole/' . $r['id']);?>" class="badge badge-danger"
+                            <a href="<?=base_url('admin/ubahUser/' . $r['id']);?>"
+                                class="badge badge-success tampilModalUbahUser" data-toggle="modal"
+                                data-target="#newUserModal" data-id="<?=$r['id'];?>">Edit</a>
+                            <a href="<?=base_url('admin/hapusUser/' . $r['id']);?>" class="badge badge-danger"
                                 onclick="return confirm('Yakin hendak menghapus?');">Hapus</a>
                         </td>
                     </tr>
@@ -61,7 +67,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="newRoleModalLabel">Tambah User</h5>
+                <h5 class="modal-title" id="newUserModalLabel">Tambah User</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,14 +76,19 @@
                 <form action="<?=base_url('admin/users');?>" method="post">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama User">
+                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama User"
+                            autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Email User"
+                            autocomplete="off">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="password" name="password"
                             placeholder="Password User">
                     </div>
                     <div class="form-group">
-                        <select name="role" class="form-control">
+                        <select name="role" id="role" class="form-control">
                             <option value="">Pilih Role</option>
                             <?php foreach ($role as $r): ?>
                             <option value="<?=$r['id'];?>"><?=$r['role'];?></option>

@@ -1,4 +1,45 @@
 $(function () {
+
+	//Add User
+	$(".tombolTambahUser").on("click", function () {
+		$("#newUserModalLabel").html("Tambah User ");
+		$(".modal-footer button[type=submit]").html("Tambah");
+		$("#nama").val("");
+		$("#email").val("");
+		$("#password").val("");
+		$("#role").val("");
+		$("#id").val("");
+	});
+
+	//Edit and Get User 
+	$(".tampilModalUbahUser").on("click", function () {
+		$("#newUserModalLabel").html("Edit User ");
+		$(".modal-footer button[type=submit]").html("Edit");
+		$(".modal-body form").attr(
+			"action",
+			"http://localhost/pos-rajawali/admin/ubahUser"
+		);
+
+		const id = $(this).data("id");
+
+		$.ajax({
+			url: "http://localhost/pos-rajawali/admin/getUbahUser",
+			data: {
+				id: id,
+			},
+			method: "post",
+			dataType: "json",
+			success: function (data) {
+				$("#nama").val(data.nama);
+				$("#email").val(data.email);
+				$("#password").hide();
+				$("#role").val(data.role_id);
+				$("#id").val(data.id);
+			},
+		});
+	});
+
+
 	//Add Menu
 	$(".tombolTambahMenu").on("click", function () {
 		$("#newMenuModalLabel").html("Tambah Menu ");

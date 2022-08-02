@@ -50,7 +50,7 @@ class Admin extends CI_Controller
                 'role' => $this->input->post('role'),
             ]);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            User baru ditambah </div>');
+            Role baru ditambah </div>');
             redirect('admin/role');
         }
     }
@@ -63,17 +63,66 @@ class Admin extends CI_Controller
         $data['users'] = $this->role->usersList();
         $data['role'] = $this->db->get('user_role')->result_array();
         $data['content'] = 'admin/users';
-        $this->load->view('layout', $data);
+
+        $this->form_validation->set_rules('nama', 'User', "required", [
+            'required' => 'Nama User wajib diisi',
+        ]);
+        $this->form_validation->set_rules('email', 'User', "required", [
+            'required' => 'Email User wajib diisi',
+        ]);
+        $this->form_validation->set_rules('password', 'User', "required", [
+            'required' => 'Password User wajib diisi',
+        ]);
+        $this->form_validation->set_rules('role', 'User', "required", [
+            'required' => 'Role User wajib diisi',
+        ]);
+
+        if($this->form_validation->run()==false){ 
+            $this->load->view('layout', $data);
+        } else{
+            $data = [
+                'nama' => htmlspecialchars($this->input->post('nama', true)),
+                'email' => htmlspecialchars($this->input->post('email', true)),
+                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'foto' => 'default.jpg',
+                'role_id' => htmlspecialchars($this->input->post('role', true)),
+                'created_at' => time(),
+            ];
+            $this->db->insert('user', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            User baru ditambah </div>');
+            redirect('admin/users');
+        }
+    }
+
+    public function hapusUser($id){
+     $this->role->deleteUser($id);
+     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+     User terhapus! </div>');
+     redirect('admin/users');
+    }
+
+    public function getUbahUser(){
+        $id = $_POST['id'];
+        echo json_encode($this->role->getUser($id));
         
+    }
+
+    public function ubahUser(){
+        $id = $_POST['id'];
+        $this->role->editUser($id);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+        User diedit! </div>');
+      redirect('admin/users');
 
     }
+
     //HAPUS SUBMENU BY MODEL
     public function hapusRole($id)
     {
-        $this->load->model('Role_model', "role");
         $this->role->deleteRole($id);
         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-     User terhapus! </div>');
+     Role terhapus! </div>');
         redirect('admin/role');
     }
 
@@ -81,7 +130,6 @@ class Admin extends CI_Controller
     public function getUbahRole()
     {
         $id = $_POST['id'];
-        $this->load->model('Role_model', 'role');
         echo json_encode($this->role->getRole($id));
     }
 
@@ -91,7 +139,7 @@ class Admin extends CI_Controller
         $this->load->model('Role_model', 'role');
         $this->role->editRole($id);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-          User diedit! </div>');
+          Role diedit! </div>');
         redirect('admin/role');
     }
 
