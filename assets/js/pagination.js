@@ -30,7 +30,31 @@ $(document).ready(function () {
 
       });
 
+	  $("#tableRiwayatPenjualan3").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+      });
+
 	  $("#tableRiwayatPenjualan").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+      });
+
+	  $("#tableRiwayatPenjualan4").DataTable({
+		bDestroy: true,
+        paging: false,
+        ordering: false,
+        info: false,
+		searching:false
+
+      });
+	  $("#tableRiwayatPenjualan5").DataTable({
 		bDestroy: true,
         paging: false,
         ordering: false,
@@ -56,9 +80,7 @@ $(document).ready(function () {
 		searching:false
 
       });
-
 	  
-	
 	  $("#tableStokKeluar").DataTable({
 		bDestroy: true,
         paging: false,

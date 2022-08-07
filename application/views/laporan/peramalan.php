@@ -31,7 +31,7 @@
                             <div class="col-sm-8 ">
                                 <input type="text" class="form-control date-picker" id="tgl_peramalan"
                                     name="tgl_peramalan" placeholder="Masukkan tanggal yang hendak diramalkan "
-                                    autocomplete="off">
+                                    autocomplete="off" required>
                             </div>
 
                         </div>
@@ -43,17 +43,6 @@
                                     placeholder="Masukkan batas awal tanggal pengambilan data " autocomplete="off">
                             </div>
 
-                        </div>
-                        <div class="form-group row" style="display:none" id="moving_average_form">
-                            <label for="moving_average" class="col-sm-4 col-form-label">Moving average (MA)</label>
-                            <div class="col-sm-8 ">
-                                <select name="moving_average" id="moving_average" class="form-control" required>
-                                    <option value="">Masukkan Moving Average</option>
-                                    <option value=3>3</option>
-                                    <option value=4>4</option>
-                                    <option value=5>5</option>
-                                </select>
-                            </div>
                         </div>
                         <div class="row float-right" style="display:none ;" id="buttonAksi">
                             <button type="submit" class="btn ml-2 mr-3 btn-primary hitungPeramalan">Hitung
@@ -95,8 +84,8 @@ $(document).ready(function() {
         autoclose: true,
         orientation: "top",
 
-        // startView: "months",
-        // minViewMode: "months"
+        startView: "months",
+        minViewMode: "months"
     });
     $("#tgl_awal").datepicker({
         format: "yyyy-mm-dd",
@@ -110,13 +99,11 @@ $(document).ready(function() {
     $('#tgl_peramalan').change(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
-        var _moving_average = $('#moving_average').val();
         $.ajax({
             url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
-                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {
@@ -134,13 +121,11 @@ $(document).ready(function() {
     $('.select_produk').change(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
-        var _moving_average = $('#moving_average').val();
         $.ajax({
             url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
-                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {
@@ -159,14 +144,12 @@ $(document).ready(function() {
     $('.hitungPeramalan').click(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
-        var _moving_average = $('#moving_average').val();
         // _moving_average<
         $.ajax({
             url: "<?= base_url('laporan/hasilPeramalan'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,
-                moving_average: _moving_average
             },
             method: "post",
             success: function(data) {

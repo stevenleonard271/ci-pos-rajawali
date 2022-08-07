@@ -65,7 +65,7 @@ class Laporan extends CI_Controller
 
     public function peramalan()
     {
-        $data['title'] = 'Peramalan Penjualan';
+        $data['title'] = 'Peramalan Pembelian';
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
         ])->row_array();
@@ -103,14 +103,14 @@ class Laporan extends CI_Controller
     public function hasilPeramalan(){
         $post = $this->input->post();
         
-        $data['title'] = "Peramalan Penjualan";
-        $data['subtitle'] = "Perhitungan Peramalan Penjualan";
+        $data['title'] = "Peramalan Pembelian";
+        $data['subtitle'] = "Perhitungan Peramalan Pembelian";
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
         ])->row_array();
         $data['histo'] = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_peramalan'])->result();
         $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
-        $data['moving_average'] = $post['moving_average'];
+        // $data['moving_average'] = $post['moving_average'];
         $data['produk'] = $this->produk->getProduk($post['sparepart'])->nama;
         // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
         $data['content'] = 'laporan/hasil_peramalan';

@@ -117,6 +117,8 @@ class Penjualan extends CI_Controller
     public function tambahPenjualan()
     {
         $this->penjualan->insertPenjualan();
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Penjualan baru ditambah </div>');
         redirect('penjualan/kasir');
     }
 }

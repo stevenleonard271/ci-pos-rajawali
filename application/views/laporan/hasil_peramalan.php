@@ -11,9 +11,10 @@
                 </div>
                 <div class="card-body">
                     <div class="card-body" id="riwayatPenjualan">
-                        <h5><b> <?=$produk;?> </b></h5>
+                        <h4><b> <?=$produk;?> </b></h4>
+                        <h5><b> MA = 3</b></h5>
                         <div class="table-responsive">
-                            <table class="table table-hover display" id="tableRiwayatPenjualan">
+                            <table class="table table-hover display" id="tableRiwayatPenjualan3">
                                 <thead>
                                     <tr>
                                         <th scope="col">Bulan</th>
@@ -27,7 +28,7 @@
                                 </thead>
                                 <tbody>
                                     <?php 
-                                    $ma = $moving_average;
+                                    $ma = 3;
                                     $count = 1;
                                     $jumJual = [];
                                     $ap = [];
@@ -36,15 +37,26 @@
                                     $error = "";
                                     $abserror = "";
                                     array_push($jumJual, $hs->jumlah_produk);
-                                    if($count <= $ma) : $ramal="0" ; $error="0" ; $abserror="0" ; $errorkuadrat="0" ;
-                                        $ape="0" ; else: $ttl=0; for ($i=($count - $ma) - 1; $i < count($jumJual) - 1;
-                                        $i++) { $ttl +=$jumJual[$i]; } $ttl=$ttl / $ma; $ramal="" .$ttl; $error=""
-                                        .($jumJual[count($jumJual) - 1] - $ttl); $abserror=""
-                                        .abs(($jumJual[count($jumJual) - 1] - $ttl)); $errorkuadrat=""
-                                        .pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2); $ape=""
-                                        .(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
-                                        array_push($ap, (abs(($jumJual[count($jumJual) - 1] -
-                                        $ttl)))/$jumJual[count($jumJual) - 1]); endif; ?>
+                                    if($count <= $ma) :
+                                         $ramal="0" ;
+                                         $error="0" ;
+                                         $abserror="0";
+                                         $errorkuadrat="0";
+                                        $ape="0"; 
+                                    else:
+                                        $ttl=0;
+                                         for ($i=($count - $ma) - 1; $i < count($jumJual) - 1; $i++) 
+                                         { 
+                                             $ttl +=$jumJual[$i];
+                                         } 
+                                     $ttl=$ttl / $ma;
+                                     $ramal="" .$ttl; 
+                                     $error="".($jumJual[count($jumJual) - 1] - $ttl);
+                                     $abserror="".abs(($jumJual[count($jumJual) - 1] - $ttl));
+                                     $errorkuadrat="".pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2);
+                                     $ape="".(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
+                                     array_push($ap, (abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1]);
+                                     endif; ?>
                                     <tr>
                                         <th scope="row"><?= $hs->bulan?></th>
                                         <td><?= $hs->jumlah_produk?></td>
@@ -74,13 +86,169 @@
                                         <td></td>
                                         <td></td>
                                         <td><b>MAPE<b></td>
-                                        <td><?php echo round(array_sum($ap)/count($ap),2)*100?>%</td>
+                                        <td><?php echo array_sum($ap)/count($ap)*100?>%</td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <h5><b> MA = 4 </b></h5>
+                            <table class="table table-hover display" id="tableRiwayatPenjualan4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Bulan</th>
+                                        <th scope="col">Jumlah Penjualan</th>
+                                        <th scope="col">Peramalan</th>
+                                        <th scope="col">Error</th>
+                                        <th scope="col">Absolute Error</th>
+                                        <th scope="col">Error<sup>2</sup></th>
+                                        <th scope="col">APE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $ma = 4;
+                                    $count = 1;
+                                    $jumJual = [];
+                                    $ap = [];
+                                    foreach($histo as $hs):
+                                    $ramal = "";
+                                    $error = "";
+                                    $abserror = "";
+                                    array_push($jumJual, $hs->jumlah_produk);
+                                    if($count <= $ma) :
+                                         $ramal="0" ;
+                                         $error="0" ;
+                                         $abserror="0";
+                                         $errorkuadrat="0";
+                                        $ape="0"; 
+                                    else:
+                                        $ttl=0;
+                                         for ($i=($count - $ma) - 1; $i < count($jumJual) - 1; $i++) 
+                                         { 
+                                             $ttl +=$jumJual[$i];
+                                         } 
+                                     $ttl=$ttl / $ma;
+                                     $ramal="" .$ttl; 
+                                     $error="".($jumJual[count($jumJual) - 1] - $ttl);
+                                     $abserror="".abs(($jumJual[count($jumJual) - 1] - $ttl));
+                                     $errorkuadrat="".pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2);
+                                     $ape="".(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
+                                     array_push($ap, (abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1]);
+                                     endif; ?>
+                                    <tr>
+                                        <th scope="row"><?= $hs->bulan?></th>
+                                        <td><?= $hs->jumlah_produk?></td>
+                                        <td><?= $ramal ?></td>
+                                        <td><?= $error ?></td>
+                                        <td><?= $abserror ?></td>
+                                        <td><?= $errorkuadrat ?></td>
+                                        <td><?= $ape ?></td>
+                                    </tr>
+                                    <?php $count++; endforeach; ?>
+                                    <tr>
+                                        <th scope="row"><?= $forcast->forecast?></th>
+                                        <td>?</td>
+                                        <td><?php $ttl = 0;
+                                            for ($i=($count - $ma) - 1; $i < count($jumJual); $i++) { 
+                                                $ttl += $jumJual[$i] / $ma;
+                                            } echo $ttl;?></td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>MAPE<b></td>
+                                        <td><?php echo array_sum($ap)/count($ap)*100?>%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h5><b> MA = 5 </b></h5>
+                            <table class="table table-hover display" id="tableRiwayatPenjualan5">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Bulan</th>
+                                        <th scope="col">Jumlah Penjualan</th>
+                                        <th scope="col">Peramalan</th>
+                                        <th scope="col">Error</th>
+                                        <th scope="col">Absolute Error</th>
+                                        <th scope="col">Error<sup>2</sup></th>
+                                        <th scope="col">APE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $ma = 5;
+                                    $count = 1;
+                                    $jumJual = [];
+                                    $ap = [];
+                                    foreach($histo as $hs):
+                                    $ramal = "";
+                                    $error = "";
+                                    $abserror = "";
+                                    array_push($jumJual, $hs->jumlah_produk);
+                                    if($count <= $ma) :
+                                         $ramal="0" ;
+                                         $error="0" ;
+                                         $abserror="0";
+                                         $errorkuadrat="0";
+                                        $ape="0"; 
+                                    else:
+                                        $ttl=0;
+                                         for ($i=($count - $ma) - 1; $i < count($jumJual) - 1; $i++) 
+                                         { 
+                                             $ttl +=$jumJual[$i];
+                                         } 
+                                     $ttl=$ttl / $ma;
+                                     $ramal="" .$ttl; 
+                                     $error="".($jumJual[count($jumJual) - 1] - $ttl);
+                                     $abserror="".abs(($jumJual[count($jumJual) - 1] - $ttl));
+                                     $errorkuadrat="".pow(abs(($jumJual[count($jumJual) - 1] - $ttl)), 2);
+                                     $ape="".(abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1];
+                                     array_push($ap, (abs(($jumJual[count($jumJual) - 1] - $ttl)))/$jumJual[count($jumJual) - 1]);
+                                     endif; ?>
+                                    <tr>
+                                        <th scope="row"><?= $hs->bulan?></th>
+                                        <td><?= $hs->jumlah_produk?></td>
+                                        <td><?= $ramal ?></td>
+                                        <td><?= $error ?></td>
+                                        <td><?= $abserror ?></td>
+                                        <td><?= $errorkuadrat ?></td>
+                                        <td><?= $ape ?></td>
+                                    </tr>
+                                    <?php $count++; endforeach; ?>
+                                    <tr>
+                                        <th scope="row"><?= $forcast->forecast?></th>
+                                        <td>?</td>
+                                        <td><?php $ttl = 0;
+                                            for ($i=($count - $ma) - 1; $i < count($jumJual); $i++) { 
+                                                $ttl += $jumJual[$i] / $ma;
+                                            } echo $ttl;?></td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>MAPE<b></td>
+                                        <td><?php echo array_sum($ap)/count($ap)*100?>%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
                             <h5><b>Kesimpulan</b></h5>
                             <h6>Hasil peramalan penjualan bulan <b><?= $forcast->forecast?></b> sebanyak
-                                <b><?=$ttl?></b> buah dengan MA = <b><?=$moving_average;?></b> dan
+                                <b><?=$ttl?></b> buah dengan MA = 3 dan
                                 MAPE sebesar <b><?php echo (array_sum($ap)/count($ap))*100?>%.
                             </h6>
                             <h6></b>Hasil peramalan dapat
