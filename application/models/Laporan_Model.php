@@ -43,7 +43,7 @@ class Laporan_Model extends CI_Model
 
     public function forecastMonth($tglPeramalan)
     {
-        $query = "SELECT monthname('$tglPeramalan') as forecast";
+        $query = "SELECT monthname('$tglPeramalan') as forecast, '$tglPeramalan' as tanggal_peramalan";
         return $this->db->query($query)->row();
     }
 

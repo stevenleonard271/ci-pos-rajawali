@@ -87,13 +87,34 @@ $(document).ready(function() {
         startView: "months",
         minViewMode: "months"
     });
-    $("#tgl_awal").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
+    // $("#tgl_awal").datepicker({
+    //     format: "yyyy-mm-dd",
+    //     autoclose: true,
+    //     orientation: "top",
 
-        // startView: "months",
-        // minViewMode: "months"
+    //     // startView: "months",
+    //     // minViewMode: "months"
+    // });
+
+    $('.select_produk').change(function() {
+        var _sparepart = $('#sparepart').val();
+        var _tgl_ramal = $('#tgl_peramalan').val();
+        $.ajax({
+            url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
+            data: {
+                sparepart: _sparepart,
+                tgl_ramal: _tgl_ramal,
+            },
+            method: "post",
+            success: function(data) {
+                $('#dtRiwayat').html(data)
+            },
+        });
+        // alert('hehe');
+        // $('.tanggal_awal').show();
+        $('#riwayatPenjualan').show();
+        $('#moving_average_form').show();
+        $('#buttonAksi').show();
     });
 
     $('#tgl_peramalan').change(function() {
@@ -118,30 +139,14 @@ $(document).ready(function() {
 
     });
 
-    $('.select_produk').change(function() {
-        var _sparepart = $('#sparepart').val();
-        var _tgl_ramal = $('#tgl_peramalan').val();
-        $.ajax({
-            url: "<?= base_url('laporan/riwayatPenjualan'); ?>",
-            data: {
-                sparepart: _sparepart,
-                tgl_ramal: _tgl_ramal,
-            },
-            method: "post",
-            success: function(data) {
-                $('#dtRiwayat').html(data)
-            },
-        });
-        // alert('hehe');
-        // $('.tanggal_awal').show();
-        $('#riwayatPenjualan').show();
-        $('#moving_average_form').show();
-        $('#buttonAksi').show();
-    });
+
 
 
 
     $('.hitungPeramalan').click(function() {
+        //Ambil min 4 data
+        // Jika data < 4 maka tidak bisa lakukan peramalan;
+
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();
         // _moving_average<

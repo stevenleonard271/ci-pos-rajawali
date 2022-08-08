@@ -111,9 +111,13 @@ class Laporan extends CI_Controller
         $data['histo'] = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_peramalan'])->result();
         $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
         // $data['moving_average'] = $post['moving_average'];
-        $data['produk'] = $this->produk->getProduk($post['sparepart'])->nama;
+        $data['produk'] = $this->produk->getProduk($post['sparepart']);
+        // dd($data['forcast']);
         // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
         $data['content'] = 'laporan/hasil_peramalan';
+
+
+        
         $this->load->view('layout', $data);
     }
 
