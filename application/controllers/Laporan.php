@@ -86,6 +86,7 @@ class Laporan extends CI_Controller
                 $str .= '
                 <tr>
                     <th scope="row">'.$hs->bulan.'</th>
+                    <th scope="row">'.$hs->tahun.'</th>
                     <td>'.$hs->jumlah_produk.'</td>
                 </tr>
             ';

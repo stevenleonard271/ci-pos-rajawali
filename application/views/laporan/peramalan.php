@@ -57,6 +57,7 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">Bulan</th>
+                                        <th scope="col">Tahun</th>
                                         <th scope="col">Jumlah Terjual</th>
                                     </tr>
                                 </thead>

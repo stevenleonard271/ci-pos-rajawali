@@ -32,18 +32,22 @@ class Laporan_Model extends CI_Model
 
     public function historyPenjualanProduk($idProduk, $tglPeramalan)
     {
-        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan, year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
                   FROM penjualan_produk p join penjualan pj 
                   ON p.id_penjualan = pj.id
-                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan') AND p.`id_produk` = $idProduk OR year(tanggal_penjualan) <  year('$tglPeramalan')
-                  GROUP BY month(tanggal_penjualan)";
+                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan')
+                  AND year(tanggal_penjualan) <=  year('$tglPeramalan')
+                  AND p.`id_produk` = $idProduk 
+                  GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
                   
         return $this->db->query($query);
     }
 
     public function forecastMonth($tglPeramalan)
     {
-        $query = "SELECT monthname('$tglPeramalan') as forecast, '$tglPeramalan' as tanggal_peramalan";
+        $query = "SELECT monthname('$tglPeramalan') as forecast, 
+                 '$tglPeramalan' as tanggal_peramalan,
+                  year('$tglPeramalan') as tahun";
         return $this->db->query($query)->row();
     }
 
