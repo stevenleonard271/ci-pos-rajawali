@@ -11,8 +11,8 @@ class Produk_model extends CI_Model
         $query = "SELECT `kategori_produk`.`id`, `kategori_produk`.`nama`,
                 COUNT(`produk`.`id_kategori`) as `jumlah_produk`
               FROM `kategori_produk` LEFT JOIN `produk`
-                ON `produk`.`id_kategori` = `kategori_produk`.`id`
-                GROUP BY `id_kategori`
+                ON  `kategori_produk`.`id` = `produk`.`id_kategori` 
+                GROUP BY `kategori_produk`.`id`
                 ORDER BY `jumlah_produk` DESC
         ";
         return $this->db->query($query)->result_array();
@@ -32,7 +32,6 @@ class Produk_model extends CI_Model
         $query = "SELECT `produk`.`nama` as nama FROM produk WHERE `produk`.`id` = ($newest)";
 
         return $this->db->query($query)->row();
-
     }
 
     //GET WHERE PRODUK IS RUNNING OUT
@@ -149,5 +148,4 @@ class Produk_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->delete('produk');
     }
-
 }

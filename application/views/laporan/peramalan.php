@@ -35,15 +35,13 @@
                             </div>
 
                         </div>
-                        <div class="form-group row tanggal_awal" style="display:none">
-                            <label for="tanggal_peramalan" class="col-sm-4 col-form-label"> Batas Tanggal awal
-                            </label>
-                            <div class="col-sm-8 ">
-                                <input type="text" class="form-control date-picker" id="tgl_awal" name="tgl_awal"
-                                    placeholder="Masukkan batas awal tanggal pengambilan data " autocomplete="off">
-                            </div>
+
+                        <div class="row float-left" style="display:none ;" id="buttonHitungPeramalanSemuaProduk">
+                            <button type="submit" class="btn ml-2 mr-3 btn-info hitungPeramalan">Hitung Peramalan
+                                Semua Produk</button>
 
                         </div>
+
                         <div class="row float-right" style="display:none ;" id="buttonAksi">
                             <button type="submit" class="btn ml-2 mr-3 btn-primary hitungPeramalan">Hitung
                                 Peramalan</button>
@@ -84,7 +82,6 @@ $(document).ready(function() {
         format: "yyyy-mm-dd",
         autoclose: true,
         orientation: "top",
-
         startView: "months",
         minViewMode: "months"
     });
@@ -116,6 +113,7 @@ $(document).ready(function() {
         $('#riwayatPenjualan').show();
         $('#moving_average_form').show();
         $('#buttonAksi').show();
+
     });
 
     $('#tgl_peramalan').change(function() {
@@ -137,6 +135,7 @@ $(document).ready(function() {
         $('#riwayatPenjualan').show();
         $('#moving_average_form').show();
         $('#buttonAksi').show();
+        $('#buttonHitungPeramalanSemuaProduk').show();
 
     });
 
@@ -152,7 +151,7 @@ $(document).ready(function() {
         var _tgl_ramal = $('#tgl_peramalan').val();
         // _moving_average<
         $.ajax({
-            url: "<?= base_url('laporan/hasilPeramalan'); ?>",
+            url: "<?= base_url('laporan/hitungPeramalanSemuaProduk'); ?>",
             data: {
                 sparepart: _sparepart,
                 tgl_ramal: _tgl_ramal,

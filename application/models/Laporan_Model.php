@@ -39,7 +39,7 @@ class Laporan_Model extends CI_Model
                   AND year(tanggal_penjualan) <=  year('$tglPeramalan')
                   AND p.`id_produk` = $idProduk 
                   GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
-                  
+
         return $this->db->query($query);
     }
 
@@ -50,6 +50,23 @@ class Laporan_Model extends CI_Model
                   year('$tglPeramalan') as tahun";
         return $this->db->query($query)->row();
     }
+
+    public function insertPeramalan($row = "")
+    {
+        if ($row == "") {
+            $data = [
+                'id_produk' => $this->input->post('produk'),
+                'tanggal' => $this->input->post('tanggal'),
+                'hasil' => $this->input->post('hasil'),
+                'mape' => $this->input->post('mape'),
+            ];
+        } else {
+            $data = $row;
+        }
+        $this->db->insert('peramalan', $data);
+    }
+
+
 
     public function ongkosMekanik()
     {

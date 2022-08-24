@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Inventori_Model extends CI_Model
 {
-
+    public $mape;
     //GET Supplier BY ID
     public function getSupplier($id)
     {
@@ -78,11 +78,11 @@ class Inventori_Model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
-    public function countOrder(){
+    public function countOrder()
+    {
         $query = "SELECT `stok_masuk`.`created_at`,COUNT(`stok_masuk`.`id`) as jumlah_stokmasuk
                   FROM `stok_masuk`";
         return $this->db->query($query)->row();
-
     }
     public function countStokMasuk()
     {
@@ -242,6 +242,125 @@ class Inventori_Model extends CI_Model
             ];
             //insert data ke stok_keluar_produk
             $this->db->insert('stok_keluar_produk', $data_detail);
+        }
+    }
+
+    public function getPenjualan($idProduk, $tglPeramalan)
+    {
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan, year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+                  FROM penjualan_produk p join penjualan pj 
+                  ON p.id_penjualan = pj.id
+                  WHERE month(tanggal_penjualan) <  month('$tglPeramalan')
+                  AND year(tanggal_penjualan) <=  year('$tglPeramalan')
+                  AND p.`id_produk` = $idProduk 
+                  GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
+
+        return $this->db->query($query);
+    }
+
+    public function getForecastMonth($tglPeramalan)
+    {
+        $query = "SELECT monthname('$tglPeramalan') as bulan, month('$tglPeramalan') as bulanAngka,
+                 '$tglPeramalan' as tanggal_peramalan,
+                  year('$tglPeramalan') as tahun";
+        return $this->db->query($query)->row();
+    }
+
+    private function getRequiredPenjualan($requiredMonth, $requiredYear, $idProduk)
+    {
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan, year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+                  FROM penjualan_produk p join penjualan pj 
+                  ON p.id_penjualan = pj.id
+                  WHERE month(tanggal_penjualan) =  '$requiredMonth'
+                  AND year(tanggal_penjualan) =  '$requiredYear'
+                  AND p.`id_produk` = $idProduk 
+                  GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
+
+        return $this->db->query($query);
+    }
+
+    public function perhitunganSMA($idProduk, $tglPeramalan, $ma)
+    {
+        // get data yang akan dihitung
+        $forecast = $this->getForecastMonth($tglPeramalan);
+        $requiredMonth = $forecast->bulanAngka - $ma - 1;
+        $requiredYear = $forecast->tahun;
+
+
+        $histo = $this->getPenjualan($idProduk, $tglPeramalan)->result();
+        $requiredData = $this->getRequiredPenjualan($requiredMonth, $requiredYear, $idProduk);
+
+        if ($requiredData->num_rows() > 0) {
+            $count = 1;
+            $jumJual = [];
+            $ap = [];
+            $row = [];
+            $totalApe = 0;
+            foreach ($histo as $hs) :
+                $ramal = "";
+                $error = "";
+                $abserror = "";
+                array_push($jumJual, $hs->jumlah_produk);
+                if ($count <= $ma) :
+                    $ramal = 0;
+                    $error = 0;
+                    $abserror = 0;
+                    $ape = 0;
+                else :
+                    $ttl = 0;
+                    for ($i = ($count - $ma) - 1; $i < count($jumJual) - 1; $i++) {
+                        $ttl += $jumJual[$i];
+                    }
+                    $ttl = $ttl / $ma;
+                    $ramal = $ttl;
+                    $error = ($jumJual[count($jumJual) - 1] - $ttl);
+                    $abserror = abs($error);
+                    $ape = (abs(($jumJual[count($jumJual) - 1] - $ttl))) / $jumJual[count($jumJual) - 1];
+                    $totalApe += $ape;
+                    // fungsi push ap untuk menambahkan bulan yang memiliki ape
+                    array_push($ap, $ape);
+                endif;
+
+                $row = array(
+                    'Tahun' => $hs->tahun,
+                    'Bulan' => $hs->bulan,
+                    'Jumlah' => $hs->jumlah_produk,
+                    'Peramalan' => $ramal,
+                    'Error' => $error,
+                    'AbsError' => $abserror,
+                    'APE' => $ape
+                );
+
+                $result[] = $row;
+
+                $count++;
+            endforeach;
+            $ttl = 0;
+
+            for ($i = ($count - $ma) - 1; $i < count($jumJual); $i++) {
+                // echo 'sugeng' . count($jumJual);
+                $ttl += $jumJual[$i];
+            }
+            $ttl = $ttl / $ma;
+            $ramal = $ttl;
+
+            $row = array(
+                'Tahun' => $hs->tahun,
+                'Bulan' => $forecast->bulan,
+                'Jumlah' => '?',
+                'Peramalan' => $ramal,
+                'Error' => 0,
+                'AbsError' => 0,
+                'APE' => 0
+            );
+            $result[] = $row;
+
+            $this->mape = $totalApe / count($ap) * 100;
+
+            return $result;
+        } else {
+            return null;
+            // die();
         }
     }
 }

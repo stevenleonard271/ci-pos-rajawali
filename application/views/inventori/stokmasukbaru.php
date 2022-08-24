@@ -3,7 +3,7 @@
 
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800" id="titleHide"><?=$title;?></h1>
+    <h1 class="h3 mb-4 text-gray-800" id="titleHide"><?= $title; ?></h1>
 
 
 
@@ -11,29 +11,29 @@
         <div class="col-lg">
             <div class="card mb-5">
                 <div class="card-header bg-primary">
-                    <h1 class="h5 mt-2 text-gray-100"><?=$subTitle;?></h1>
+                    <h1 class="h5 mt-2 text-gray-100"><?= $subTitle; ?></h1>
                 </div>
                 <div class="card-body">
                     <form method="post" action="">
                         <div class="row">
                             <div class="col-md-5 col-sm-5">
                                 <input type="hidden" name="no_pembelian" id="no_pembelian"
-                                    value="<?php generateCode($countReceipt);?>" />
+                                    value="<?php generateCode($countReceipt); ?>" />
                                 <div class="form-group">
                                     <label for="supplier">Supplier Produk</label>
                                     <select name="supplier" id="select_supplier" class="form-control">
                                         <option value="">Pilih Supplier</option>
-                                        <?php foreach ($supplier as $s): ?>
-                                        <option value="<?=$s['id'];?>"><?=$s['nama'];?></option>
-                                        <?php endforeach;?>
+                                        <?php foreach ($supplier as $s) : ?>
+                                        <option value="<?= $s['id']; ?>"><?= $s['nama']; ?></option>
+                                        <?php endforeach; ?>
                                     </select>
-                                    <?=form_error('supplier', ' <small class="text-danger"> ', '</small>');?>
+                                    <?= form_error('supplier', ' <small class="text-danger"> ', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="tgl_pembelian">Tanggal Pembelian</label>
                                     <input type="text" class="form-control date" id="tgl_pembelian" name="tgl_pembelian"
                                         autocomplete="off">
-                                    <?=form_error('tanggal_beli', ' <small class="text-danger"> ', '</small>');?>
+                                    <?= form_error('tanggal_beli', ' <small class="text-danger"> ', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="status_pembelian">Status</label>
@@ -75,7 +75,7 @@
                                                             class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                             Nomor Pembelian</div>
                                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                            <?=generateCode($countReceipt);?>
+                                                            <?= generateCode($countReceipt); ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-auto">
@@ -125,9 +125,9 @@
                                 <div class="col-5 pl-0 ">
                                     <select name="select_produk[]" class="select_produk form-control" required>
                                         <option value="">Pilih Produk</option>
-                                        <?php foreach ($produk as $p): ?>
-                                        <option value="<?=$p['id'];?>"><?=$p['nama'];?></option>
-                                        <?php endforeach;?>
+                                        <?php foreach ($produk as $p) : ?>
+                                        <option value="<?= $p['id']; ?>"><?= $p['nama']; ?></option>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="col-2">
@@ -150,7 +150,8 @@
                         <div class="col-md-12 col-xs-12 col-xl-12 mt-2">
                             <button type="button" id="tambah_produk" onclick="addSlot()" class="btn btn-success">Tambah
                                 Produk</button>
-                            <a href="<?=base_url('inventori/stokmasuk')?>" class="btn btn-danger float-right ">Batal</a>
+                            <a href="<?= base_url('inventori/stokmasuk') ?>"
+                                class="btn btn-danger float-right ">Batal</a>
                             <button type="submit" class="btn ml-2 mr-3 btn-primary float-right">Simpan Catatan</button>
                         </div>
                     </form>
@@ -187,7 +188,6 @@ function generateCode($order)
     $code = $name . $today . $order;
 
     echo $code;
-
 }
 
 ?>
@@ -206,18 +206,13 @@ $(document).ready(function() {
         orientation: "top",
         endDate: "today",
     });
-    $("#edit_tgl_pembelian").datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true,
-        orientation: "top",
-        endDate: "today",
-    });
 
     today = yyyy + "-" + mm + "-" + dd;
     $("#tgl_pembelian").val(today);
+
     $("#tgl_pembelian").on("change", function() {
         var selected = $(this).val();
-        // console.log(selected);
+        // alert(selected);
     });
 
 });
@@ -252,8 +247,8 @@ function addSlot() {
         '<div class="col-5 pl-0 ">' +
         '<select name="select_produk[]" class="select_produk form-control" required>' +
         '<option value="">Pilih Produk</option> ' +
-        <?php foreach ($produk as $p): ?> '<option value="<?=$p["id"];?>"><?=$p["nama"];?></option>' +
-        <?php endforeach;?> "</select>" +
+        <?php foreach ($produk as $p) : ?> '<option value="<?= $p["id"]; ?>"><?= $p["nama"]; ?></option>' +
+        <?php endforeach; ?> "</select>" +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="jumlah_produk form-control" id="jumlah_produk' + j + '"' +
@@ -329,6 +324,4 @@ function showGrandTotal() {
     // }
     // $('#grandTotal').html((grandTotal).toLocaleString('en'));
 }
-
-
 </script>
