@@ -206,9 +206,11 @@
                                 <input type="text" name="mape" id="mape" value="<?= $bestMape; ?>" hidden>
                                 <input type="text" name="tanggal" id="tanggal"
                                     value="<?= $forcast->tanggal_peramalan; ?>" hidden>
+                                <input type="number" id="nullForecast" value=1 hidden>
                                 <?php else :
                                 ?>
                                 <h6 style="color: red;">Tidak ada kesimpulan, karena data tidak tersedia</h6>
+                                <input type="number" id="nullForecast" value=0 hidden>
                                 <?php endif;
                                 ?>
                                 <div class="col-6 mt-3">
@@ -247,7 +249,7 @@
 
                         </div>
                         <div class="row float-right" id="buttonAksi">
-                            <button type="submit" class="btn ml-2 mr-3 btn-primary">Simpan Hasil
+                            <button type=" submit" class="btn ml-2 mr-3 btn-primary" id="simpanPeramalan">Simpan Hasil
                                 Peramalan</button>
                             <a href="<?= base_url('laporan/peramalan') ?>" class="btn btn-danger mr-3">Batal </a>
                         </div>
@@ -263,32 +265,9 @@
 <!-- End of Main Content -->
 
 <script>
-//Menyembunyikan error ketika tidak bisa berjalan mape
-var mape3 = parseInt($('#mape3').val());
-var mape4 = parseInt($('#mape4').val());
-var mape5 = parseInt($('#mape5').val());
-
-$('#hasilPeramalanTiga').show();
-$('#hasilPeramalanEmpat').show();
-$('#hasilPeramalanLima').show();
-
-
-
-// if (mape3 < 100) {
-//     // alert(mape3);
-//     $('#hasilPeramalanTiga').show();
-// }
-// if (mape4 < 100) {
-//     // alert(mape4);
-//     $('hasilPeramalanTiga').show();
-//     $('#hasilPeramalanEmpat').show();
-//     $('hasilPeramalanLima').show();
-// }
-
-// if (mape5 < 100) {
-//     // alert(mape5);
-//     // $('hasilPeramalanTiga').hide();
-//     // $('hasilPeramalanEmpat').hide();
-//     $('#hasilPeramalanLima').show();
-// };
+if ($('#nullForecast').val() == 0) {
+    $('#buttonAksi').hide();
+} else {
+    $('#buttonAksi').show();
+}
 </script>

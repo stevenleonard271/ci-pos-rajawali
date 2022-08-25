@@ -139,10 +139,6 @@ $(document).ready(function() {
 
     });
 
-
-
-
-
     $('.hitungPeramalan').click(function() {
         //Ambil min 4 data
         // Jika data < 4 maka tidak bisa lakukan peramalan;
