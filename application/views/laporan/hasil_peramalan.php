@@ -178,7 +178,8 @@
                             <h5><b>Kesimpulan</b></h5>
 
 
-                            <?php if ($mapeTiga != null || $mapeEmpat != null || $mapeLima != null) : ?>
+                            <?php if ($bestForecast != null) :
+                            ?>
                             <h6>Hasil peramalan pembelian terbaik bulan <b><?= $forcast->forecast ?></b> sebanyak
                                 <b><?= $bestForecast ?></b> buah dengan MA = <b><?= $bestMoving ?></b> dan
                                 MAPE sebesar <b><?= $bestMape; ?>%</b>.
@@ -205,9 +206,11 @@
                                 <input type="text" name="mape" id="mape" value="<?= $bestMape; ?>" hidden>
                                 <input type="text" name="tanggal" id="tanggal"
                                     value="<?= $forcast->tanggal_peramalan; ?>" hidden>
-                                <?php else : ?>
+                                <?php else :
+                                ?>
                                 <h6 style="color: red;">Tidak ada kesimpulan, karena data tidak tersedia</h6>
-                                <?php endif; ?>
+                                <?php endif;
+                                ?>
                                 <div class="col-6 mt-3">
                                     <table id="kriteriaMAPE" class="table table-hover display">
                                         <thead>
