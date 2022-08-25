@@ -265,6 +265,7 @@
 <!-- End of Main Content -->
 
 <script>
+//Hide the buttonAksi when there is no result..So user can't click the button
 if ($('#nullForecast').val() == 0) {
     $('#buttonAksi').hide();
 } else {

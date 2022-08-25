@@ -53,17 +53,27 @@ class Laporan_Model extends CI_Model
 
     public function insertPeramalan($row = "")
     {
+
+        $idProduk = $this->input->post('produk');
+        $tanggal = $this->input->post('tanggal');
+        $hasil = $this->input->post('hasil');
+        $mape = $this->input->post('mape');
+
         if ($row == "") {
             $data = [
-                'id_produk' => $this->input->post('produk'),
-                'tanggal' => $this->input->post('tanggal'),
-                'hasil' => $this->input->post('hasil'),
-                'mape' => $this->input->post('mape'),
+                'id_produk' => $idProduk,
+                'tanggal' => $tanggal,
+                'hasil' => $hasil,
+                'mape' => $mape,
             ];
         } else {
             $data = $row;
         }
-        $this->db->insert('peramalan', $data);
+
+        //cek record apakah ada kembar sebelum diinsert
+        $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProduk' AND `tanggal` = '$tanggal'");
+
+        return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
     }
 
 

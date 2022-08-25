@@ -140,20 +140,6 @@ class Laporan extends CI_Controller
             'mape' => $data['mapeLima']
         ];
 
-        //menghindari null pada fungsi end (pengambilan data indeks terakhir pada perhitungan Sma)
-
-        // if ($data['perhitunganSma'] != null) {
-        //     $maTiga['hasil'] =  end($data['perhitunganSma'])['Peramalan'];
-        // }
-
-        // if ($data['perhitunganSmaEmpat'] != null) {
-        //     $maEmpat['hasil'] = end($data['perhitunganSmaEmpat'])['Peramalan'];
-        // }
-
-        // if ($data['perhitunganSmaLima'] != null) {
-        //     $maLima['hasil'] = end($data['perhitunganSmaLima'])['Peramalan'];
-        // }
-
         //Membandingkan mape terkecil untuk dijadikan kesimpulan
         if ($maTiga['mape'] <= $maEmpat['mape'] && $maTiga['mape'] <= $maLima['mape']) {
             $bestForecast = $maTiga['hasil'];
@@ -173,19 +159,10 @@ class Laporan extends CI_Controller
         $data['bestForecast'] = round($bestForecast);
         $data['bestMoving'] = $bestMoving;
 
-
-        // dd($data['bestMoving']);
-
-
-
-
-        // dd($data['perhitunganSma']);
-        // $data['histo'] = $this->laporan->historyPenjualanProduk($post['sparepart'], $post['tgl_peramalan'])->result();
         $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
-        // // $data['moving_average'] = $post['moving_average'];
+
         $data['produk'] = $this->produk->getProduk($post['sparepart']);
-        // dd($data['forcast']);
-        // $data['riwayatPenjualan'] = $this->laporan->historyPenjualanProduk($tanggalPeramalan);
+
         $data['content'] = 'laporan/hasil_peramalan';
 
         $this->load->view('layout', $data);
@@ -216,6 +193,7 @@ class Laporan extends CI_Controller
 
     public function simpanPeramalan()
     {
+        // $this->form_validation->set_rules('')
         $this->laporan->insertPeramalan();
         redirect('laporan/peramalan');
     }
