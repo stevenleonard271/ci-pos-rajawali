@@ -177,6 +177,7 @@
 
                             <h5><b>Kesimpulan</b></h5>
 
+
                             <?php if ($mapeTiga != null || $mapeEmpat != null || $mapeLima != null) : ?>
                             <h6>Hasil peramalan pembelian terbaik bulan <b><?= $forcast->forecast ?></b> sebanyak
                                 <b><?= $bestForecast ?></b> buah dengan MA = <b><?= $bestMoving ?></b> dan

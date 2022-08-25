@@ -123,40 +123,59 @@ class Laporan extends CI_Controller
         $data['perhitunganSmaLima'] = $this->inventori->perhitunganSMA($post['sparepart'], $post['tgl_peramalan'], 5);
         $data['mapeLima'] = $this->inventori->mape;
 
-        if ($data['perhitunganSma'] != null || $data['perhitunganSmaEmpat'] != null ||  $data['perhitunganSmaLima'] != null) {
-            $maTiga = [
-                'ma' => 3,
-                'hasil' => end($data['perhitunganSma'])['Peramalan'],
-                'mape' => $data['mapeTiga']
-            ];
+        //inisialisasi default hasil 0
+        $maTiga = [
+            'ma' => 3,
+            'hasil' => $data['perhitunganSma'] != null ? end($data['perhitunganSma'])['Peramalan'] : 0,
+            'mape' => $data['mapeTiga']
+        ];
+        $maEmpat = [
+            'ma' => 4,
+            'hasil' => $data['perhitunganSmaEmpat'] != null ? end($data['perhitunganSmaEmpat'])['Peramalan'] : 0,
+            'mape' => $data['mapeEmpat']
+        ];
+        $maLima = [
+            'ma' => 5,
+            'hasil' => $data['perhitunganSmaLima'] != null ? end($data['perhitunganSmaEmpat'])['Peramalan'] : 0,
+            'mape' => $data['mapeLima']
+        ];
 
-            $maEmpat = [
-                'ma' => 4,
-                'hasil' => end($data['perhitunganSmaEmpat'])['Peramalan'],
-                'mape' => $data['mapeEmpat']
-            ];
-            $maLima = [
-                'ma' => 5,
-                'hasil' => end($data['perhitunganSmaLima'])['Peramalan'],
-                'mape' => $data['mapeLima']
-            ];
-            if ($maTiga['mape'] <= $maEmpat['mape'] && $maTiga['mape'] <= $maLima['mape']) {
-                $bestForecast = $maTiga['hasil'];
-                $bestMoving = $maTiga['ma'];
-                $bestMape = $maTiga['mape'];
-            } else if ($maEmpat['mape'] <= $maTiga['mape'] && $maEmpat['mape'] <= $maLima['mape']) {
-                $bestForecast = $maEmpat['hasil'];
-                $bestMoving = $maEmpat['ma'];
-                $bestMape = $maEmpat['mape'];
-            } else {
-                $bestForecast = $maLima['hasil'];
-                $bestMoving = $maLima['ma'];
-                $bestMape = $maLima['mape'];
-            }
-            $data['bestMape'] = $bestMape;
-            $data['bestForecast'] = round($bestForecast);
-            $data['bestMoving'] = $bestMoving;
+        //menghindari null pada fungsi end (pengambilan data indeks terakhir pada perhitungan Sma)
+
+        // if ($data['perhitunganSma'] != null) {
+        //     $maTiga['hasil'] =  end($data['perhitunganSma'])['Peramalan'];
+        // }
+
+        // if ($data['perhitunganSmaEmpat'] != null) {
+        //     $maEmpat['hasil'] = end($data['perhitunganSmaEmpat'])['Peramalan'];
+        // }
+
+        // if ($data['perhitunganSmaLima'] != null) {
+        //     $maLima['hasil'] = end($data['perhitunganSmaLima'])['Peramalan'];
+        // }
+
+        //Membandingkan mape terkecil untuk dijadikan kesimpulan
+        if ($maTiga['mape'] <= $maEmpat['mape'] && $maTiga['mape'] <= $maLima['mape']) {
+            $bestForecast = $maTiga['hasil'];
+            $bestMoving = $maTiga['ma'];
+            $bestMape = $maTiga['mape'];
+        } else if ($maEmpat['mape'] <= $maTiga['mape'] && $maEmpat['mape'] <= $maLima['mape']) {
+            $bestForecast = $maEmpat['hasil'];
+            $bestMoving = $maEmpat['ma'];
+            $bestMape = $maEmpat['mape'];
+        } else {
+            $bestForecast = $maLima['hasil'];
+            $bestMoving = $maLima['ma'];
+            $bestMape = $maLima['mape'];
         }
+
+        $data['bestMape'] = $bestMape;
+        $data['bestForecast'] = round($bestForecast);
+        $data['bestMoving'] = $bestMoving;
+
+
+        // dd($data['bestMoving']);
+
 
 
 
