@@ -1,0 +1,860 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Aug 26, 2022 at 05:14 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `pos_rajawali`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart_penjualan`
+--
+
+CREATE TABLE `cart_penjualan` (
+  `id` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart_penjualan`
+--
+
+INSERT INTO `cart_penjualan` (`id`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
+(39, 1, 3, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori_produk`
+--
+
+CREATE TABLE `kategori_produk` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kategori_produk`
+--
+
+INSERT INTO `kategori_produk` (`id`, `nama`) VALUES
+(1, 'Sparepart Motor'),
+(2, 'Oli'),
+(3, 'Filter Udara'),
+(7, 'Busi'),
+(8, 'Filter Oli'),
+(12, 'Kampas Kopling');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mekanik`
+--
+
+CREATE TABLE `mekanik` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(128) NOT NULL,
+  `nomor` varchar(11) NOT NULL,
+  `alamat` varchar(128) NOT NULL,
+  `persentase_ongkos` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `mekanik`
+--
+
+INSERT INTO `mekanik` (`id`, `nama`, `nomor`, `alamat`, `persentase_ongkos`) VALUES
+(2, 'Petra', '0812345679', 'Jalan Bandulan 137', 30),
+(3, 'Steven', '08952145678', 'Jalan Bandulan 249', 20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `motor_pelanggan`
+--
+
+CREATE TABLE `motor_pelanggan` (
+  `id` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `jenis` varchar(128) NOT NULL,
+  `plat_nomor` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `motor_pelanggan`
+--
+
+INSERT INTO `motor_pelanggan` (`id`, `id_pelanggan`, `jenis`, `plat_nomor`) VALUES
+(1, 1, 'Jupiter MX', 'N12345'),
+(2, 3, 'Kharisma', 'N2456'),
+(3, 1, 'Beat Matic', 'N12345'),
+(5, 4, 'Beat Matic', 'N294');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pelanggan`
+--
+
+CREATE TABLE `pelanggan` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(128) NOT NULL,
+  `nomor` varchar(128) NOT NULL,
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id`, `nama`, `nomor`, `updated_at`) VALUES
+(1, 'Steven', '01234567890', '2022-07-05 11:35:40'),
+(3, 'Sugito', '081272387742', '2022-07-04 11:16:58'),
+(4, 'Sunarto', '0822345678901', '2022-07-04 21:10:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penjualan`
+--
+
+CREATE TABLE `penjualan` (
+  `id` int(11) NOT NULL,
+  `no_penjualan` varchar(128) NOT NULL,
+  `tanggal_penjualan` date NOT NULL,
+  `kasir` varchar(128) NOT NULL,
+  `keterangan` varchar(256) NOT NULL,
+  `diskon` int(11) NOT NULL,
+  `id_mekanik` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `id_motor` int(11) DEFAULT NULL,
+  `ongkos` int(11) NOT NULL,
+  `sub_total` int(11) NOT NULL,
+  `grand_total` int(11) NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id`, `no_penjualan`, `tanggal_penjualan`, `kasir`, `keterangan`, `diskon`, `id_mekanik`, `id_pelanggan`, `id_motor`, `ongkos`, `sub_total`, `grand_total`, `created_at`) VALUES
+(1, '#ORD2601220001', '2022-01-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 175000, 175000, '2022-07-26'),
+(2, '#ORD2601220002', '2022-01-27', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 175000, 175000, '2022-07-26'),
+(3, '#ORD2601220003', '2022-01-28', 'Rajawali Owner', '-', 0, 2, 4, 5, 0, 175000, 175000, '2022-07-26'),
+(4, '#ORD2607220004', '2022-02-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 175000, 175000, '2022-07-26'),
+(5, '#ORD2607220005', '2022-02-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 175000, 175000, '2022-07-26'),
+(6, '#ORD2607220006', '2022-02-26', 'Rajawali Owner', '-', 0, 2, 4, 0, 0, 350000, 350000, '2022-07-26'),
+(7, '#ORD2607220007', '2022-03-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 175000, 175000, '2022-07-26'),
+(8, '#ORD2607220008', '2022-03-26', 'Rajawali Owner', '-', 0, 3, 3, 2, 0, 525000, 525000, '2022-07-26'),
+(9, '#ORD2607220009', '2022-04-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 315000, 315000, '2022-07-26'),
+(10, '#ORD2607220010', '2022-04-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 280000, 280000, '2022-07-26'),
+(11, '#ORD2607220011', '2022-07-26', 'Rajawali Owner', '-', 0, 2, 1, 3, 0, 315000, 315000, '2022-07-26'),
+(12, '#ORD2607220012', '2022-07-26', 'Rajawali Owner', '-', 0, 2, 1, 0, 0, 280000, 280000, '2022-07-26'),
+(13, '#ORD2607220013', '2022-05-26', 'Rajawali Owner', '-', 0, 3, 1, 1, 0, 525000, 525000, '2022-07-26'),
+(14, '#ORD2607220014', '2022-05-26', 'Rajawali Owner', '-', 0, 3, 3, 2, 0, 175000, 175000, '2022-07-26'),
+(15, '#ORD2607220015', '2022-06-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 525000, 525000, '2022-07-26'),
+(16, '#ORD2607220016', '2022-06-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 210000, 210000, '2022-07-26'),
+(17, '#ORD2607220017', '2022-08-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 315000, 315000, '2022-07-26'),
+(18, '#ORD2607220018', '2022-08-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 315000, 315000, '2022-07-26'),
+(19, '#ORD2607220019', '2022-09-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 385000, 385000, '2022-07-26'),
+(20, '#ORD2607220020', '2022-09-26', 'Rajawali Owner', '-', 0, 3, 3, 2, 0, 385000, 385000, '2022-07-26'),
+(21, '#ORD2607220021', '2022-10-26', 'Rajawali Owner', '-', 0, 2, 4, 5, 0, 385000, 385000, '2022-07-26'),
+(22, '#ORD2607220022', '2022-10-26', 'Rajawali Owner', '-', 0, 2, 3, 2, 0, 280000, 280000, '2022-07-26'),
+(23, '#ORD2607220023', '2022-11-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 140000, 140000, '2022-07-26'),
+(24, '#ORD2607220024', '2022-11-26', 'Rajawali Owner', '-', 0, 2, 1, 1, 15000, 490000, 505000, '2022-07-26'),
+(25, '#ORD2707220001', '2022-05-27', 'Rajawali Owner', '-', 0, 2, 1, 1, 0, 100000, 100000, '2022-07-27'),
+(26, '#ORD0208220001', '2022-08-02', 'Rajawali Owner', '-', 0, 2, 4, 5, 25000, 155000, 180000, '2022-08-02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penjualan_produk`
+--
+
+CREATE TABLE `penjualan_produk` (
+  `id` int(11) NOT NULL,
+  `id_penjualan` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `id_pelanggan` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjualan_produk`
+--
+
+INSERT INTO `penjualan_produk` (`id`, `id_penjualan`, `id_produk`, `id_pelanggan`, `jumlah`) VALUES
+(1, 1, 1, 1, 5),
+(2, 2, 1, 3, 5),
+(3, 3, 1, 4, 5),
+(4, 4, 1, 1, 5),
+(5, 5, 1, 3, 5),
+(6, 6, 1, 4, 7),
+(7, 7, 1, 1, 5),
+(8, 8, 1, 3, 14),
+(9, 9, 1, 1, 9),
+(10, 10, 1, 3, 8),
+(11, 11, 1, 1, 9),
+(12, 12, 1, 1, 8),
+(13, 13, 1, 1, 15),
+(14, 14, 1, 3, 5),
+(15, 15, 1, 1, 15),
+(16, 16, 1, 3, 6),
+(17, 17, 1, 1, 9),
+(18, 18, 1, 3, 9),
+(19, 19, 1, 3, 11),
+(20, 20, 1, 3, 11),
+(21, 21, 1, 4, 11),
+(22, 22, 1, 3, 8),
+(23, 23, 1, 1, 4),
+(24, 24, 1, 1, 14),
+(26, 26, 1, 4, 1),
+(27, 26, 4, 4, 1),
+(28, 26, 4, 4, 1),
+(29, 26, 5, 4, 1),
+(30, 26, 8, 4, 1);
+
+--
+-- Triggers `penjualan_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `penjualan` AFTER INSERT ON `penjualan_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah - new.jumlah
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `peramalan`
+--
+
+CREATE TABLE `peramalan` (
+  `id` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `tanggal` date NOT NULL,
+  `hasil` double NOT NULL,
+  `mape` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `produk`
+--
+
+CREATE TABLE `produk` (
+  `id` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `kode` varchar(128) NOT NULL,
+  `nama` varchar(128) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
+  `batas_bawah` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id`, `id_kategori`, `kode`, `nama`, `jumlah`, `harga_jual`, `harga_beli`, `batas_bawah`) VALUES
+(1, 2, 'FX', 'Jumbo Veloz 0,8L Matic', 185, 35000, 30000, 10),
+(2, 2, 'OX.C', 'Yamalube 1L Matic', 60, 30000, 20000, 10),
+(3, 1, 'OX2', 'Kampas Rem Belakang', 100, 30000, 25000, 2),
+(4, 2, 'O.X.L', 'MPX2 0,8 L Matic', 100, 35000, 31000, 2),
+(5, 2, 'S.X.Z', 'Castrol Power 0.8 L Matic', 100, 50000, 45000, 2),
+(6, 7, 'X.C.Z', 'Busi TDR 065', 100, 40000, 35000, 5),
+(7, 8, 'OXC', 'Filter Oli Jupiter MX', 100, 15000, 10000, 10),
+(8, 3, 'OLX', 'Filter Udara Beat FP', 10, 40000, 30000, 10),
+(9, 1, 'NX', 'VBelt Matic Kit Original', 100, 155000, 130000, 5),
+(10, 12, 'LXO', 'Kampas Kopling New Suprafit, SPX/Supra Legenda, Grand, Revo', 100, 120000, 98000, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stok_keluar`
+--
+
+CREATE TABLE `stok_keluar` (
+  `id` int(11) NOT NULL,
+  `no_keluar` varchar(128) NOT NULL,
+  `tanggal_keluar` date NOT NULL,
+  `catatan_keluar` varchar(256) DEFAULT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stok_keluar`
+--
+
+INSERT INTO `stok_keluar` (`id`, `no_keluar`, `tanggal_keluar`, `catatan_keluar`, `created_at`) VALUES
+(1, '#SORWJ0807220001', '2022-07-08', '-', '2022-07-08'),
+(2, '#SORWJ0807220002', '2022-07-01', 'Test', '2022-07-08'),
+(3, '#SORWJ2307220001', '2022-07-23', '-', '2022-07-23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stok_keluar_produk`
+--
+
+CREATE TABLE `stok_keluar_produk` (
+  `id` int(11) NOT NULL,
+  `id_stok_keluar` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `jumlah_produk` int(11) NOT NULL,
+  `alasan` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stok_keluar_produk`
+--
+
+INSERT INTO `stok_keluar_produk` (`id`, `id_stok_keluar`, `id_produk`, `jumlah_produk`, `alasan`) VALUES
+(1, 1, 2, 2, 'Rusak dan dikembalikan'),
+(2, 1, 6, 3, 'Rusak dan dikembalikan'),
+(6, 2, 6, 3, 'Rusak dan dikembalikan'),
+(7, 2, 1, 2, 'Dan lain lain'),
+(8, 3, 4, 2, 'Rusak dan dikembalikan'),
+(9, 3, 1, 2, 'Rusak dan dikembalikan');
+
+--
+-- Triggers `stok_keluar_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `stok_keluar` AFTER INSERT ON `stok_keluar_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah - new.jumlah_produk
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stok_masuk`
+--
+
+CREATE TABLE `stok_masuk` (
+  `id` int(11) NOT NULL,
+  `no_pembelian` varchar(128) NOT NULL,
+  `tanggal_pembelian` date NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp(),
+  `id_supplier` int(11) NOT NULL,
+  `status` varchar(128) NOT NULL,
+  `catatan_pembelian` varchar(256) NOT NULL,
+  `grand_total` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stok_masuk`
+--
+
+INSERT INTO `stok_masuk` (`id`, `no_pembelian`, `tanggal_pembelian`, `created_at`, `id_supplier`, `status`, `catatan_pembelian`, `grand_total`) VALUES
+(1, '#PORWJ0707220001', '2022-07-07', '2022-07-07', 1, 'Lunas', 'Test', 122000),
+(2, '#PORWJ2107220001', '2022-07-01', '2022-07-21', 1, 'Lunas', '-', 500000),
+(3, '#PORWJ2307220001', '2022-07-14', '2022-07-23', 2, 'Lunas', '-', 125000),
+(4, '#PORWJ2307220002', '2022-07-03', '2022-07-23', 1, 'Lunas', '-', 250000),
+(5, '#PORWJ2307220003', '2022-07-23', '2022-07-23', 1, 'Lunas', '-', 250000),
+(6, '#PORWJ2607220001', '2022-07-26', '2022-07-26', 2, 'Lunas', '-', 2250000),
+(7, '#PORWJ2607220002', '2022-07-26', '2022-07-26', 1, 'Lunas', '', 3000000),
+(8, '#PORWJ2607220003', '2022-07-26', '2022-07-26', 1, 'Lunas', '', 3000000),
+(9, '#PORWJ0208220001', '2022-08-02', '2022-08-02', 1, 'Lunas', '-', 3500000),
+(10, '#PORWJ0208220002', '2022-08-02', '2022-08-02', 3, 'Lunas', 'Jumbo Veloz 1L', 1900000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stok_masuk_produk`
+--
+
+CREATE TABLE `stok_masuk_produk` (
+  `id` int(11) NOT NULL,
+  `id_stok_masuk` int(11) NOT NULL,
+  `id_produk` int(11) NOT NULL,
+  `jumlah_produk` int(11) NOT NULL,
+  `harga_produk` int(11) NOT NULL,
+  `total_produk` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stok_masuk_produk`
+--
+
+INSERT INTO `stok_masuk_produk` (`id`, `id_stok_masuk`, `id_produk`, `jumlah_produk`, `harga_produk`, `total_produk`) VALUES
+(11, 1, 6, 2, 25000, 50000),
+(12, 1, 5, 3, 24000, 72000),
+(14, 3, 4, 5, 25000, 125000),
+(16, 5, 8, 10, 25000, 250000),
+(17, 4, 4, 10, 25000, 250000),
+(18, 6, 1, 75, 30000, 2250000),
+(19, 7, 1, 100, 30000, 3000000),
+(20, 8, 1, 100, 30000, 3000000),
+(21, 9, 1, 100, 35000, 3500000),
+(22, 10, 2, 20, 35000, 700000),
+(23, 10, 7, 40, 30000, 1200000),
+(24, 2, 2, 20, 25000, 500000);
+
+--
+-- Triggers `stok_masuk_produk`
+--
+DELIMITER $$
+CREATE TRIGGER `tambah_stok_produk` AFTER INSERT ON `stok_masuk_produk` FOR EACH ROW BEGIN
+UPDATE produk SET jumlah = jumlah + new.jumlah_produk
+WHERE id = new.id_produk;
+end
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(128) NOT NULL,
+  `nomor` varchar(128) NOT NULL,
+  `deskripsi` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`id`, `nama`, `nomor`, `deskripsi`) VALUES
+(1, 'Febri Suma Malang ', '08978639441123', 'Sparepart Motor AHM, ban FDR'),
+(2, 'SBM (Sumber baru Motor)', '081359126694123', 'Sparepart Motor'),
+(3, 'Hadi SUMA Batu', '081554033272123', 'Sparepart AHM, ban FDR'),
+(4, 'BJM', '082131540680123', 'Variasi Motor Malang');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(128) NOT NULL,
+  `email` varchar(128) NOT NULL,
+  `password` varchar(256) NOT NULL,
+  `foto` varchar(128) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `created_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id`, `nama`, `email`, `password`, `foto`, `role_id`, `created_at`) VALUES
+(1, 'Rajawali Owner', 'rajawalimotor2218@gmail.com', '$2y$10$TQW75VUTK9f/vtyRJfgMTOumxSc6KY6BR489aEjRVU7cf/kZH3g5m', 'logo-rajawali.png', 1, 1655778394),
+(2, 'Steven Leonard', 'stevenleonard271@gmail.com', '$2y$10$81rCaVHMB69i2IxLNRx8aOFOc7Wzd2GWBmVgUhbr.G/6WBfTTar9G', 'steven.jpg', 2, 1655778838),
+(4, 'Selyne Florencia', 'selyneflorencia271@gmail.com', '$2y$10$Jd3KILR7L2CfERAz8KEo3uV7EHB7iWpPPb7l1/huue.otvfXIn.Se', 'default.jpg', 2, 1659418967);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_access_menu`
+--
+
+CREATE TABLE `user_access_menu` (
+  `id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_access_menu`
+--
+
+INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
+(1, 1, 1),
+(3, 2, 2),
+(8, 1, 2),
+(16, 2, 5),
+(22, 1, 5),
+(25, 2, 6),
+(26, 1, 6),
+(32, 2, 7),
+(33, 1, 7),
+(34, 1, 8),
+(35, 2, 8),
+(36, 1, 9),
+(40, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_menu`
+--
+
+CREATE TABLE `user_menu` (
+  `id` int(11) NOT NULL,
+  `menu` varchar(128) NOT NULL,
+  `urutan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_menu`
+--
+
+INSERT INTO `user_menu` (`id`, `menu`, `urutan`) VALUES
+(1, 'Admin', 1),
+(2, 'User', 6),
+(3, 'Menu', 7),
+(5, 'Produk', 3),
+(6, 'Inventori', 4),
+(7, 'Others', 8),
+(8, 'Penjualan', 2),
+(9, 'Laporan', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_role`
+--
+
+CREATE TABLE `user_role` (
+  `id` int(11) NOT NULL,
+  `role` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_role`
+--
+
+INSERT INTO `user_role` (`id`, `role`) VALUES
+(1, 'Owner'),
+(2, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_sub_menu`
+--
+
+CREATE TABLE `user_sub_menu` (
+  `id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `judul` varchar(128) NOT NULL,
+  `url` varchar(128) NOT NULL,
+  `icon` varchar(128) NOT NULL,
+  `is_active` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_sub_menu`
+--
+
+INSERT INTO `user_sub_menu` (`id`, `menu_id`, `judul`, `url`, `icon`, `is_active`) VALUES
+(1, 1, 'Dashboard', 'admin', 'fas fa-fw fa-tachometer-alt', 1),
+(2, 2, 'My Profile', 'user', 'fas fa-fw fa-user-alt', 1),
+(3, 2, 'Edit Profile', 'user/edit', 'fas fa-user-edit', 1),
+(4, 3, 'Menu Management', 'menu', 'fas fa-fw fa-folder', 1),
+(5, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
+(6, 1, 'Manajemen Role', 'admin/role', 'fas fa-fw fa-user-tie', 1),
+(8, 2, 'Ubah Password', 'user/changepassword', 'fas fa-fw fa-key', 1),
+(9, 5, 'Kategori Produk', 'produk/kategori', 'fas fa-fw fa-stream', 1),
+(10, 5, 'Daftar Produk', 'produk', 'fas fa-fw fa-archive', 1),
+(11, 6, 'Stok Masuk', 'inventori/stokmasuk', 'fas fa-fw fa-arrow-alt-circle-down', 1),
+(12, 6, 'Stok Keluar', 'inventori/stokkeluar', 'fas fa-fw fa-arrow-alt-circle-up', 1),
+(13, 6, 'Supplier', 'inventori/supplier', 'fas fa-fw fa-truck', 1),
+(17, 7, 'Pelanggan', 'others/pelanggan', 'fas fa-fw fa-user-friends', 1),
+(18, 7, 'Mekanik', 'others/mekanik', 'fas fa-fw fa-wrench', 1),
+(19, 8, 'Kasir', 'penjualan/kasir', 'fas fa-fw fa-calculator', 1),
+(20, 9, 'Penjualan', 'laporan/penjualan', 'fas fa-fw fa-shopping-cart', 1),
+(21, 9, 'Ongkos', 'laporan/ongkos', 'fas fa-fw fa-percent', 1),
+(22, 9, 'Peramalan Pembelian', 'laporan/peramalan', 'fas fa-fw fa-chart-line', 1),
+(23, 1, 'Manajemen User', 'admin/users', 'fas fa-fw fa-users', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `view_cart`
+-- (See below for the actual view)
+--
+CREATE TABLE `view_cart` (
+`id_cart` int(11)
+,`id_pelanggan` int(11)
+,`id_produk` int(11)
+,`nama` varchar(128)
+,`jumlah` int(11)
+,`harga_jual` int(11)
+,`harga_total` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `view_cart`
+--
+DROP TABLE IF EXISTS `view_cart`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_cart`  AS SELECT `cart`.`id` AS `id_cart`, `cart`.`id_pelanggan` AS `id_pelanggan`, `cart`.`id_produk` AS `id_produk`, `prd`.`nama` AS `nama`, `cart`.`jumlah` AS `jumlah`, `prd`.`harga_jual` AS `harga_jual`, `cart`.`jumlah`* `prd`.`harga_jual` AS `harga_total` FROM (`cart_penjualan` `cart` join `produk` `prd` on(`prd`.`id` = `cart`.`id_produk`))  ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `cart_penjualan`
+--
+ALTER TABLE `cart_penjualan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `kategori_produk`
+--
+ALTER TABLE `kategori_produk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `mekanik`
+--
+ALTER TABLE `mekanik`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `motor_pelanggan`
+--
+ALTER TABLE `motor_pelanggan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `penjualan`
+--
+ALTER TABLE `penjualan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `penjualan_produk`
+--
+ALTER TABLE `penjualan_produk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `peramalan`
+--
+ALTER TABLE `peramalan`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `produk`
+--
+ALTER TABLE `produk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stok_keluar`
+--
+ALTER TABLE `stok_keluar`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stok_keluar_produk`
+--
+ALTER TABLE `stok_keluar_produk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stok_masuk`
+--
+ALTER TABLE `stok_masuk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stok_masuk_produk`
+--
+ALTER TABLE `stok_masuk_produk`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_access_menu`
+--
+ALTER TABLE `user_access_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_menu`
+--
+ALTER TABLE `user_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_role`
+--
+ALTER TABLE `user_role`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `user_sub_menu`
+--
+ALTER TABLE `user_sub_menu`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `cart_penjualan`
+--
+ALTER TABLE `cart_penjualan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT for table `kategori_produk`
+--
+ALTER TABLE `kategori_produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `mekanik`
+--
+ALTER TABLE `mekanik`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `motor_pelanggan`
+--
+ALTER TABLE `motor_pelanggan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `penjualan`
+--
+ALTER TABLE `penjualan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `penjualan_produk`
+--
+ALTER TABLE `penjualan_produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `peramalan`
+--
+ALTER TABLE `peramalan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `stok_keluar`
+--
+ALTER TABLE `stok_keluar`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `stok_keluar_produk`
+--
+ALTER TABLE `stok_keluar_produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `stok_masuk`
+--
+ALTER TABLE `stok_masuk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `stok_masuk_produk`
+--
+ALTER TABLE `stok_masuk_produk`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `user_access_menu`
+--
+ALTER TABLE `user_access_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `user_menu`
+--
+ALTER TABLE `user_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `user_role`
+--
+ALTER TABLE `user_role`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_sub_menu`
+--
+ALTER TABLE `user_sub_menu`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
