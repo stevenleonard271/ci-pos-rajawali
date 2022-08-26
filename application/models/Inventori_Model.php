@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Inventori_Model extends CI_Model
 {
-    public $mape;
+    public $mape = 0;
     //GET Supplier BY ID
     public function getSupplier($id)
     {
@@ -252,7 +252,7 @@ class Inventori_Model extends CI_Model
                   ON p.id_penjualan = pj.id
                   WHERE month(tanggal_penjualan) <  month('$tglPeramalan')
                   AND year(tanggal_penjualan) <=  year('$tglPeramalan')
-                  AND p.`id_produk` = $idProduk 
+                  AND p.`id_produk` = '$idProduk'
                   GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
 
         return $this->db->query($query);
@@ -273,7 +273,7 @@ class Inventori_Model extends CI_Model
                   ON p.id_penjualan = pj.id
                   WHERE month(tanggal_penjualan) =  '$requiredMonth'
                   AND year(tanggal_penjualan) =  '$requiredYear'
-                  AND p.`id_produk` = $idProduk 
+                  AND p.`id_produk` = '$idProduk'
                   GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
 
         return $this->db->query($query);

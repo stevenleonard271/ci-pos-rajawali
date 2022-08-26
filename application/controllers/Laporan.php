@@ -109,6 +109,8 @@ class Laporan extends CI_Controller
     {
         $post = $this->input->post();
 
+        // dd($post);
+
 
         $data['title'] = "Peramalan Pembelian";
         $data['subtitle'] = "Perhitungan Peramalan Pembelian";
@@ -171,29 +173,88 @@ class Laporan extends CI_Controller
     public function hitungPeramalanSemuaProduk()
     {
         $post = $this->input->post();
+
+        // dd($post);
         $produk = $this->produk->getAllProduk();
+
+        // dd($produk);
         foreach ($produk as $p) {
-            $data['perhitunganSma'] = $this->inventori->perhitunganSMA($p, $post['tgl_peramalan'], 3);
-            $data['mapeTiga'] = $this->inventori->mape;
-            $data['perhitunganSmaEmpat'] = $this->inventori->perhitunganSMA($p, $post['tgl_peramalan'], 4);
-            $data['mapeEmpat'] = $this->inventori->mape;
-            $data['perhitunganSmaLima'] = $this->inventori->perhitunganSMA($p, $post['tgl_peramalan'], 5);
-            $data['mapeLima'] = $this->inventori->mape;
 
-            // if()
+            $mapeTiga = 0;
+            $mapeEmpat = 0;
+            $mapeLima = 0;
 
-            // $row["id_produk"] = $p;
-            // $row['tanggal'] = $post['tgl_peramalan'];
-            // $row['hasil'] = $hasil;
-            // $row['mape '] = $hasilMape;
+            // dd($p['id']);
+            $perhitunganSma = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 3);
+            $mapeTiga = $this->inventori->mape;
+            $perhitunganSmaEmpat = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 4);
+            $mapeEmpat = $this->inventori->mape;
+            $perhitunganSmaLima = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 5);
+            $mapeLima = $this->inventori->mape;
 
-            // $this->laporan->insertPeramalan($row);
+            //inisialisasi default hasil 0
+            $maTiga = [
+                'ma' => 3,
+                'hasil' => $perhitunganSma != null ? end($perhitunganSma)['Peramalan'] : 0,
+                'mape' => $mapeTiga == null ? 100 : $mapeTiga
+            ];
+            $maEmpat = [
+                'ma' => 4,
+                'hasil' => $perhitunganSmaEmpat != null ? end($perhitunganSmaEmpat)['Peramalan'] : 0,
+                'mape' => $mapeEmpat == null ? 100 : $mapeEmpat
+            ];
+            $maLima = [
+                'ma' => 5,
+                'hasil' => $perhitunganSmaLima != null ? end($perhitunganSmaEmpat)['Peramalan'] : 0,
+                'mape' => $mapeLima == null ? 100 : $mapeLima
+            ];
+
+            //Membandingkan mape terkecil untuk dijadikan kesimpulan
+            if ($maTiga['mape'] <= $maEmpat['mape'] && $maTiga['mape'] <= $maLima['mape']) {
+                $bestForecast = $maTiga['hasil'];
+                $bestMoving = $maTiga['ma'];
+                $bestMape = $maTiga['mape'];
+            } else if ($maEmpat['mape'] <= $maTiga['mape'] && $maEmpat['mape'] <= $maLima['mape']) {
+                $bestForecast = $maEmpat['hasil'];
+                $bestMoving = $maEmpat['ma'];
+                $bestMape = $maEmpat['mape'];
+            } else {
+                $bestForecast = $maLima['hasil'];
+                $bestMoving = $maLima['ma'];
+                $bestMape = $maLima['mape'];
+            }
+
+            // $data['bestMape'] = $bestMape;
+            $bestForecast = round($bestForecast);
+            $data['bestMoving'] = $bestMoving;
+
+            $row["id_produk"] = $p['id'];
+            $row['tanggal'] = $post['tgl_peramalan'];
+            $row['hasil'] = $bestForecast;
+            $row['mape'] = $bestMape;
+
+            // dd($row['id_produk']);
+
+            var_dump($row);
+
+            //beri kondisi jika mape = 100 dan hasil=0 tidak dimasukkan 
+
+            $this->laporan->insertPeramalan($row);
         }
+
+        $this->session->set_flashdata('message', '
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Peramalan berhasil! Data sudah tersimpan
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>');
+        redirect('laporan/peramalan');
     }
 
     public function simpanPeramalan()
     {
-        // $this->form_validation->set_rules('')
+
         $this->laporan->insertPeramalan();
         redirect('laporan/peramalan');
     }

@@ -135,9 +135,7 @@ class Produk_model extends CI_Model
             "harga_beli" => $this->input->post('harga_beli', true),
             "harga_jual" => $this->input->post('harga_jual', true),
             "batas_bawah" => $this->input->post('batas_bawah', true),
-
         ];
-
         $this->db->where('id', $this->input->post('id'));
         $this->db->update('produk', $data);
     }
