@@ -232,13 +232,13 @@ class Laporan extends CI_Controller
             $this->laporan->insertPeramalan($row);
         }
 
-        //         $this->session->set_flashdata('message', '
-        //         <div class="alert alert-success alert-dismissible fade show" role="alert">
-        //         Peramalan berhasil! Data sudah tersimpan
-        //        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        //        <span aria-hidden="true">&times;</span>
-        //        </button>
-        // </div>');
+        $this->session->set_flashdata('message', '
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Peramalan berhasil! Data sudah tersimpan
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+        </div>');
         redirect('laporan/peramalan');
     }
 
@@ -246,6 +246,13 @@ class Laporan extends CI_Controller
     {
 
         $this->laporan->insertPeramalan();
+        $this->session->set_flashdata('message', '
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Peramalan berhasil! Data sudah tersimpan
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+       </button>
+</div>');
         redirect('laporan/peramalan');
     }
 }

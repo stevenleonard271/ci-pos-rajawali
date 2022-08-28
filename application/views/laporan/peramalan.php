@@ -4,7 +4,7 @@
     <!-- Page Heading -->
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
-    <?php // echo $this->session->flashdata('message'); 
+    <?php echo $this->session->flashdata('message');
     ?>
 
     <form method="post" action="<?= base_url('laporan/hasilPeramalan') ?>">

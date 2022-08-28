@@ -251,7 +251,8 @@
                         <div class="row float-right" id="buttonAksi">
                             <button type=" submit" class="btn ml-2 mr-3 btn-primary" id="simpanPeramalan">Simpan Hasil
                                 Peramalan</button>
-                            <a href="<?= base_url('laporan/peramalan') ?>" class="btn btn-danger mr-3">Batal </a>
+                            <a href="<?= base_url('laporan/peramalan') ?>" id="batal" class="btn btn-danger mr-3">Batal
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -267,8 +268,10 @@
 <script>
 //Hide the buttonAksi when there is no result..So user can't click the button
 if ($('#nullForecast').val() == 0) {
-    $('#buttonAksi').hide();
+    $('#simpanPeramalan').hide();
+    $('#batal').show();
 } else {
     $('#buttonAksi').show();
+
 }
 </script>
