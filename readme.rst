@@ -1,5 +1,5 @@
 ###################
-What is CodeIgniter
+Sistem Informasi Penjualan (Point of Sales) dan Peramalan Pembelian menggunakan Single Moving Average 
 ###################
 
 CodeIgniter is an Application Development Framework - a toolkit - for people
