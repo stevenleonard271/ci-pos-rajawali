@@ -118,7 +118,7 @@ class Produk_model extends CI_Model
         `kategori_produk`.`nama` as NamaKategori
         FROM produk JOIN `kategori_produk`
         ON `produk`.`id_kategori` = `kategori_produk`.`id`
-        WHERE `produk`.`id`= $id";
+        WHERE `produk`.`id`= '$id'";
         // return $this->db->get_where('produk', ['id' => $id])->row_array();
 
         return $this->db->query($query)->row();

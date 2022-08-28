@@ -109,9 +109,6 @@ class Laporan extends CI_Controller
     {
         $post = $this->input->post();
 
-        // dd($post);
-
-
         $data['title'] = "Peramalan Pembelian";
         $data['subtitle'] = "Perhitungan Peramalan Pembelian";
         $data['user'] = $this->db->get_where('user', [
@@ -173,18 +170,10 @@ class Laporan extends CI_Controller
     public function hitungPeramalanSemuaProduk()
     {
         $post = $this->input->post();
-
-        // dd($post);
         $produk = $this->produk->getAllProduk();
 
-        // dd($produk);
         foreach ($produk as $p) {
 
-            $mapeTiga = 0;
-            $mapeEmpat = 0;
-            $mapeLima = 0;
-
-            // dd($p['id']);
             $perhitunganSma = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 3);
             $mapeTiga = $this->inventori->mape;
             $perhitunganSmaEmpat = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 4);
@@ -235,20 +224,21 @@ class Laporan extends CI_Controller
 
             // dd($row['id_produk']);
 
-            var_dump($row);
+            // var_dump($row);
 
-            //beri kondisi jika mape = 100 dan hasil=0 tidak dimasukkan 
+            //TODO
+            //beri kondisi jika mape = 100 dan hasil=0  maka tidak insert ke db
 
             $this->laporan->insertPeramalan($row);
         }
 
-        $this->session->set_flashdata('message', '
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-        Peramalan berhasil! Data sudah tersimpan
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>');
+        //         $this->session->set_flashdata('message', '
+        //         <div class="alert alert-success alert-dismissible fade show" role="alert">
+        //         Peramalan berhasil! Data sudah tersimpan
+        //        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        //        <span aria-hidden="true">&times;</span>
+        //        </button>
+        // </div>');
         redirect('laporan/peramalan');
     }
 
