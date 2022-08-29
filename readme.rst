@@ -2,7 +2,7 @@
 Point of Sales and Forecasting sales using Single Moving Average Method
 ###################
 
-Hai teman teman, ini adalah proyek Tugas akhir saya yaitu dengan membuat Sistem Informasi Penjualan dan Peramalan pembelian dengan metode Single Moving Average Berbasis Website. Aplikasi ini ditujukan untuk membantu proses bisnis dari Bengkel Rajawali Motor. 
+Ini adalah proyek Tugas akhir saya yaitu dengan membuat Sistem Informasi Penjualan dan Peramalan pembelian dengan metode Single Moving Average Berbasis Website. Aplikasi ini ditujukan untuk membantu proses bisnis dari Bengkel Rajawali Motor. 
 
 Fitur aplikasi meliputi :
 - Data Pelanggan
