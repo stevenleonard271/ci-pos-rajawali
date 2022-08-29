@@ -9,4 +9,4 @@ Fitur aplikasi meliputi :
 - Data Penjualan
 - Data Stok masuk
 - Data Stok keluar
-- Peramalan Pembelian (fitur spesial) untuk mempermudah pembelian barang
+- Peramalan Pembelian (fitur spesial) untuk mempermudah pemilik bengkel dalam melakukan pembelian barang
