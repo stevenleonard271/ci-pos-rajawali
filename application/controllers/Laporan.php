@@ -224,13 +224,14 @@ class Laporan extends CI_Controller
 
             // dd($row['id_produk']);
 
-            // var_dump($row);
+            var_dump($row);
 
-            //TODO
             //beri kondisi jika mape = 100 dan hasil=0  maka tidak insert ke db
-
-            $this->laporan->insertPeramalan($row);
+            if ($row['mape'] != 100 && $row['hasil'] != 0) {
+                $this->laporan->insertPeramalan($row);
+            }
         }
+
 
         $this->session->set_flashdata('message', '
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -239,7 +240,7 @@ class Laporan extends CI_Controller
                <span aria-hidden="true">&times;</span>
                </button>
         </div>');
-        redirect('laporan/peramalan');
+        // redirect('laporan/peramalan');
     }
 
     public function simpanPeramalan()

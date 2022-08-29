@@ -55,26 +55,30 @@ class Laporan_Model extends CI_Model
     public function insertPeramalan($row = "")
     {
 
-        $idProduk = $this->input->post('produk');
-        $tanggal = $this->input->post('tanggal');
-        $hasil = $this->input->post('hasil');
-        $mape = $this->input->post('mape');
-
         if ($row == "") {
+            $idProduk = $this->input->post('produk');
+            $tanggal = $this->input->post('tanggal');
+            $hasil = $this->input->post('hasil');
+            $mape = $this->input->post('mape');
             $data = [
                 'id_produk' => $idProduk,
                 'tanggal' => $tanggal,
                 'hasil' => $hasil,
                 'mape' => $mape,
             ];
+            //cek record apakah ada kembar sebelum diinsert
+            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProduk' AND `tanggal` = '$tanggal'");
+            return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
         } else {
             $data = $row;
+
+            $idProdukSemua = $data['id_produk'];
+            $tanggalProdukSemua = $data['tanggal'];
+
+            //cek record apakah ada kembar sebelum diinsert
+            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProdukSemua' AND `tanggal` = '$tanggalProdukSemua'");
+            return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
         }
-
-        //cek record apakah ada kembar sebelum diinsert
-        $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProduk' AND `tanggal` = '$tanggal'");
-
-        return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
     }
 
 

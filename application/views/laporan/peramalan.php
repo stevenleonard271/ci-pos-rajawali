@@ -85,6 +85,8 @@
                         <div class="row float-right" style="display:none ;" id="buttonAksiSemua">
                             <button type="submit" class="btn ml-2 mr-3 btn-primary hitungPeramalanSemua">Hitung
                                 Peramalan Semua Produk</button>
+                            <!-- <a href="#" class="btn ml-2 mr-3 btn-info hitungPeramalanSemua">Hitung Peramalan Semua
+                                Produk</a> -->
                             <a href="#" class="btn btn-danger mr-3 batal">Batal </a>
                         </div>
                     </div>
