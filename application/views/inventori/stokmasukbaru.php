@@ -22,6 +22,7 @@
                                 <div class="form-group">
                                     <label for="supplier">Supplier Produk</label>
                                     <select name="supplier" id="select_supplier" class="form-control">
+                                        <option></option>
                                         <option value="">Pilih Supplier</option>
                                         <?php foreach ($supplier as $s) : ?>
                                         <option value="<?= $s['id']; ?>"><?= $s['nama']; ?></option>
@@ -103,6 +104,10 @@
                         <div class="row">
                             <div class="col">
                                 <div class="h5 font-weight-bold text-gray-800"> Tambah Produk</div>
+                                <small class="text-danger">
+                                    **Rekomendasi pembelian dari peramalan akan muncul di kolom jumlah saat produk
+                                    dipilih
+                                </small>
                             </div>
                         </div>
                         <hr class="mb-1">
@@ -123,10 +128,12 @@
                             </div>
                             <div class="row border-bottom p-2 align-items-center">
                                 <div class="col-5 pl-0 ">
-                                    <select name="select_produk[]" class="select_produk form-control" required>
+                                    <select name="select_produk[]" class="select_produk form-control" id="pilih_produk"
+                                        required>
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p) : ?>
-                                        <option value="<?= $p['id']; ?>"><?= $p['nama']; ?></option>
+                                        <option value="<?= $p['id']; ?>"><?= $p['nama']; ?>
+                                        </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -157,9 +164,6 @@
                     </form>
                 </div>
             </div>
-
-
-
 
         </div>
 
@@ -195,6 +199,7 @@ function generateCode($order)
 <script>
 //DATEPICKER
 $(document).ready(function() {
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, "0");
     var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -234,6 +239,31 @@ $(".jumlah_produk").on("keyup", function() {
     var total = $("#harga_produk" + id).val() * $("#jumlah_produk" + id).val();
     $("#total_produk" + id).val(total);
     showGrandTotal();
+});
+
+
+// $(document).on(change, 'select#pilih_produk', function(e) {
+//     alert('ok');
+// });
+// Function select produk
+
+//TODO
+$('#pilih_produk').on("select2:select", function() {
+
+    var tgl_pembelian = $('#tgl_pembelian').val();
+    var produk = $(this).val();
+    $.ajax({
+        url: "<?= base_url('inventori/rekomendasiPembelianStokMasuk'); ?>",
+        data: {
+            idProduk: produk,
+            tgl_pembelian: tgl_pembelian,
+        },
+        method: "post",
+        success: function(data) {
+            alert(data);
+            // ('jumlah_produk1').val(data);
+        },
+    });
 });
 
 var j = 2;

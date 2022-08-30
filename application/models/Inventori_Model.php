@@ -279,6 +279,14 @@ class Inventori_Model extends CI_Model
         return $this->db->query($query);
     }
 
+    public function ambilRamalan($produk, $tglPeramalan)
+    {
+        $this->db->where('month(tanggal)', date('m', $tglPeramalan));
+        $this->db->where('year(tanggal)', date('y', $tglPeramalan));
+        $this->db->where('id_produk', $produk);
+        return $this->db->get('peramalan')->row();
+    }
+
     public function perhitunganSMA($idProduk, $tglPeramalan, $ma)
     {
         // get data yang akan dihitung

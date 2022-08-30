@@ -245,7 +245,6 @@ class Laporan extends CI_Controller
 
     public function simpanPeramalan()
     {
-
         $this->laporan->insertPeramalan();
         $this->session->set_flashdata('message', '
         <div class="alert alert-success alert-dismissible fade show" role="alert">

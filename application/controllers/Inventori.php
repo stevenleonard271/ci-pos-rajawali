@@ -93,6 +93,15 @@ class Inventori extends CI_Controller
         $this->load->view('layout', $data);
     }
 
+    public function rekomendasiPembelianStokMasuk()
+    {
+        $post = $this->input->post();
+        $idProduk = $post['idProduk'];
+        $tglPembelian = $post['tgl_pembelian'];
+
+        return $this->inventori->ambilRamalan($idProduk, $tglPembelian);
+    }
+
     //Insert data
     public function stokMasukBaru()
     {
@@ -176,7 +185,7 @@ class Inventori extends CI_Controller
         $data['supplier'] = $this->db->get('supplier')->result_array();
         $this->load->model('Produk_model', 'produk');
         $data['produk'] = $this->produk->getAllProduk();
-        
+
         $this->load->view('layout', $data);
     }
 
