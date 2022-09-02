@@ -111,7 +111,7 @@
                             </div>
                         </div>
                         <hr class="mb-1">
-                        <div class="col-md-12 col-xs-12 col-lg-12 ">
+                        <div class="col-md-12 col-xs-12 col-lg-12" id="tabelBarang">
                             <div class="row border-bottom align-middle p-2">
                                 <div class="col-5 pl-0">
                                     <b>Nama Barang</b>
@@ -128,8 +128,8 @@
                             </div>
                             <div class="row border-bottom p-2 align-items-center">
                                 <div class="col-5 pl-0 ">
-                                    <select name="select_produk[]" class="select_produk form-control" id="pilih_produk"
-                                        required>
+                                    <select name="select_produk[]" class="select_produk_masuk form-control"
+                                        id="pilih_produk" required>
                                         <option value="">Pilih Produk</option>
                                         <?php foreach ($produk as $p) : ?>
                                         <option value="<?= $p['id']; ?>"><?= $p['nama']; ?>
@@ -248,23 +248,6 @@ $(".jumlah_produk").on("keyup", function() {
 // Function select produk
 
 //TODO
-$('#pilih_produk').on("select2:select", function() {
-
-    var tgl_pembelian = $('#tgl_pembelian').val();
-    var produk = $(this).val();
-    $.ajax({
-        url: "<?= base_url('inventori/rekomendasiPembelianStokMasuk'); ?>",
-        data: {
-            idProduk: produk,
-            tgl_pembelian: tgl_pembelian,
-        },
-        method: "post",
-        success: function(data) {
-            alert(data);
-            // ('jumlah_produk1').val(data);
-        },
-    });
-});
 
 var j = 2;
 
@@ -275,7 +258,7 @@ function addSlot() {
         j +
         '">' +
         '<div class="col-5 pl-0 ">' +
-        '<select name="select_produk[]" class="select_produk form-control" required>' +
+        '<select name="select_produk[]" class="select_produk_masuk form-control" required>' +
         '<option value="">Pilih Produk</option> ' +
         <?php foreach ($produk as $p) : ?> '<option value="<?= $p["id"]; ?>"><?= $p["nama"]; ?></option>' +
         <?php endforeach; ?> "</select>" +
@@ -301,10 +284,10 @@ function addSlot() {
         "</div>";
     $("#slots").append(html);
 
-    $(".select_produk").select2({
-        placeholder: "Pilih Produk",
-        width: "100%",
-    });
+    // $(".select_produk").select2({
+    //     placeholder: "Pilih Produk",
+    //     width: "100%",
+    // });
 
 
     $(".harga_produk").on("keyup", function() {

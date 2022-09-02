@@ -2,7 +2,7 @@
  <footer class="sticky-footer bg-white">
      <div class="container my-auto">
          <div class="copyright text-center my-auto">
-             <span>Copyright &copy; POS Rajawali Motor <?=date('Y');?></span>
+             <span>Copyright &copy; POS Rajawali Motor <?= date('Y'); ?></span>
          </div>
      </div>
  </footer>
@@ -33,15 +33,15 @@
              <div class="modal-body">Pilih "Logout" untuk keluar.</div>
              <div class="modal-footer">
                  <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                 <a class="btn btn-primary" href="<?=base_url('auth/logout');?>">Logout</a>
+                 <a class="btn btn-primary" href="<?= base_url('auth/logout'); ?>">Logout</a>
              </div>
          </div>
      </div>
  </div>
 
  <!-- Bootstrap core JavaScript-->
- <script src=" <?=base_url('assets/');?>vendor/jquery/jquery.min.js"></script>
- <script src="<?=base_url('assets/');?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src=" <?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
+ <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
  <!-- Data Tables -->
  <!-- <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
@@ -55,15 +55,15 @@
 
 
  <!-- Core plugin JavaScript-->
- <script src="<?=base_url('assets/');?>vendor/jquery-easing/jquery.easing.min.js"></script>
+ <script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
 
  <!-- Custom scripts for all pages-->
- <script src="<?=base_url('assets/');?>js/sb-admin-2.min.js"></script>
- <script src="<?=base_url('assets/');?>js/my-script.js"></script>
- <script src="<?=base_url('assets/');?>js/pagination.js"></script>
- <script src="<?=base_url('assets/');?>js/select2.js"></script>
- <script src="<?=base_url('assets/');?>js/jquery.nicescroll.js"></script>
- <script src="<?=base_url('assets/');?>js/plugins.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/my-script.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/pagination.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/jquery.nicescroll.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/select2.js"></script>
+ <script src="<?= base_url('assets/'); ?>js/plugins.js"></script>
 
 
 
@@ -82,7 +82,7 @@ $("#change-access.form-check-input").on("click", function() {
     const roleId = $(this).data("role");
 
     $.ajax({
-        url: "<?=base_url('admin/changeaccess');?>",
+        url: "<?= base_url('admin/changeaccess'); ?>",
         type: "post",
         data: {
             menuId: menuId,
@@ -90,7 +90,7 @@ $("#change-access.form-check-input").on("click", function() {
         },
         success: function() {
             //mengarahkan ke method ini
-            document.location.href = "<?=base_url('admin/roleaccess/');?>" + roleId;
+            document.location.href = "<?= base_url('admin/roleaccess/'); ?>" + roleId;
         },
     });
 });

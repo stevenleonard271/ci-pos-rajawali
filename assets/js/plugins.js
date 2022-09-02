@@ -13,6 +13,10 @@ $(document).ready(function () {
 		placeholder: "Pilih Produk",
 		width: "100%",
 	});
+	$("#tabelBarang .select_produk_masuk").select2({
+		placeholder: "Pilih Produk",
+		width: "100%",
+	});
 	$(".select_pelanggan").select2({
 		placeholder: "Pilih Pelanggan",
 		width: "100%",
@@ -25,6 +29,35 @@ $(document).ready(function () {
 		placeholder: "Pilih Mekanik",
 		width: "100%",
 	});
+
+
+
+	//Untuk view stok masuk baru 
+
+	$('#tabelBarang .select_produk_masuk').on("select2:select", function() {
+
+		// alert('Test hehe');
+		var tgl_pembelian = $('#tgl_pembelian').val();
+		var produk = $(this).val();
+		$.ajax({
+			url: "http://localhost/pos-rajawali/inventori/rekomendasiPembelianStokMasuk",
+			data: {
+				idProduk: produk,
+				tgl_pembelian: tgl_pembelian,
+			},
+			method: "post",
+			dataType:"JSON",
+			success: function(data) {
+				// alert(data.hasil);
+				$('#jumlah_produk1').val(data.hasil);
+			},
+		});
+	});
+
+	
+	
+
+
 
 	//DATE PICKER JQUERY
 

@@ -98,8 +98,7 @@ class Inventori extends CI_Controller
         $post = $this->input->post();
         $idProduk = $post['idProduk'];
         $tglPembelian = $post['tgl_pembelian'];
-
-        return $this->inventori->ambilRamalan($idProduk, $tglPembelian);
+        echo json_encode($this->inventori->ambilRamalan($idProduk, $tglPembelian));
     }
 
     //Insert data
