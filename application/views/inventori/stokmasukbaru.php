@@ -301,7 +301,7 @@ function addSlot() {
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="total_produk form-control" id="total_produk' + j + '"' +
-        'name="total_produk[]" autocomplete="off" id-input="' + j + '" required >' +
+        'name="total_produk[]" autocomplete="off" id-input="' + j + '" required>' +
         "</div>" +
         '<div class="col-1">' +
         '<button type="button" onclick="deleteSlot(' +

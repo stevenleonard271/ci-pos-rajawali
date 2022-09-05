@@ -58,18 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row" id="hutangForm">
-                        <div class="col-md-3 pt-auto">
-                            <h5>
-                                Pembayaran Hutang
-                            </h5>
-                        </div>
-                        <div class="col-md-3 pt-auto"><button data-toggle="modal" data-target="#tambahPembayaran"
-                                class="btn btn-primary rounded-0 shadow-none">
-                                Tambah Pembayaran
-                            </button></div>
-                    </div>
+
 
                 </div>
             </div>
@@ -125,7 +114,7 @@
 </div>
 <!-- End of Main Content -->
 
-<?php 
+<?php
 function rupiah($angka)
 {
     $hasil_rupiah = "Rp " . number_format($angka, 2, ',', '.');
