@@ -105,7 +105,7 @@
                             <div class="col">
                                 <div class="h5 font-weight-bold text-gray-800"> Tambah Produk</div>
                                 <small class="text-danger">
-                                    **Rekomendasi pembelian dari peramalan akan muncul di kolom jumlah saat produk
+                                    **Rekomendasi pembelian dari data peramalan akan muncul di kolom jumlah saat produk
                                     dipilih
                                 </small>
                             </div>
@@ -181,7 +181,6 @@
 //generate Code Pembelian
 function generateCode($order)
 {
-
     date_default_timezone_set('Asia/Jakarta');
     $name = "#PORWJ";
     $today = date('dmy');
