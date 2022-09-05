@@ -128,6 +128,11 @@ $(document).ready(function() {
     //     // minViewMode: "months"
     // });
 
+    $(".select_produk").select2({
+        placeholder: "Pilih Produk",
+        width: "100%",
+    });
+
     $('.select_produk').change(function() {
         var _sparepart = $('#sparepart').val();
         var _tgl_ramal = $('#tgl_peramalan').val();

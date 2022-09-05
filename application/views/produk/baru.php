@@ -86,3 +86,12 @@
 
 </div>
 <!-- End of Main Content -->
+
+<script>
+$(document).ready(function() {
+    $("#select_kategori.form-control").select2({
+        placeholder: "Pilih Kategori",
+        width: "100%",
+    });
+});
+</script>

@@ -6,7 +6,7 @@
         <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
         <!-- Success Flash Data -->
-        <?=$this->session->flashdata('message');?>
+        <?= $this->session->flashdata('message'); ?>
 
         <div class="row">
             <div class="col-6">
@@ -206,16 +206,16 @@
 function generateCode($order)
 {
 
-  date_default_timezone_set('Asia/Jakarta');
-  $name = "#ORD";
-  $today = date('dmy');
-  $order = $order + 1;
+    date_default_timezone_set('Asia/Jakarta');
+    $name = "#ORD";
+    $today = date('dmy');
+    $order = $order + 1;
 
-  $order = sprintf('%04d', $order);
+    $order = sprintf('%04d', $order);
 
-  $code = $name . $today . $order;
+    $code = $name . $today . $order;
 
-  echo $code;
+    echo $code;
 }
 ?>
 
@@ -286,7 +286,21 @@ $(document).ready(function() {
         // console.log(selected);
     });
 
+    $(".select_motor").select2({
+        // placeholder: "Pilih Motor",
+        width: "100%",
+    });
+    $(".select_mekanik").select2({
+        placeholder: "Pilih Mekanik",
+        width: "100%",
+    });
+
+
     //show #sparepartForm when pelanggan has a value
+    $(".select_pelanggan").select2({
+        placeholder: "Pilih Pelanggan",
+        width: "100%",
+    });
     $("#pelanggan").change(function() {
         $('#sparepartForm').show();
     });
@@ -314,6 +328,11 @@ $(document).ready(function() {
     $('.select_motor').change(function() {
         var data = $(this).val();
 
+    });
+
+    $(".select_produk").select2({
+        placeholder: "Pilih Produk",
+        width: "100%",
     });
 
 

@@ -219,7 +219,40 @@ $(document).ready(function() {
         // alert(selected);
     });
 
+    $("#select_supplier.form-control").select2({
+        placeholder: "Pilih Supplier",
+        width: "100%",
+    });
+
+
+    $("#tabelBarang .select_produk_masuk").select2({
+        placeholder: "Pilih Produk",
+        width: "100%",
+    });
+
+    //Untuk view stok masuk baru 
+    $('#tabelBarang .select_produk_masuk').on("select2:select", function() {
+        var tgl_pembelian = $('#tgl_pembelian').val();
+        var produk = $(this).val();
+        $.ajax({
+            url: "http://localhost/pos-rajawali/inventori/rekomendasiPembelianStokMasuk",
+            data: {
+                idProduk: produk,
+                tgl_pembelian: tgl_pembelian,
+            },
+            method: "post",
+            dataType: "JSON",
+            success: function(data) {
+                // alert(data.hasil);
+                // alert('test');
+                $('#jumlah_produk1').val(data.hasil);
+            },
+        });
+    });
+
+
 });
+
 var grandTotal = 0;
 
 showGrandTotal();
@@ -241,13 +274,6 @@ $(".jumlah_produk").on("keyup", function() {
 });
 
 
-// $(document).on(change, 'select#pilih_produk', function(e) {
-//     alert('ok');
-// });
-// Function select produk
-
-//TODO
-
 var j = 2;
 
 function addSlot() {
@@ -257,7 +283,7 @@ function addSlot() {
         j +
         '">' +
         '<div class="col-5 pl-0 ">' +
-        '<select name="select_produk[]" class="select_produk_masuk form-control" required>' +
+        '<select name="select_produk[]" class="select_produk_masuk_add form-control" id-input="' + j + '" required>' +
         '<option value="">Pilih Produk</option> ' +
         <?php foreach ($produk as $p) : ?> '<option value="<?= $p["id"]; ?>"><?= $p["nama"]; ?></option>' +
         <?php endforeach; ?> "</select>" +
@@ -283,10 +309,11 @@ function addSlot() {
         "</div>";
     $("#slots").append(html);
 
-    // $(".select_produk").select2({
-    //     placeholder: "Pilih Produk",
-    //     width: "100%",
-    // });
+
+    $("#tabelBarang .select_produk_masuk_add").select2({
+        placeholder: "Pilih Produk",
+        width: "100%",
+    });
 
 
     $(".harga_produk").on("keyup", function() {
@@ -305,8 +332,31 @@ function addSlot() {
         // grandTotal += total;
     });
 
+
+    $('#tabelBarang .select_produk_masuk_add').on("select2:select", function() {
+        // alert('Test hehe');
+        var tgl_pembelian = $('#tgl_pembelian').val();
+        var produk = $(this).val();
+        var id = $(this).attr('id-input');
+        $.ajax({
+            url: "http://localhost/pos-rajawali/inventori/rekomendasiPembelianStokMasuk",
+            data: {
+                idProduk: produk,
+                tgl_pembelian: tgl_pembelian,
+            },
+            method: "post",
+            dataType: "JSON",
+            success: function(data) {
+                $('#jumlah_produk' + id).val(data.hasil);
+            },
+        });
+    });
+
     j++;
 }
+
+
+
 
 function deleteSlot(id) {
 

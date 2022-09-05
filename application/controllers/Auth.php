@@ -37,7 +37,6 @@ class Auth extends CI_Controller
             //Validasi sukses
             $this->_login();
         }
-
     }
 
     private function _login()
@@ -56,7 +55,6 @@ class Auth extends CI_Controller
                     'email' => $user['email'],
                     'role_id' => $user['role_id'],
                 ];
-
                 //simpan pada session user dan role id
                 $this->session->set_userdata($data);
 
@@ -66,14 +64,11 @@ class Auth extends CI_Controller
                 } else {
                     redirect('user');
                 }
-
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
                 Password anda salah </div>');
                 redirect('auth');
-
             }
-
         } else {
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
            Email anda belum terdaftar </div>');
@@ -88,7 +83,6 @@ class Auth extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
         Anda telah keluar </div>');
         redirect('auth');
-
     }
 
     public function blocked()
