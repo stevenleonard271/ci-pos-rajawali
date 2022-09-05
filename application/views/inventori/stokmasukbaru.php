@@ -246,6 +246,9 @@ $(document).ready(function() {
                 // alert(data.hasil);
                 // alert('test');
                 $('#jumlah_produk1').val(data.hasil);
+                $('#harga_produk1').val(data.harga_beli);
+                $('#total_produk1').val(data.hasil * data.harga_beli);
+                showGrandTotal();
             },
         });
     });
@@ -348,15 +351,15 @@ function addSlot() {
             dataType: "JSON",
             success: function(data) {
                 $('#jumlah_produk' + id).val(data.hasil);
+                $('#harga_produk' + id).val(data.harga_beli);
+                $('#total_produk' + id).val(data.hasil * data.harga_beli);
+                showGrandTotal();
             },
         });
     });
 
     j++;
 }
-
-
-
 
 function deleteSlot(id) {
 
