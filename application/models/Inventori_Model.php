@@ -279,6 +279,14 @@ class Inventori_Model extends CI_Model
         return $this->db->query($query);
     }
 
+    // public function ambilStokMasuk($produk,$tglPeramalan)
+    // {
+    //     $query = "SELECT `stok_masuk`.*, 
+    //     FROM stok_masuk"
+
+    //     return $this->db->query($query)->result_array();
+    // }
+
     public function ambilRamalan($produk, $tglPeramalan)
     {
         $tglPeramalan = strtotime($tglPeramalan);

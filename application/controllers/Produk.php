@@ -10,7 +10,7 @@ class Produk extends CI_Controller
         $this->load->model('Produk_model', 'produk');
     }
 
-    //GET AND INSERT PRODUK
+    //GET PRODUK
     public function index()
     {
         $data['title'] = 'Daftar Produk';
