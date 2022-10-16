@@ -2,9 +2,12 @@
 Point of Sales and Forecasting sales using Single Moving Average Method
 ###################
 
-Ini adalah proyek Tugas akhir saya yaitu dengan membuat Sistem Informasi Penjualan dan Peramalan pembelian dengan metode Single Moving Average Berbasis Website. Aplikasi ini ditujukan untuk membantu proses bisnis dari Bengkel Rajawali Motor. Aplikasi ini dibuat dengan menggunakan framework CodeIgniter 3 dan database MySQL.
+Ini adalah proyek Tugas akhir saya yaitu membuat Sistem Informasi Penjualan dan Peramalan pembelian dengan metode Single Moving Average Berbasis Website. Aplikasi ini ditujukan untuk membantu proses bisnis dari Bengkel Rajawali Motor. Aplikasi ini dibuat dengan menggunakan framework CodeIgniter 3 dan database MySQL.
 
 Fitur aplikasi meliputi :
+- Manajemen user
+- Manajemen role
+- Data Mekanik
 - Data Pelanggan
 - Data Penjualan
 - Data Stok masuk
