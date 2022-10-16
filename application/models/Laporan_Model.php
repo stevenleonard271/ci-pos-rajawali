@@ -32,11 +32,11 @@ class Laporan_Model extends CI_Model
 
     public function historyPenjualanProduk($idProduk, $tglPeramalan)
     {
-        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan, year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan,
+                 year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`,
+                 sum(p.`jumlah`) as jumlah_produk 
                   FROM penjualan_produk p join penjualan pj 
                   ON p.id_penjualan = pj.id
-                --   WHERE month(tanggal_penjualan) <  month('$tglPeramalan')
-                --   AND year(tanggal_penjualan) <=  year('$tglPeramalan')
                 WHERE tanggal_penjualan < '$tglPeramalan'
                   AND p.`id_produk` = $idProduk 
                   GROUP BY month(tanggal_penjualan), year(tanggal_penjualan)";
@@ -67,7 +67,8 @@ class Laporan_Model extends CI_Model
                 'mape' => $mape,
             ];
             //cek record apakah ada kembar sebelum diinsert
-            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProduk' AND `tanggal` = '$tanggal'");
+            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProduk' 
+                     AND `tanggal` = '$tanggal'");
             return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
         } else {
             $data = $row;
@@ -76,12 +77,11 @@ class Laporan_Model extends CI_Model
             $tanggalProdukSemua = $data['tanggal'];
 
             //cek record apakah ada kembar sebelum diinsert
-            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProdukSemua' AND `tanggal` = '$tanggalProdukSemua'");
+            $query = $this->db->query("SELECT * from peramalan WHERE `id_produk` = '$idProdukSemua' 
+                     AND `tanggal` = '$tanggalProdukSemua'");
             return $query->num_rows() == 0 ? $this->db->insert('peramalan', $data) : false;
         }
     }
-
-
 
     public function ongkosMekanik()
     {

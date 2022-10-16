@@ -247,7 +247,9 @@ class Inventori_Model extends CI_Model
 
     public function getPenjualan($idProduk, $tglPeramalan)
     {
-        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan, year(pj.`tanggal_penjualan`) as tahun ,p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
+        $query = "SELECT monthname(pj.`tanggal_penjualan`) as bulan,
+                  year(pj.`tanggal_penjualan`) as tahun ,
+                  p.`id_produk`, sum(p.`jumlah`) as jumlah_produk 
                   FROM penjualan_produk p join penjualan pj 
                   ON p.id_penjualan = pj.id
                   WHERE month(tanggal_penjualan) <  month('$tglPeramalan')
@@ -295,7 +297,7 @@ class Inventori_Model extends CI_Model
         $this->db->where('month(tanggal)', date('m', $tglPeramalan));
         $this->db->where('year(tanggal)', date('Y', $tglPeramalan));
         $this->db->where('id_produk', $produk);
-        $this->db->join('produk', 'produk.id= peramalan.id_produk ');
+        $this->db->join('produk', 'produk.id = peramalan.id_produk ');
         return $this->db->get()->row();
     }
 
@@ -305,11 +307,18 @@ class Inventori_Model extends CI_Model
         $forecast = $this->getForecastMonth($tglPeramalan);
         $requiredMonth = $forecast->bulanAngka - $ma - 1;
         $requiredYear = $forecast->tahun;
-
-
         $histo = $this->getPenjualan($idProduk, $tglPeramalan)->result();
+        // Menampilkan data yang cukup digunakan untuk peramalan, misal MA= 3 
+        // maka butuh data setidaknya 5 data penjualan 
         $requiredData = $this->getRequiredPenjualan($requiredMonth, $requiredYear, $idProduk);
 
+        /** Jika data ada pada requiredData, maka lakukan perhitungan dari data penjualan 
+         *  hingga 1 bulan sebelum peramalan 
+         * 
+         *  Misal : User hendak menghitung peramalan bulan Juli, 
+         *  maka foreach di bawah ini menghitung data penjualan sampai bulan Juni
+         *  sehingga siap ditampilkan
+         */
         if ($requiredData->num_rows() > 0) {
             $count = 1;
             $jumJual = [];
@@ -350,15 +359,17 @@ class Inventori_Model extends CI_Model
                     'AbsError' => $abserror,
                     'APE' => $ape
                 );
-
                 $result[] = $row;
-
                 $count++;
             endforeach;
-            $ttl = 0;
 
+            /** Menghitung nilai peramalan pada bulan yang ditentukan
+             *  Misal : User hendak menghitung bulan Juli, 
+             *  Di bawah ini melakukan perhitungan peramalan bulan Juli,
+             *  sehingga siap ditampilkan 
+             */
+            $ttl = 0;
             for ($i = ($count - $ma) - 1; $i < count($jumJual); $i++) {
-                // echo 'sugeng' . count($jumJual);
                 $ttl += $jumJual[$i];
             }
             $ttl = $ttl / $ma;
@@ -374,13 +385,13 @@ class Inventori_Model extends CI_Model
                 'APE' => 0
             );
             $result[] = $row;
-
             $this->mape = $totalApe / count($ap) * 100;
 
             return $result;
         } else {
+            //Jika tidak ada data pada requiredData
+            //maka akan mengembalikan nilai null
             return null;
-            // die();
         }
     }
 }

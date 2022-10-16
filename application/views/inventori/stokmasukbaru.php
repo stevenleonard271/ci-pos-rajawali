@@ -228,6 +228,7 @@ $(document).ready(function() {
     $("#tabelBarang .select_produk_masuk").select2({
         placeholder: "Pilih Produk",
         width: "100%",
+
     });
 
     //Untuk view stok masuk baru 
@@ -243,12 +244,24 @@ $(document).ready(function() {
             method: "post",
             dataType: "JSON",
             success: function(data) {
-                // alert(data.hasil);
-                // alert('test');
-                $('#jumlah_produk1').val(data.hasil);
-                $('#harga_produk1').val(data.harga_beli);
-                $('#total_produk1').val(data.hasil * data.harga_beli);
-                showGrandTotal();
+                if (data.jumlah <= data.batas_bawah) {
+                    $('#jumlah_produk1').val(data.hasil);
+                    $('#harga_produk1').val(data.harga_beli);
+                    $('#total_produk1').val(data.hasil * data.harga_beli);
+                    showGrandTotal();
+                } else {
+                    let text =
+                        "Jumlah stok masih di atas batas minimal, apakah anda yakin untuk melakukan pembelian?";
+                    if (confirm(text) == true) {
+                        $('#jumlah_produk1').val(data.hasil);
+                        $('#harga_produk1').val(data.harga_beli);
+                        $('#total_produk1').val(data.hasil * data.harga_beli);
+                        showGrandTotal();
+                    } else {
+                        alert('Pembelian dibatalkan');
+                        $('#pilih_produk').val(null).trigger('change');
+                    }
+                }
             },
         });
     });
@@ -286,14 +299,15 @@ function addSlot() {
         j +
         '">' +
         '<div class="col-5 pl-0 ">' +
-        '<select name="select_produk[]" class="select_produk_masuk_add form-control" id-input="' + j + '" required>' +
+        '<select name="select_produk[]" id="pilih_produk' + j +
+        '" class="select_produk_masuk_add form-control" id-input="' + j + '" required>' +
         '<option value="">Pilih Produk</option> ' +
         <?php foreach ($produk as $p) : ?> '<option value="<?= $p["id"]; ?>"><?= $p["nama"]; ?></option>' +
         <?php endforeach; ?> "</select>" +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="jumlah_produk form-control" id="jumlah_produk' + j + '"' +
-        'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" required >' +
+        'name="jumlah_produk[]" autocomplete="off" id-input="' + j + '" required>' +
         "</div>" +
         '<div class="col-2">' +
         '<input type="number" class="harga_produk form-control" id="harga_produk' + j + '"' +
@@ -350,10 +364,25 @@ function addSlot() {
             method: "post",
             dataType: "JSON",
             success: function(data) {
-                $('#jumlah_produk' + id).val(data.hasil);
-                $('#harga_produk' + id).val(data.harga_beli);
-                $('#total_produk' + id).val(data.hasil * data.harga_beli);
-                showGrandTotal();
+                if (data.jumlah <= data.batas_bawah) {
+                    $('#jumlah_produk' + id).val(data.hasil);
+                    $('#harga_produk' + id).val(data.harga_beli);
+                    $('#total_produk' + id).val(data.hasil * data.harga_beli);
+                    showGrandTotal();
+                } else {
+                    let text =
+                        "Jumlah stok masih di atas batas minimal, apakah anda yakin untuk melakukan pembelian?";
+                    if (confirm(text) == true) {
+
+                        $('#jumlah_produk' + id).val(data.hasil);
+                        $('#harga_produk' + id).val(data.harga_beli);
+                        $('#total_produk' + id).val(data.hasil * data.harga_beli);
+                        showGrandTotal();
+                    } else {
+                        alert('Pembelian dibatalkan');
+                        $('#pilih_produk' + id).val(null).trigger('change');
+                    }
+                }
             },
         });
     });

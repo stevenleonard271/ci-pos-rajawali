@@ -76,8 +76,6 @@ class Laporan extends CI_Controller
         $this->load->view('layout', $data);
     }
 
-
-
     public function riwayatPenjualan()
     {
         $post = $this->input->post();
@@ -108,18 +106,19 @@ class Laporan extends CI_Controller
     public function hasilPeramalan()
     {
         $post = $this->input->post();
-
+        $idSparepart = $post['sparepart'];
+        $tglPeramalan = $post['tgl_peramalan'];
         $data['title'] = "Peramalan Pembelian";
         $data['subtitle'] = "Perhitungan Peramalan Pembelian";
         $data['user'] = $this->db->get_where('user', [
             'email' => $this->session->userdata('email')
         ])->row_array();
         // $data['requiredData'] = $this->inventori->
-        $data['perhitunganSma'] = $this->inventori->perhitunganSMA($post['sparepart'], $post['tgl_peramalan'], 3);
+        $data['perhitunganSma'] = $this->inventori->perhitunganSMA($idSparepart, $tglPeramalan, 3);
         $data['mapeTiga'] = $this->inventori->mape;
-        $data['perhitunganSmaEmpat'] = $this->inventori->perhitunganSMA($post['sparepart'], $post['tgl_peramalan'], 4);
+        $data['perhitunganSmaEmpat'] = $this->inventori->perhitunganSMA($idSparepart, $tglPeramalan, 4);
         $data['mapeEmpat'] = $this->inventori->mape;
-        $data['perhitunganSmaLima'] = $this->inventori->perhitunganSMA($post['sparepart'], $post['tgl_peramalan'], 5);
+        $data['perhitunganSmaLima'] = $this->inventori->perhitunganSMA($idSparepart, $tglPeramalan, 5);
         $data['mapeLima'] = $this->inventori->mape;
 
         //inisialisasi default hasil 0
@@ -158,9 +157,9 @@ class Laporan extends CI_Controller
         $data['bestForecast'] = round($bestForecast);
         $data['bestMoving'] = $bestMoving;
 
-        $data['forcast'] = $this->laporan->forecastMonth($post['tgl_peramalan']);
+        $data['forcast'] = $this->laporan->forecastMonth($tglPeramalan);
 
-        $data['produk'] = $this->produk->getProduk($post['sparepart']);
+        $data['produk'] = $this->produk->getProduk($idSparepart);
 
         $data['content'] = 'laporan/hasil_peramalan';
 
@@ -170,17 +169,16 @@ class Laporan extends CI_Controller
     public function hitungPeramalanSemuaProduk()
     {
         $post = $this->input->post();
+        $tglPeramalan = $post['tgl_peramalan'];
         $produk = $this->produk->getAllProduk();
 
         foreach ($produk as $p) {
-
-            $perhitunganSma = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 3);
+            $perhitunganSma = $this->inventori->perhitunganSMA($p['id'], $tglPeramalan, 3);
             $mapeTiga = $this->inventori->mape;
-            $perhitunganSmaEmpat = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 4);
+            $perhitunganSmaEmpat = $this->inventori->perhitunganSMA($p['id'], $tglPeramalan, 4);
             $mapeEmpat = $this->inventori->mape;
-            $perhitunganSmaLima = $this->inventori->perhitunganSMA($p['id'], $post['tgl_peramalan'], 5);
+            $perhitunganSmaLima = $this->inventori->perhitunganSMA($p['id'], $tglPeramalan, 5);
             $mapeLima = $this->inventori->mape;
-
             //inisialisasi default hasil 0
             $maTiga = [
                 'ma' => 3,
@@ -197,7 +195,6 @@ class Laporan extends CI_Controller
                 'hasil' => $perhitunganSmaLima != null ? end($perhitunganSmaEmpat)['Peramalan'] : 0,
                 'mape' => $mapeLima == null ? 100 : $mapeLima
             ];
-
             //Membandingkan mape terkecil untuk dijadikan kesimpulan
             if ($maTiga['mape'] <= $maEmpat['mape'] && $maTiga['mape'] <= $maLima['mape']) {
                 $bestForecast = $maTiga['hasil'];
@@ -213,26 +210,19 @@ class Laporan extends CI_Controller
                 $bestMape = $maLima['mape'];
             }
 
-            // $data['bestMape'] = $bestMape;
             $bestForecast = round($bestForecast);
-            $data['bestMoving'] = $bestMoving;
+            // $data['bestMoving'] = $bestMoving;
 
             $row["id_produk"] = $p['id'];
-            $row['tanggal'] = $post['tgl_peramalan'];
+            $row['tanggal'] = $tglPeramalan;
             $row['hasil'] = $bestForecast;
             $row['mape'] = $bestMape;
-
-            // dd($row['id_produk']);
-
-            var_dump($row);
 
             //beri kondisi jika mape = 100 dan hasil=0  maka tidak insert ke db
             if ($row['mape'] != 100 && $row['hasil'] != 0) {
                 $this->laporan->insertPeramalan($row);
             }
         }
-
-
         $this->session->set_flashdata('message', '
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                 Peramalan berhasil! Data sudah tersimpan
@@ -240,7 +230,6 @@ class Laporan extends CI_Controller
                <span aria-hidden="true">&times;</span>
                </button>
         </div>');
-        // redirect('laporan/peramalan');
     }
 
     public function simpanPeramalan()
